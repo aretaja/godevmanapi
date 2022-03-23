@@ -1,3 +1,3 @@
-module github.com/aretaja/godevman-api
+module github.com/aretaja/godevmanapi
 
 go 1.18
