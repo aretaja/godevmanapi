@@ -1,12 +1,19 @@
 package main
 
-import "log"
+import (
+	"log"
+
+	"github.com/aretaja/godevmanapi/app"
+)
+
+var version string = "v0.0.1-devel.1"
 
 func main() {
 	log.SetFlags(log.Ldate | log.Lmicroseconds | log.Lshortfile)
 
-	a := App{}
-	a.Initialize("postgres://godevman:godevman@localhost/godevman?sslmode=verify-full")
+	a := new(app.App)
+	a.Version = version
+	a.Initialize()
 
-	a.Run(":48888")
+	a.Run()
 }
