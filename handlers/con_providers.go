@@ -7,7 +7,6 @@ import (
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/httplog"
 )
 
 // Count ConProviders
@@ -24,29 +23,34 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 
 // List ConProviders
 func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
-	hlog := httplog.LogEntry(r.Context())
+	// Pagination
 	var p = godevmandb.GetConProvidersParams{
-		Limit:  100,
-		Offset: 0,
+		LimitQ:  100,
+		OffsetQ: 0,
 	}
 
-	l, err := strconv.ParseInt(r.FormValue("count"), 10, 32)
-	if err != nil {
-		hlog.Info().Msg("Invalid count value. Using default")
-	} else {
-		if l < 100 || l > 0 {
-			p.Limit = int32(l)
-		}
+	lp := paginateValues(r)
+	if lp[0] != nil {
+		p.LimitQ = *lp[0]
 	}
-	o, err := strconv.ParseInt(r.FormValue("start"), 10, 32)
-	if err != nil {
-		hlog.Info().Msg("Invalid start value. Using default")
-	} else {
-		if o > 0 {
-			p.Offset = int32(o)
-		}
+	if lp[1] != nil {
+		p.OffsetQ = *lp[1]
 	}
 
+	// Time filter
+	tf := parseTimeFilter(r)
+	p.UpdatedGe = tf[0]
+	p.UpdatedLe = tf[1]
+	p.CreatedGe = tf[2]
+	p.CreatedLe = tf[3]
+
+	// Descr filter
+	d := r.FormValue("descr_f")
+	if d != "" {
+		p.DescrF = d
+	}
+
+	// Query DB
 	q := godevmandb.New(h.db)
 	res, err := q.GetConProviders(h.ctx, p)
 	if err != nil {
