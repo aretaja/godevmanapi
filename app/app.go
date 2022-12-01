@@ -1,16 +1,21 @@
 package app
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/aretaja/godevmanapi/config"
+	_ "github.com/aretaja/godevmanapi/docs"
 	"github.com/aretaja/godevmanapi/handlers"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/httplog"
+	"github.com/go-chi/render"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type App struct {
@@ -64,8 +69,8 @@ func (a *App) initializeMiddleware() {
 	r.Use(middleware.RealIP)
 	// r.Use(middleware.Logger)
 	r.Use(httplog.RequestLogger(logger))
-	r.Use(middleware.Heartbeat("/ping"))
 	r.Use(middleware.Recoverer)
+	r.Use(render.SetContentType(render.ContentTypeJSON))
 
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further
@@ -77,10 +82,19 @@ func (a *App) initializeMiddleware() {
 // Route definitions
 func (a *App) initializeRoutes() {
 	r := a.Router
+
+	// Welcome
 	r.Get("/", a.Handler.Hello)
+
+	// Version
 	r.Get("/version", func(w http.ResponseWriter, r *http.Request) {
-		handlers.RespondJSON(w, r, http.StatusOK, map[string]string{"message": a.Version})
+		handlers.VersionSwagger() // Prevent function not used warning
+		handlers.RespondJSON(w, r, http.StatusOK, handlers.StatusResponse{
+			Code:    strconv.Itoa(http.StatusOK),
+			Message: a.Version,
+		})
 	})
+
 	// Routes for "/connections/providers" resource
 	r.Route("/connections/providers", func(r chi.Router) {
 		// Takes parameters: count(100), start(0). Uses default if not set.
@@ -97,6 +111,25 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/connections/capacities" resource
+	r.Route("/connections/capacities", func(r chi.Router) {
+		// Takes parameters: count(100), start(0). Uses default if not set.
+		r.Get("/", a.Handler.GetConCapacities)
+		r.Get("/count", a.Handler.CountConCapacities)
+		r.Post("/", a.Handler.CreateConCapacity)
+
+		// Subroutes
+		r.Route("/{con_cap_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetConCapacity)
+			r.Put("/", a.Handler.UpdateConCapacity)
+			r.Delete("/", a.Handler.DeleteConCapacity)
+			r.Get("/connections", a.Handler.GetConCapacityConnections)
+		})
+	})
+
+	// Swagger
+	r.Mount("/swagger", httpSwagger.WrapHandler)
+
 	// Custom 404 handler
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		handlers.RespondError(w, r, http.StatusNotFound, "Route does not exist")
@@ -106,8 +139,13 @@ func (a *App) initializeRoutes() {
 	r.MethodNotAllowed(func(w http.ResponseWriter, r *http.Request) {
 		handlers.RespondError(w, r, http.StatusMethodNotAllowed, "Method is not valid")
 	})
+
 }
 
 func (a *App) Run() {
-	http.ListenAndServe(a.Conf.ApiListen, a.Router)
+	fmt.Printf("Starting up on:%s\n", a.Conf.ApiListen)
+	err := http.ListenAndServe(a.Conf.ApiListen, a.Router)
+	if err != nil {
+		log.Printf("Failed to launch api server:%+v\n", err)
+	}
 }

@@ -30,10 +30,42 @@ func (h *Handler) Initialize(dbURL string) error {
 	return nil
 }
 
-// Root
-func (h *Handler) Hello(w http.ResponseWriter, r *http.Request) {
-	RespondJSON(w, r, http.StatusOK, map[string]string{"message": "GODEVMANAPI ready!"})
+type StatusResponse struct {
+	Code    string `json:"code"`
+	Message string `json:"message"`
 }
+
+type CountResponse struct {
+	Count int64 `json:"count"`
+}
+
+// Welcome
+// @Summary Welcome
+// @Description Welcome message
+// @Tags information
+// @ID root
+// @Success 200 {object} StatusResponse
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Router / [GET]
+func (h *Handler) Hello(w http.ResponseWriter, r *http.Request) {
+	RespondJSON(w, r, http.StatusOK, StatusResponse{
+		Code:    strconv.Itoa(http.StatusOK),
+		Message: "GODEVMANAPI ready!",
+	})
+}
+
+// Version - dummy function to generate swagger doc
+// Endpoint is actually implemented in github.com/aretaja/godevmanapi/app.initializeRoutes()
+// @Summary Version
+// @Description Return API version info
+// @Tags information
+// @ID version
+// @Success 200 {object} StatusResponse
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Router /version [GET]
+func VersionSwagger() {}
 
 // Helpers - Regular response
 func RespondJSON(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
@@ -52,9 +84,9 @@ func RespondJSON(w http.ResponseWriter, r *http.Request, code int, payload inter
 func RespondError(w http.ResponseWriter, r *http.Request, code int, message string) {
 	hlog := httplog.LogEntry(r.Context())
 	hlog.Error().Msg(message)
-	res := map[string]string{
-		"error":   strconv.Itoa(code),
-		"message": message,
+	res := StatusResponse{
+		Code:    strconv.Itoa(code),
+		Message: message,
 	}
 	RespondJSON(w, r, code, res)
 }
@@ -93,7 +125,7 @@ func paginateValues(r *http.Request) []*int32 {
 	return res
 }
 
-// Helpers - PaginateValues
+// Helpers - Timefilter
 func parseTimeFilter(r *http.Request) []time.Time {
 	res := make([]time.Time, 4)
 	hlog := httplog.LogEntry(r.Context())

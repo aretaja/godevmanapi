@@ -9,19 +9,19 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-// Count ConProviders
-// @Summary Count con_providers
-// @Description Count number of connection providers
+// Count ConCapacities
+// @Summary Count con_capacities
+// @Description Count number of connection capacities
 // @Tags connections
-// @ID count-con_providers
+// @ID count-con_capacities
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers/count [GET]
-func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
+// @Router /connections/capacities/count [GET]
+func (h *Handler) CountConCapacities(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
-	res, err := q.CountConProviders(h.ctx)
+	res, err := q.CountConCapacities(h.ctx)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
@@ -30,11 +30,11 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 	RespondJSON(w, r, http.StatusOK, CountResponse{Count: res})
 }
 
-// List con_providers
-// @Summary List con_providers
-// @Description List connection providers info
+// List con_capacities
+// @Summary List con_capacities
+// @Description List connection capacities info
 // @Tags connections
-// @ID list-con_providers
+// @ID list-con_capacities
 // @Param descr_f query string false "url encoded SQL like value"
 // @Param limit query int false "min: 1; max: 1000; default: 1000"
 // @Param offset query int false "default: 0"
@@ -42,14 +42,14 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} godevmandb.ConProvider
+// @Success 200 {array} godevmandb.ConCapacity
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers [GET]
-func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
+// @Router /connections/capacities [GET]
+func (h *Handler) GetConCapacities(w http.ResponseWriter, r *http.Request) {
 	// Pagination
-	var p = godevmandb.GetConProvidersParams{
+	var p = godevmandb.GetConCapacitiesParams{
 		LimitQ:  100,
 		OffsetQ: 0,
 	}
@@ -77,7 +77,7 @@ func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 
 	// Query DB
 	q := godevmandb.New(h.db)
-	res, err := q.GetConProviders(h.ctx, p)
+	res, err := q.GetConCapacities(h.ctx, p)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
@@ -86,27 +86,27 @@ func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 	RespondJSON(w, r, http.StatusOK, res)
 }
 
-// Get ConProvider
-// @Summary Get con_provider
-// @Description Get connection provider info
+// Get ConCapacity
+// @Summary Get capacity
+// @Description Get connection capacity info
 // @Tags connections
-// @ID get-con_provider
-// @Param con_prov_id path string true "con_prov_id"
-// @Success 200 {object} godevmandb.ConProvider
-// @Failure 400 {object} StatusResponse "Invalid con_prov_id"
+// @ID get-capacity
+// @Param con_cap_id path string true "con_cap_id"
+// @Success 200 {object} godevmandb.ConCapacity
+// @Failure 400 {object} StatusResponse "Invalid con_cap_id"
 // @Failure 404 {object} StatusResponse "Provider not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers/{con_prov_id} [GET]
-func (h *Handler) GetConProvider(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
+// @Router /connections/capacities/{con_cap_id} [GET]
+func (h *Handler) GetConCapacity(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_cap_id"), 10, 64)
 	if err != nil {
-		RespondError(w, r, http.StatusBadRequest, "Invalid provider ID")
+		RespondError(w, r, http.StatusBadRequest, "Invalid capacity ID")
 		return
 	}
 
 	q := godevmandb.New(h.db)
-	res, err := q.GetConProvider(h.ctx, id)
+	res, err := q.GetConCapacity(h.ctx, id)
 	if err != nil {
 		if err.Error() == "no rows in result set" {
 			RespondError(w, r, http.StatusNotFound, "Provider not found")
@@ -119,20 +119,20 @@ func (h *Handler) GetConProvider(w http.ResponseWriter, r *http.Request) {
 	RespondJSON(w, r, http.StatusOK, res)
 }
 
-// Create ConProvider
-// @Summary Create con_provider
-// @Description Create connection provider
+// Create ConCapacity
+// @Summary Create capacity
+// @Description Create connection capacity
 // @Tags connections
-// @ID create-con_provider
-// @Param Body body godevmandb.CreateConProviderParams true "JSON object of CreateConProviderParams"
-// @Success 201 {object} godevmandb.ConProvider
+// @ID create-capacity
+// @Param Body body godevmandb.CreateConCapacityParams true "JSON object of CreateConCapacityParams"
+// @Success 201 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers [POST]
-func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
-	var p godevmandb.CreateConProviderParams
+// @Router /connections/capacities [POST]
+func (h *Handler) CreateConCapacity(w http.ResponseWriter, r *http.Request) {
+	var p godevmandb.CreateConCapacityParams
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
@@ -141,7 +141,7 @@ func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	q := godevmandb.New(h.db)
-	res, err := q.CreateConProvider(h.ctx, p)
+	res, err := q.CreateConCapacity(h.ctx, p)
 
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
@@ -151,37 +151,37 @@ func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
 	RespondJSON(w, r, http.StatusCreated, res)
 }
 
-// Update ConProvider
-// @Summary Update con_provider
-// @Description Update connection provider
+// Update ConCapacity
+// @Summary Update capacity
+// @Description Update connection capacity
 // @Tags connections
-// @ID update-con_provider
-// @Param con_prov_id path string true "con_prov_id"
-// @Param Body body godevmandb.UpdateConProviderParams true "JSON object of UpdateConProviderParams"
-// @Success 200 {object} godevmandb.ConProvider
+// @ID update-capacity
+// @Param con_cap_id path string true "con_cap_id"
+// @Param Body body godevmandb.UpdateConCapacityParams true "JSON object of UpdateConCapacityParams"
+// @Success 200 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers/{con_prov_id} [PUT]
-func (h *Handler) UpdateConProvider(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
+// @Router /connections/capacities/{con_cap_id} [PUT]
+func (h *Handler) UpdateConCapacity(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_cap_id"), 10, 64)
 	if err != nil {
-		RespondError(w, r, http.StatusBadRequest, "Invalid provider ID")
+		RespondError(w, r, http.StatusBadRequest, "Invalid capacity ID")
 		return
 	}
 
-	var p godevmandb.UpdateConProviderParams
+	var p godevmandb.UpdateConCapacityParams
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-	p.ConProvID = id
+	p.ConCapID = id
 
 	q := godevmandb.New(h.db)
-	res, err := q.UpdateConProvider(h.ctx, p)
+	res, err := q.UpdateConCapacity(h.ctx, p)
 
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
@@ -191,27 +191,27 @@ func (h *Handler) UpdateConProvider(w http.ResponseWriter, r *http.Request) {
 	RespondJSON(w, r, http.StatusOK, res)
 }
 
-// Delete ConProvider
-// @Summary Delete con_provider
-// @Description Delete connection provider
+// Delete ConCapacity
+// @Summary Delete capacity
+// @Description Delete connection capacity
 // @Tags connections
-// @ID delete-con_provider
-// @Param con_prov_id path string true "con_prov_id"
+// @ID delete-capacity
+// @Param con_cap_id path string true "con_cap_id"
 // @Success 204
-// @Failure 400 {object} StatusResponse "Invalid con_prov_id"
+// @Failure 400 {object} StatusResponse "Invalid con_cap_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers/{con_prov_id} [DELETE]
-func (h *Handler) DeleteConProvider(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
+// @Router /connections/capacities/{con_cap_id} [DELETE]
+func (h *Handler) DeleteConCapacity(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_cap_id"), 10, 64)
 	if err != nil {
-		RespondError(w, r, http.StatusBadRequest, "Invalid provider ID")
+		RespondError(w, r, http.StatusBadRequest, "Invalid capacity ID")
 		return
 	}
 
 	q := godevmandb.New(h.db)
-	err = q.DeleteConProvider(h.ctx, id)
+	err = q.DeleteConCapacity(h.ctx, id)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
@@ -222,27 +222,27 @@ func (h *Handler) DeleteConProvider(w http.ResponseWriter, r *http.Request) {
 }
 
 // Relations
-// List ConProvider Connections
-// @Summary List con_provider connections
-// @Description List connection provider connections info
+// List ConCapacity Connections
+// @Summary List capacity connections
+// @Description List connection capacity connections info
 // @Tags connections
-// @ID list-con_provider-connections
-// @Param con_prov_id path string true "con_prov_id"
+// @ID list-capacity-connections
+// @Param con_cap_id path string true "con_cap_id"
 // @Success 200 {array} godevmandb.Connection
-// @Failure 400 {object} StatusResponse "Invalid con_prov_id"
+// @Failure 400 {object} StatusResponse "Invalid con_cap_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/providers/{con_prov_id}/connections [GET]
-func (h *Handler) GetConProviderConnections(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
+// @Router /connections/capacities/{con_cap_id}/connections [GET]
+func (h *Handler) GetConCapacityConnections(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_cap_id"), 10, 64)
 	if err != nil {
-		RespondError(w, r, http.StatusBadRequest, "Invalid provider ID")
+		RespondError(w, r, http.StatusBadRequest, "Invalid capacity ID")
 		return
 	}
 
 	q := godevmandb.New(h.db)
-	res, err := q.GetConProviderConnections(h.ctx, id)
+	res, err := q.GetConCapacityConnections(h.ctx, id)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
