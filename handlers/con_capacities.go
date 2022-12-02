@@ -94,7 +94,7 @@ func (h *Handler) GetConCapacities(w http.ResponseWriter, r *http.Request) {
 // @Param con_cap_id path string true "con_cap_id"
 // @Success 200 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid con_cap_id"
-// @Failure 404 {object} StatusResponse "Provider not found"
+// @Failure 404 {object} StatusResponse "Capacity not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /connections/capacities/{con_cap_id} [GET]
@@ -109,7 +109,7 @@ func (h *Handler) GetConCapacity(w http.ResponseWriter, r *http.Request) {
 	res, err := q.GetConCapacity(h.ctx, id)
 	if err != nil {
 		if err.Error() == "no rows in result set" {
-			RespondError(w, r, http.StatusNotFound, "Provider not found")
+			RespondError(w, r, http.StatusNotFound, "Capacity not found")
 		} else {
 			RespondError(w, r, http.StatusInternalServerError, err.Error())
 		}

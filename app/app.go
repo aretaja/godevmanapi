@@ -95,9 +95,62 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/connections" resource
+	r.Route("/connections", func(r chi.Router) {
+		// Takes parameters: hint_f(not set), count(100), start(0). Uses default if not set.
+		r.Get("/", a.Handler.GetConnections)
+		r.Get("/count", a.Handler.CountConnections)
+		r.Post("/", a.Handler.CreateConnection)
+
+		// Subroutes
+		r.Route("/{con_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetConnection)
+			r.Put("/", a.Handler.UpdateConnection)
+			r.Delete("/", a.Handler.DeleteConnection)
+			r.Get("/capacity", a.Handler.GetConnectionConCapacitiy)
+			r.Get("/class", a.Handler.GetConnectionConClass)
+			r.Get("/provider", a.Handler.GetConnectionConProvider)
+			r.Get("/site", a.Handler.GetConnectionSite)
+			r.Get("/type", a.Handler.GetConnectionConType)
+			r.Get("/interfaces", a.Handler.GetConnectionInterfaces)
+		})
+	})
+
+	// Routes for "/connections/capacities" resource
+	r.Route("/connections/capacities", func(r chi.Router) {
+		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		r.Get("/", a.Handler.GetConCapacities)
+		r.Get("/count", a.Handler.CountConCapacities)
+		r.Post("/", a.Handler.CreateConCapacity)
+
+		// Subroutes
+		r.Route("/{con_cap_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetConCapacity)
+			r.Put("/", a.Handler.UpdateConCapacity)
+			r.Delete("/", a.Handler.DeleteConCapacity)
+			r.Get("/connections", a.Handler.GetConCapacityConnections)
+		})
+	})
+
+	// Routes for "/connections/classes" resource
+	r.Route("/connections/classes", func(r chi.Router) {
+		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		r.Get("/", a.Handler.GetConClasses)
+		r.Get("/count", a.Handler.CountConClasses)
+		r.Post("/", a.Handler.CreateConClass)
+
+		// Subroutes
+		r.Route("/{con_class_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetConClass)
+			r.Put("/", a.Handler.UpdateConClass)
+			r.Delete("/", a.Handler.DeleteConClass)
+			r.Get("/connections", a.Handler.GetConClassConnections)
+		})
+	})
+
 	// Routes for "/connections/providers" resource
 	r.Route("/connections/providers", func(r chi.Router) {
-		// Takes parameters: count(100), start(0). Uses default if not set.
+		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
 		r.Get("/", a.Handler.GetConProviders)
 		r.Get("/count", a.Handler.CountConProviders)
 		r.Post("/", a.Handler.CreateConProvider)
@@ -111,19 +164,19 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
-	// Routes for "/connections/capacities" resource
-	r.Route("/connections/capacities", func(r chi.Router) {
-		// Takes parameters: count(100), start(0). Uses default if not set.
-		r.Get("/", a.Handler.GetConCapacities)
-		r.Get("/count", a.Handler.CountConCapacities)
-		r.Post("/", a.Handler.CreateConCapacity)
+	// Routes for "/connections/types" resource
+	r.Route("/connections/types", func(r chi.Router) {
+		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		r.Get("/", a.Handler.GetConTypes)
+		r.Get("/count", a.Handler.CountConTypes)
+		r.Post("/", a.Handler.CreateConType)
 
 		// Subroutes
-		r.Route("/{con_cap_id:[0-9]+}", func(r chi.Router) {
-			r.Get("/", a.Handler.GetConCapacity)
-			r.Put("/", a.Handler.UpdateConCapacity)
-			r.Delete("/", a.Handler.DeleteConCapacity)
-			r.Get("/connections", a.Handler.GetConCapacityConnections)
+		r.Route("/{con_type_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetConType)
+			r.Put("/", a.Handler.UpdateConType)
+			r.Delete("/", a.Handler.DeleteConType)
+			r.Get("/connections", a.Handler.GetConTypeConnections)
 		})
 	})
 

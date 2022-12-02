@@ -45,6 +45,140 @@
                 }
             }
         },
+        "/connections": {
+            "get": {
+                "description": "List connection info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List connections",
+                "operationId": "list-connections",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL like value",
+                        "name": "hint_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 1000",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Connection"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create connection",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Create connection",
+                "operationId": "create-connection",
+                "parameters": [
+                    {
+                        "description": "JSON object of CreateConnectionParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateConnectionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Connection"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/connections/capacities": {
             "get": {
                 "description": "List connection capacities info",
@@ -246,7 +380,7 @@
                         }
                     },
                     "404": {
-                        "description": "Provider not found",
+                        "description": "Capacity not found",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -401,6 +535,421 @@
                         "description": "Invalid con_cap_id",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/classes": {
+            "get": {
+                "description": "List connection classes info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List con_classes",
+                "operationId": "list-con_classes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL like value",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 1000",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.ConClass"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create connection class",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Create con_class",
+                "operationId": "create-con_class",
+                "parameters": [
+                    {
+                        "description": "JSON object of CreateConClassParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateConClassParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConClass"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/classes/count": {
+            "get": {
+                "description": "Count number of connection classes",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Count con_classes",
+                "operationId": "count-con_classes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/classes/{con_class_id}": {
+            "get": {
+                "description": "Get connection class info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get con_class",
+                "operationId": "get-con_class",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_class_id",
+                        "name": "con_class_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConClass"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_class_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Class not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update connection class",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Update con_class",
+                "operationId": "update-con_class",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_class_id",
+                        "name": "con_class_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of UpdateConClassParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateConClassParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConClass"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete connection class",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Delete con_class",
+                "operationId": "delete-con_class",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_class_id",
+                        "name": "con_class_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid con_class_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/classes/{con_class_id}/connections": {
+            "get": {
+                "description": "List connection class connections info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List con_class connections",
+                "operationId": "list-con_class-connections",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_class_id",
+                        "name": "con_class_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Connection"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_class_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/count": {
+            "get": {
+                "description": "Count number of connections",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Count connections",
+                "operationId": "count-connections",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
                         }
                     },
                     "404": {
@@ -803,6 +1352,849 @@
                 }
             }
         },
+        "/connections/types": {
+            "get": {
+                "description": "List connection types info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List con_types",
+                "operationId": "list-con_types",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL like value",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 1000",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.ConType"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create connection type",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Create con_type",
+                "operationId": "create-con_type",
+                "parameters": [
+                    {
+                        "description": "JSON object of CreateConTypeParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateConTypeParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConType"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/types/count": {
+            "get": {
+                "description": "Count number of connection types",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Count con_types",
+                "operationId": "count-con_types",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/types/{con_type_id}": {
+            "get": {
+                "description": "Get connection type info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get con_type",
+                "operationId": "get-con_type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_type_id",
+                        "name": "con_type_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConType"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_type_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Type not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update connection type",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Update con_type",
+                "operationId": "update-con_type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_type_id",
+                        "name": "con_type_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of UpdateConTypeParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateConTypeParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConType"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete connection type",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Delete con_type",
+                "operationId": "delete-con_type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_type_id",
+                        "name": "con_type_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid con_type_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/types/{con_type_id}/connections": {
+            "get": {
+                "description": "List connection type connections info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List con_type connections",
+                "operationId": "list-con_type-connections",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_type_id",
+                        "name": "con_type_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Connection"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_type_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}": {
+            "get": {
+                "description": "Get connection info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection",
+                "operationId": "get-connection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Connection"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Connection not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update connection",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Update connection",
+                "operationId": "update-connection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of UpdateConnectionParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateConnectionParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Connection"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete connection",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Delete connection",
+                "operationId": "delete-connection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/capacity": {
+            "get": {
+                "description": "Get connection capacity info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection capacity",
+                "operationId": "get-connection-capacity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConCapacity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/class": {
+            "get": {
+                "description": "Get connection class info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection class",
+                "operationId": "get-connection-class",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConClass"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/interfaces": {
+            "get": {
+                "description": "List connection interfaces info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List connection interfaces",
+                "operationId": "list-connection-interfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Interface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/provider": {
+            "get": {
+                "description": "Get connection provider info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection provider",
+                "operationId": "get-connection-provider",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConProvider"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/site": {
+            "get": {
+                "description": "Get connection site info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection site",
+                "operationId": "get-connection-site",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Site"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/type": {
+            "get": {
+                "description": "Get connection type info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection type",
+                "operationId": "get-connection-type",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.ConType"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/version": {
             "get": {
                 "description": "Return API version info",
@@ -855,10 +2247,50 @@
                 }
             }
         },
+        "godevmandb.ConClass": {
+            "type": "object",
+            "properties": {
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
         "godevmandb.ConProvider": {
             "type": "object",
             "properties": {
                 "con_prov_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.ConType": {
+            "type": "object",
+            "properties": {
+                "con_type_id": {
                     "type": "integer"
                 },
                 "created_on": {
@@ -924,6 +2356,17 @@
                 }
             }
         },
+        "godevmandb.CreateConClassParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                }
+            }
+        },
         "godevmandb.CreateConProviderParams": {
             "type": "object",
             "properties": {
@@ -935,10 +2378,176 @@
                 }
             }
         },
+        "godevmandb.CreateConTypeParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                }
+            }
+        },
+        "godevmandb.CreateConnectionParams": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "hint": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "in_use": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "site_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "godevmandb.Interface": {
+            "type": "object",
+            "properties": {
+                "adm": {
+                    "$ref": "#/definitions/sql.NullInt16"
+                },
+                "alias": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "con_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "ent_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "if_id": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "mac": {
+                    "$ref": "#/definitions/pgtype.Macaddr"
+                },
+                "minspeed": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "monerrors": {
+                    "type": "integer"
+                },
+                "monload": {
+                    "type": "integer"
+                },
+                "monstatus": {
+                    "type": "integer"
+                },
+                "montraffic": {
+                    "type": "integer"
+                },
+                "oper": {
+                    "$ref": "#/definitions/sql.NullInt16"
+                },
+                "otn_if_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "parent": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "speed": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "type_enum": {
+                    "$ref": "#/definitions/sql.NullInt16"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.Site": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "area": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "country_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "ext_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "ext_name": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "latitude": {
+                    "$ref": "#/definitions/sql.NullFloat64"
+                },
+                "longitude": {
+                    "$ref": "#/definitions/sql.NullFloat64"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "site_id": {
+                    "type": "integer"
+                },
+                "uident": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
         "godevmandb.UpdateConCapacityParams": {
             "type": "object",
             "properties": {
                 "con_cap_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                }
+            }
+        },
+        "godevmandb.UpdateConClassParams": {
+            "type": "object",
+            "properties": {
+                "con_class_id": {
                     "type": "integer"
                 },
                 "descr": {
@@ -963,6 +2572,52 @@
                 }
             }
         },
+        "godevmandb.UpdateConTypeParams": {
+            "type": "object",
+            "properties": {
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                }
+            }
+        },
+        "godevmandb.UpdateConnectionParams": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "con_id": {
+                    "type": "integer"
+                },
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "hint": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "in_use": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "site_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "handlers.CountResponse": {
             "type": "object",
             "properties": {
@@ -979,6 +2634,56 @@
                 },
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "pgtype.Macaddr": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "sql.NullFloat64": {
+            "type": "object",
+            "properties": {
+                "float64": {
+                    "type": "number"
+                },
+                "valid": {
+                    "description": "Valid is true if Float64 is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
+        "sql.NullInt16": {
+            "type": "object",
+            "properties": {
+                "int16": {
+                    "type": "integer"
+                },
+                "valid": {
+                    "description": "Valid is true if Int16 is not NULL",
+                    "type": "boolean"
+                }
+            }
+        },
+        "sql.NullInt64": {
+            "type": "object",
+            "properties": {
+                "int64": {
+                    "type": "integer"
+                },
+                "valid": {
+                    "description": "Valid is true if Int64 is not NULL",
+                    "type": "boolean"
                 }
             }
         },

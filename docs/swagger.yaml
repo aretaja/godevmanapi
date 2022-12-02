@@ -13,9 +13,35 @@ definitions:
       updated_on:
         type: string
     type: object
+  godevmandb.ConClass:
+    properties:
+      con_class_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        $ref: '#/definitions/sql.NullString'
+      updated_on:
+        type: string
+    type: object
   godevmandb.ConProvider:
     properties:
       con_prov_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        $ref: '#/definitions/sql.NullString'
+      updated_on:
+        type: string
+    type: object
+  godevmandb.ConType:
+    properties:
+      con_type_id:
         type: integer
       created_on:
         type: string
@@ -58,6 +84,13 @@ definitions:
       notes:
         $ref: '#/definitions/sql.NullString'
     type: object
+  godevmandb.CreateConClassParams:
+    properties:
+      descr:
+        type: string
+      notes:
+        $ref: '#/definitions/sql.NullString'
+    type: object
   godevmandb.CreateConProviderParams:
     properties:
       descr:
@@ -65,9 +98,118 @@ definitions:
       notes:
         $ref: '#/definitions/sql.NullString'
     type: object
+  godevmandb.CreateConTypeParams:
+    properties:
+      descr:
+        type: string
+      notes:
+        $ref: '#/definitions/sql.NullString'
+    type: object
+  godevmandb.CreateConnectionParams:
+    properties:
+      con_cap_id:
+        type: integer
+      con_class_id:
+        type: integer
+      con_prov_id:
+        type: integer
+      con_type_id:
+        type: integer
+      hint:
+        $ref: '#/definitions/sql.NullString'
+      in_use:
+        type: boolean
+      notes:
+        $ref: '#/definitions/sql.NullString'
+      site_id:
+        type: integer
+    type: object
+  godevmandb.Interface:
+    properties:
+      adm:
+        $ref: '#/definitions/sql.NullInt16'
+      alias:
+        $ref: '#/definitions/sql.NullString'
+      con_id:
+        $ref: '#/definitions/sql.NullInt64'
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      ent_id:
+        $ref: '#/definitions/sql.NullInt64'
+      if_id:
+        type: integer
+      ifindex:
+        $ref: '#/definitions/sql.NullInt64'
+      mac:
+        $ref: '#/definitions/pgtype.Macaddr'
+      minspeed:
+        $ref: '#/definitions/sql.NullInt64'
+      monerrors:
+        type: integer
+      monload:
+        type: integer
+      monstatus:
+        type: integer
+      montraffic:
+        type: integer
+      oper:
+        $ref: '#/definitions/sql.NullInt16'
+      otn_if_id:
+        $ref: '#/definitions/sql.NullInt64'
+      parent:
+        $ref: '#/definitions/sql.NullInt64'
+      speed:
+        $ref: '#/definitions/sql.NullInt64'
+      type_enum:
+        $ref: '#/definitions/sql.NullInt16'
+      updated_on:
+        type: string
+    type: object
+  godevmandb.Site:
+    properties:
+      addr:
+        $ref: '#/definitions/sql.NullString'
+      area:
+        $ref: '#/definitions/sql.NullString'
+      country_id:
+        $ref: '#/definitions/sql.NullInt64'
+      created_on:
+        type: string
+      descr:
+        type: string
+      ext_id:
+        $ref: '#/definitions/sql.NullInt64'
+      ext_name:
+        $ref: '#/definitions/sql.NullString'
+      latitude:
+        $ref: '#/definitions/sql.NullFloat64'
+      longitude:
+        $ref: '#/definitions/sql.NullFloat64'
+      notes:
+        $ref: '#/definitions/sql.NullString'
+      site_id:
+        type: integer
+      uident:
+        $ref: '#/definitions/sql.NullString'
+      updated_on:
+        type: string
+    type: object
   godevmandb.UpdateConCapacityParams:
     properties:
       con_cap_id:
+        type: integer
+      descr:
+        type: string
+      notes:
+        $ref: '#/definitions/sql.NullString'
+    type: object
+  godevmandb.UpdateConClassParams:
+    properties:
+      con_class_id:
         type: integer
       descr:
         type: string
@@ -83,6 +225,36 @@ definitions:
       notes:
         $ref: '#/definitions/sql.NullString'
     type: object
+  godevmandb.UpdateConTypeParams:
+    properties:
+      con_type_id:
+        type: integer
+      descr:
+        type: string
+      notes:
+        $ref: '#/definitions/sql.NullString'
+    type: object
+  godevmandb.UpdateConnectionParams:
+    properties:
+      con_cap_id:
+        type: integer
+      con_class_id:
+        type: integer
+      con_id:
+        type: integer
+      con_prov_id:
+        type: integer
+      con_type_id:
+        type: integer
+      hint:
+        $ref: '#/definitions/sql.NullString'
+      in_use:
+        type: boolean
+      notes:
+        $ref: '#/definitions/sql.NullString'
+      site_id:
+        type: integer
+    type: object
   handlers.CountResponse:
     properties:
       count:
@@ -94,6 +266,39 @@ definitions:
         type: string
       message:
         type: string
+    type: object
+  pgtype.Macaddr:
+    properties:
+      addr:
+        items:
+          type: integer
+        type: array
+      status:
+        type: integer
+    type: object
+  sql.NullFloat64:
+    properties:
+      float64:
+        type: number
+      valid:
+        description: Valid is true if Float64 is not NULL
+        type: boolean
+    type: object
+  sql.NullInt16:
+    properties:
+      int16:
+        type: integer
+      valid:
+        description: Valid is true if Int16 is not NULL
+        type: boolean
+    type: object
+  sql.NullInt64:
+    properties:
+      int64:
+        type: integer
+      valid:
+        description: Valid is true if Int64 is not NULL
+        type: boolean
     type: object
   sql.NullString:
     properties:
@@ -134,6 +339,405 @@ paths:
       summary: Welcome
       tags:
       - information
+  /connections:
+    get:
+      description: List connection info
+      operationId: list-connections
+      parameters:
+      - description: url encoded SQL like value
+        in: query
+        name: hint_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 1000'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Connection'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List connections
+      tags:
+      - connections
+    post:
+      description: Create connection
+      operationId: create-connection
+      parameters:
+      - description: JSON object of CreateConnectionParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateConnectionParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.Connection'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create connection
+      tags:
+      - connections
+  /connections/{con_id}:
+    delete:
+      description: Delete connection
+      operationId: delete-connection
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete connection
+      tags:
+      - connections
+    get:
+      description: Get connection info
+      operationId: get-connection
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Connection'
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Connection not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get connection
+      tags:
+      - connections
+    put:
+      description: Update connection
+      operationId: update-connection
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      - description: JSON object of UpdateConnectionParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateConnectionParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Connection'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update connection
+      tags:
+      - connections
+  /connections/{con_id}/capacity:
+    get:
+      description: Get connection capacity info
+      operationId: get-connection-capacity
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConCapacity'
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get connection capacity
+      tags:
+      - connections
+  /connections/{con_id}/class:
+    get:
+      description: Get connection class info
+      operationId: get-connection-class
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConClass'
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get connection class
+      tags:
+      - connections
+  /connections/{con_id}/interfaces:
+    get:
+      description: List connection interfaces info
+      operationId: list-connection-interfaces
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Interface'
+            type: array
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List connection interfaces
+      tags:
+      - connections
+  /connections/{con_id}/provider:
+    get:
+      description: Get connection provider info
+      operationId: get-connection-provider
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConProvider'
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get connection provider
+      tags:
+      - connections
+  /connections/{con_id}/site:
+    get:
+      description: Get connection site info
+      operationId: get-connection-site
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Site'
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get connection site
+      tags:
+      - connections
+  /connections/{con_id}/type:
+    get:
+      description: Get connection type info
+      operationId: get-connection-type
+      parameters:
+      - description: con_id
+        in: path
+        name: con_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConType'
+        "400":
+          description: Invalid con_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get connection type
+      tags:
+      - connections
   /connections/capacities:
     get:
       description: List connection capacities info
@@ -274,7 +878,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "404":
-          description: Provider not found
+          description: Capacity not found
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "405":
@@ -385,6 +989,283 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count con_capacities
+      tags:
+      - connections
+  /connections/classes:
+    get:
+      description: List connection classes info
+      operationId: list-con_classes
+      parameters:
+      - description: url encoded SQL like value
+        in: query
+        name: descr_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 1000'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.ConClass'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List con_classes
+      tags:
+      - connections
+    post:
+      description: Create connection class
+      operationId: create-con_class
+      parameters:
+      - description: JSON object of CreateConClassParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateConClassParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.ConClass'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create con_class
+      tags:
+      - connections
+  /connections/classes/{con_class_id}:
+    delete:
+      description: Delete connection class
+      operationId: delete-con_class
+      parameters:
+      - description: con_class_id
+        in: path
+        name: con_class_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid con_class_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete con_class
+      tags:
+      - connections
+    get:
+      description: Get connection class info
+      operationId: get-con_class
+      parameters:
+      - description: con_class_id
+        in: path
+        name: con_class_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConClass'
+        "400":
+          description: Invalid con_class_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Class not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get con_class
+      tags:
+      - connections
+    put:
+      description: Update connection class
+      operationId: update-con_class
+      parameters:
+      - description: con_class_id
+        in: path
+        name: con_class_id
+        required: true
+        type: string
+      - description: JSON object of UpdateConClassParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateConClassParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConClass'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update con_class
+      tags:
+      - connections
+  /connections/classes/{con_class_id}/connections:
+    get:
+      description: List connection class connections info
+      operationId: list-con_class-connections
+      parameters:
+      - description: con_class_id
+        in: path
+        name: con_class_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Connection'
+            type: array
+        "400":
+          description: Invalid con_class_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List con_class connections
+      tags:
+      - connections
+  /connections/classes/count:
+    get:
+      description: Count number of connection classes
+      operationId: count-con_classes
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count con_classes
+      tags:
+      - connections
+  /connections/count:
+    get:
+      description: Count number of connections
+      operationId: count-connections
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count connections
       tags:
       - connections
   /connections/providers:
@@ -638,6 +1519,259 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count con_providers
+      tags:
+      - connections
+  /connections/types:
+    get:
+      description: List connection types info
+      operationId: list-con_types
+      parameters:
+      - description: url encoded SQL like value
+        in: query
+        name: descr_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 1000'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.ConType'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List con_types
+      tags:
+      - connections
+    post:
+      description: Create connection type
+      operationId: create-con_type
+      parameters:
+      - description: JSON object of CreateConTypeParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateConTypeParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.ConType'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create con_type
+      tags:
+      - connections
+  /connections/types/{con_type_id}:
+    delete:
+      description: Delete connection type
+      operationId: delete-con_type
+      parameters:
+      - description: con_type_id
+        in: path
+        name: con_type_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid con_type_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete con_type
+      tags:
+      - connections
+    get:
+      description: Get connection type info
+      operationId: get-con_type
+      parameters:
+      - description: con_type_id
+        in: path
+        name: con_type_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConType'
+        "400":
+          description: Invalid con_type_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Type not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get con_type
+      tags:
+      - connections
+    put:
+      description: Update connection type
+      operationId: update-con_type
+      parameters:
+      - description: con_type_id
+        in: path
+        name: con_type_id
+        required: true
+        type: string
+      - description: JSON object of UpdateConTypeParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateConTypeParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.ConType'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update con_type
+      tags:
+      - connections
+  /connections/types/{con_type_id}/connections:
+    get:
+      description: List connection type connections info
+      operationId: list-con_type-connections
+      parameters:
+      - description: con_type_id
+        in: path
+        name: con_type_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Connection'
+            type: array
+        "400":
+          description: Invalid con_type_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List con_type connections
+      tags:
+      - connections
+  /connections/types/count:
+    get:
+      description: Count number of connection types
+      operationId: count-con_types
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count con_types
       tags:
       - connections
   /version:
