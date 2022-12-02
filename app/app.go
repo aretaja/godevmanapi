@@ -181,7 +181,11 @@ func (a *App) initializeRoutes() {
 	})
 
 	// Swagger
-	r.Mount("/swagger", httpSwagger.WrapHandler)
+	r.Route("/swagger", func(r chi.Router) {
+		r.Get("/*", httpSwagger.Handler(
+			httpSwagger.DocExpansion("none"),
+		))
+	})
 
 	// Custom 404 handler
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
