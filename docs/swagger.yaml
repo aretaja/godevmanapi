@@ -77,6 +77,33 @@ definitions:
       updated_on:
         type: string
     type: object
+  godevmandb.CreateArchivedInterfaceParams:
+    properties:
+      alias:
+        $ref: '#/definitions/sql.NullString'
+      cisco_opt_power_index:
+        $ref: '#/definitions/sql.NullString'
+      descr:
+        type: string
+      host_ip4:
+        $ref: '#/definitions/pgtype.Inet'
+      host_ip6:
+        $ref: '#/definitions/pgtype.Inet'
+      hostname:
+        type: string
+      ifindex:
+        $ref: '#/definitions/sql.NullInt64'
+      mac:
+        $ref: '#/definitions/pgtype.Macaddr'
+      manufacturer:
+        type: string
+      model:
+        type: string
+      otn_if_id:
+        $ref: '#/definitions/sql.NullInt64'
+      type_enum:
+        $ref: '#/definitions/sql.NullInt16'
+    type: object
   godevmandb.CreateConCapacityParams:
     properties:
       descr:
@@ -198,6 +225,35 @@ definitions:
       updated_on:
         type: string
     type: object
+  godevmandb.UpdateArchivedInterfaceParams:
+    properties:
+      alias:
+        $ref: '#/definitions/sql.NullString'
+      cisco_opt_power_index:
+        $ref: '#/definitions/sql.NullString'
+      descr:
+        type: string
+      host_ip4:
+        $ref: '#/definitions/pgtype.Inet'
+      host_ip6:
+        $ref: '#/definitions/pgtype.Inet'
+      hostname:
+        type: string
+      ifa_id:
+        type: integer
+      ifindex:
+        $ref: '#/definitions/sql.NullInt64'
+      mac:
+        $ref: '#/definitions/pgtype.Macaddr'
+      manufacturer:
+        type: string
+      model:
+        type: string
+      otn_if_id:
+        $ref: '#/definitions/sql.NullInt64'
+      type_enum:
+        $ref: '#/definitions/sql.NullInt16'
+    type: object
   godevmandb.UpdateConCapacityParams:
     properties:
       con_cap_id:
@@ -255,6 +311,39 @@ definitions:
       site_id:
         type: integer
     type: object
+  handlers.ArchivedInterface:
+    properties:
+      alias:
+        type: string
+      cisco_opt_power_index:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      host_ip4:
+        type: string
+      host_ip6:
+        type: string
+      hostname:
+        type: string
+      ifa_id:
+        type: integer
+      ifindex:
+        type: integer
+      mac:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      otn_if_id:
+        type: integer
+      type_enum:
+        type: integer
+      updated_on:
+        type: string
+    type: object
   handlers.CountResponse:
     properties:
       count:
@@ -266,6 +355,26 @@ definitions:
         type: string
       message:
         type: string
+    type: object
+  net.IPNet:
+    properties:
+      ip:
+        description: network number
+        items:
+          type: integer
+        type: array
+      mask:
+        description: network mask
+        items:
+          type: integer
+        type: array
+    type: object
+  pgtype.Inet:
+    properties:
+      ipnet:
+        $ref: '#/definitions/net.IPNet'
+      status:
+        type: integer
     type: object
   pgtype.Macaddr:
     properties:
@@ -339,6 +448,247 @@ paths:
       summary: Welcome
       tags:
       - information
+  /archived/interfaces:
+    get:
+      description: List archived interfaces info
+      operationId: list-archived_interfaces
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: ifindex_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: hostname_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: alias_f
+        type: string
+      - description: ip or containing net in CIDR notation
+        in: query
+        name: host_ip4_f
+        type: string
+      - description: ip or containing net in CIDR notation
+        in: query
+        name: host_ip6_f
+        type: string
+      - description: SQL '=' operator value (MAC address)
+        in: query
+        name: mac_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 1000'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.ArchivedInterface'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List archived_interfaces
+      tags:
+      - archived
+    post:
+      description: Create archived interface
+      operationId: create-archived_interface
+      parameters:
+      - description: JSON object of CreateArchivedInterfaceParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateArchivedInterfaceParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.ArchivedInterface'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create archived_interface
+      tags:
+      - archived
+  /archived/interfaces/{ifa_id}:
+    delete:
+      description: Delete archived interface
+      operationId: delete-archived_interface
+      parameters:
+      - description: ifa_id
+        in: path
+        name: ifa_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ifa_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete archived_interface
+      tags:
+      - archived
+    get:
+      description: Get archived interface info
+      operationId: get-archived_interface
+      parameters:
+      - description: ifa_id
+        in: path
+        name: ifa_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ArchivedInterface'
+        "400":
+          description: Invalid ifa_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Archived interface not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get archived_interface
+      tags:
+      - archived
+    put:
+      description: Update archived interface
+      operationId: update-archived_interface
+      parameters:
+      - description: ifa_id
+        in: path
+        name: ifa_id
+        required: true
+        type: string
+      - description: JSON object of UpdateArchivedInterfaceParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateArchivedInterfaceParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ArchivedInterface'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update archived_interface
+      tags:
+      - archived
+  /archived/interfaces/count:
+    get:
+      description: Count number of archived interfaces
+      operationId: count-archived_interfaces
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count archived_interfaces
+      tags:
+      - archived
   /connections:
     get:
       description: List connection info

@@ -53,6 +53,367 @@ const docTemplate = `{
                 }
             }
         },
+        "/archived/interfaces": {
+            "get": {
+                "description": "List archived interfaces info",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "List archived_interfaces",
+                "operationId": "list-archived_interfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "ifindex_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "hostname_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "alias_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "host_ip4_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "host_ip6_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SQL '=' operator value (MAC address)",
+                        "name": "mac_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 1000",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.ArchivedInterface"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create archived interface",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Create archived_interface",
+                "operationId": "create-archived_interface",
+                "parameters": [
+                    {
+                        "description": "JSON object of CreateArchivedInterfaceParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateArchivedInterfaceParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.ArchivedInterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/archived/interfaces/count": {
+            "get": {
+                "description": "Count number of archived interfaces",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Count archived_interfaces",
+                "operationId": "count-archived_interfaces",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/archived/interfaces/{ifa_id}": {
+            "get": {
+                "description": "Get archived interface info",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Get archived_interface",
+                "operationId": "get-archived_interface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ifa_id",
+                        "name": "ifa_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.ArchivedInterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ifa_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Archived interface not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update archived interface",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Update archived_interface",
+                "operationId": "update-archived_interface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ifa_id",
+                        "name": "ifa_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of UpdateArchivedInterfaceParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateArchivedInterfaceParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.ArchivedInterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete archived interface",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Delete archived_interface",
+                "operationId": "delete-archived_interface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ifa_id",
+                        "name": "ifa_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid ifa_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/connections": {
             "get": {
                 "description": "List connection info",
@@ -2353,6 +2714,47 @@ const docTemplate = `{
                 }
             }
         },
+        "godevmandb.CreateArchivedInterfaceParams": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "cisco_opt_power_index": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "host_ip4": {
+                    "$ref": "#/definitions/pgtype.Inet"
+                },
+                "host_ip6": {
+                    "$ref": "#/definitions/pgtype.Inet"
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "ifindex": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "mac": {
+                    "$ref": "#/definitions/pgtype.Macaddr"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "otn_if_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "type_enum": {
+                    "$ref": "#/definitions/sql.NullInt16"
+                }
+            }
+        },
         "godevmandb.CreateConCapacityParams": {
             "type": "object",
             "properties": {
@@ -2538,6 +2940,50 @@ const docTemplate = `{
                 }
             }
         },
+        "godevmandb.UpdateArchivedInterfaceParams": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "cisco_opt_power_index": {
+                    "$ref": "#/definitions/sql.NullString"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "host_ip4": {
+                    "$ref": "#/definitions/pgtype.Inet"
+                },
+                "host_ip6": {
+                    "$ref": "#/definitions/pgtype.Inet"
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "ifa_id": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "mac": {
+                    "$ref": "#/definitions/pgtype.Macaddr"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "otn_if_id": {
+                    "$ref": "#/definitions/sql.NullInt64"
+                },
+                "type_enum": {
+                    "$ref": "#/definitions/sql.NullInt16"
+                }
+            }
+        },
         "godevmandb.UpdateConCapacityParams": {
             "type": "object",
             "properties": {
@@ -2626,6 +3072,56 @@ const docTemplate = `{
                 }
             }
         },
+        "handlers.ArchivedInterface": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string"
+                },
+                "cisco_opt_power_index": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "host_ip4": {
+                    "type": "string"
+                },
+                "host_ip6": {
+                    "type": "string"
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "ifa_id": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "type": "integer"
+                },
+                "mac": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "otn_if_id": {
+                    "type": "integer"
+                },
+                "type_enum": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
         "handlers.CountResponse": {
             "type": "object",
             "properties": {
@@ -2642,6 +3138,36 @@ const docTemplate = `{
                 },
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "net.IPNet": {
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "description": "network number",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "mask": {
+                    "description": "network mask",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "pgtype.Inet": {
+            "type": "object",
+            "properties": {
+                "ipnet": {
+                    "$ref": "#/definitions/net.IPNet"
+                },
+                "status": {
+                    "type": "integer"
                 }
             }
         },

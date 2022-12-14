@@ -95,9 +95,34 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/archived/interfaces" resource
+	r.Route("/archived/interfaces", func(r chi.Router) {
+		// Filter parameters:
+		//   ifindex_f, hostname_f, host_ip4_f, host_ip6_f, descr_f, alias_f, mac_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(1000), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetArchivedInterfaces)
+		r.Get("/count", a.Handler.CountArchivedInterfaces)
+		r.Post("/", a.Handler.CreateArchivedInterface)
+
+		// Subroutes
+		r.Route("/{ifa_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetArchivedInterface)
+			r.Put("/", a.Handler.UpdateArchivedInterface)
+			r.Delete("/", a.Handler.DeleteArchivedInterface)
+		})
+	})
+
 	// Routes for "/connections" resource
 	r.Route("/connections", func(r chi.Router) {
-		// Takes parameters: hint_f(not set), count(100), start(0). Uses default if not set.
+		// Filter parameters:
+		//   hint_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(1000), start(0).
+		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConnections)
 		r.Get("/count", a.Handler.CountConnections)
 		r.Post("/", a.Handler.CreateConnection)
@@ -118,7 +143,12 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/capacities" resource
 	r.Route("/connections/capacities", func(r chi.Router) {
-		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		// Filter parameters:
+		//   descr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(1000), start(0).
+		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConCapacities)
 		r.Get("/count", a.Handler.CountConCapacities)
 		r.Post("/", a.Handler.CreateConCapacity)
@@ -134,7 +164,12 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/classes" resource
 	r.Route("/connections/classes", func(r chi.Router) {
-		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		// Filter parameters:
+		//   descr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(1000), start(0).
+		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConClasses)
 		r.Get("/count", a.Handler.CountConClasses)
 		r.Post("/", a.Handler.CreateConClass)
@@ -150,7 +185,12 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/providers" resource
 	r.Route("/connections/providers", func(r chi.Router) {
-		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		// Filter parameters:
+		//   descr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(1000), start(0).
+		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConProviders)
 		r.Get("/count", a.Handler.CountConProviders)
 		r.Post("/", a.Handler.CreateConProvider)
@@ -166,7 +206,12 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/types" resource
 	r.Route("/connections/types", func(r chi.Router) {
-		// Takes parameters: descr_f(not set), count(100), start(0). Uses default if not set.
+		// Filter parameters:
+		//   descr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(1000), start(0).
+		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConTypes)
 		r.Get("/count", a.Handler.CountConTypes)
 		r.Post("/", a.Handler.CreateConType)
