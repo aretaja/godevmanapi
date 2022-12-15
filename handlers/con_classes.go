@@ -1,13 +1,35 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
+	"github.com/jinzhu/copier"
 )
+
+// Local type to use with copier. Used for sql Null* field replacement in json response
+type ConClass struct {
+	ConClassID int64     `json:"con_class_id"`
+	Descr      string    `json:"descr"`
+	NotesVal   *string   `json:"notes"`
+	UpdatedOn  time.Time `json:"updated_on"`
+	CreatedOn  time.Time `json:"created_on"`
+}
+
+func (a *ConClass) Notes(m sql.NullString) {
+	if m.Valid {
+		if v, err := m.Value(); err == nil {
+			if res, ok := v.(string); ok {
+				a.NotesVal = &res
+			}
+		}
+	}
+}
 
 // Count ConClasses
 // @Summary Count con_classes
@@ -35,14 +57,14 @@ func (h *Handler) CountConClasses(w http.ResponseWriter, r *http.Request) {
 // @Description List connection classes info
 // @Tags connections
 // @ID list-con_classes
-// @Param descr_f query string false "url encoded SQL like value"
+// @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 1000"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} godevmandb.ConClass
+// @Success 200 {array} ConClass
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -83,7 +105,10 @@ func (h *Handler) GetConClasses(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := []ConClass{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Get ConClass
@@ -92,7 +117,7 @@ func (h *Handler) GetConClasses(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID get-con_class
 // @Param con_class_id path string true "con_class_id"
-// @Success 200 {object} godevmandb.ConClass
+// @Success 200 {object} ConClass
 // @Failure 400 {object} StatusResponse "Invalid con_class_id"
 // @Failure 404 {object} StatusResponse "Class not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -116,7 +141,10 @@ func (h *Handler) GetConClass(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := ConClass{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Create ConClass
@@ -125,7 +153,7 @@ func (h *Handler) GetConClass(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID create-con_class
 // @Param Body body godevmandb.CreateConClassParams true "JSON object of CreateConClassParams"
-// @Success 201 {object} godevmandb.ConClass
+// @Success 201 {object} ConClass
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -148,7 +176,10 @@ func (h *Handler) CreateConClass(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusCreated, res)
+	out := ConClass{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusCreated, out)
 }
 
 // Update ConClass
@@ -158,7 +189,7 @@ func (h *Handler) CreateConClass(w http.ResponseWriter, r *http.Request) {
 // @ID update-con_class
 // @Param con_class_id path string true "con_class_id"
 // @Param Body body godevmandb.UpdateConClassParams true "JSON object of UpdateConClassParams"
-// @Success 200 {object} godevmandb.ConClass
+// @Success 200 {object} ConClass
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -188,7 +219,10 @@ func (h *Handler) UpdateConClass(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := ConClass{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Delete ConClass
@@ -217,7 +251,6 @@ func (h *Handler) DeleteConClass(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -228,7 +261,7 @@ func (h *Handler) DeleteConClass(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-con_class-connections
 // @Param con_class_id path string true "con_class_id"
-// @Success 200 {array} godevmandb.Connection
+// @Success 200 {array} Connection
 // @Failure 400 {object} StatusResponse "Invalid con_class_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -248,5 +281,8 @@ func (h *Handler) GetConClassConnections(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := []Connection{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }

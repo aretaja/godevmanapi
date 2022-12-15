@@ -1,13 +1,35 @@
 package handlers
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
+	"github.com/jinzhu/copier"
 )
+
+// Local type to use with copier. Used for sql Null* field replacement in json response
+type ConType struct {
+	ConTypeID int64     `json:"con_type_id"`
+	Descr     string    `json:"descr"`
+	NotesVal  *string   `json:"notes"`
+	UpdatedOn time.Time `json:"updated_on"`
+	CreatedOn time.Time `json:"created_on"`
+}
+
+func (a *ConType) Notes(m sql.NullString) {
+	if m.Valid {
+		if v, err := m.Value(); err == nil {
+			if res, ok := v.(string); ok {
+				a.NotesVal = &res
+			}
+		}
+	}
+}
 
 // Count ConTypes
 // @Summary Count con_types
@@ -35,14 +57,14 @@ func (h *Handler) CountConTypes(w http.ResponseWriter, r *http.Request) {
 // @Description List connection types info
 // @Tags connections
 // @ID list-con_types
-// @Param descr_f query string false "url encoded SQL like value"
+// @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 1000"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} godevmandb.ConType
+// @Success 200 {array} ConType
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -83,7 +105,10 @@ func (h *Handler) GetConTypes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := []ConType{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Get ConType
@@ -92,7 +117,7 @@ func (h *Handler) GetConTypes(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID get-con_type
 // @Param con_type_id path string true "con_type_id"
-// @Success 200 {object} godevmandb.ConType
+// @Success 200 {object} ConType
 // @Failure 400 {object} StatusResponse "Invalid con_type_id"
 // @Failure 404 {object} StatusResponse "Type not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -116,7 +141,10 @@ func (h *Handler) GetConType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := ConType{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Create ConType
@@ -125,7 +153,7 @@ func (h *Handler) GetConType(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID create-con_type
 // @Param Body body godevmandb.CreateConTypeParams true "JSON object of CreateConTypeParams"
-// @Success 201 {object} godevmandb.ConType
+// @Success 201 {object} ConType
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -148,7 +176,10 @@ func (h *Handler) CreateConType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusCreated, res)
+	out := ConType{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusCreated, out)
 }
 
 // Update ConType
@@ -158,7 +189,7 @@ func (h *Handler) CreateConType(w http.ResponseWriter, r *http.Request) {
 // @ID update-con_type
 // @Param con_type_id path string true "con_type_id"
 // @Param Body body godevmandb.UpdateConTypeParams true "JSON object of UpdateConTypeParams"
-// @Success 200 {object} godevmandb.ConType
+// @Success 200 {object} ConType
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -188,7 +219,10 @@ func (h *Handler) UpdateConType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := ConType{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Delete ConType
@@ -217,7 +251,6 @@ func (h *Handler) DeleteConType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// respondWithJSON(w, http.StatusOK, map[string]string{"result": "success"})
 	w.WriteHeader(http.StatusNoContent)
 }
 
@@ -228,7 +261,7 @@ func (h *Handler) DeleteConType(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-con_type-connections
 // @Param con_type_id path string true "con_type_id"
-// @Success 200 {array} godevmandb.Connection
+// @Success 200 {array} Connection
 // @Failure 400 {object} StatusResponse "Invalid con_type_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -248,5 +281,8 @@ func (h *Handler) GetConTypeConnections(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := []Connection{}
+	copier.Copy(&out, &res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
