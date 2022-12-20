@@ -177,22 +177,37 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 	p.CreatedLe = tf[3]
 
 	// Ifindex filter
-	p.IfindexF = strToNullString(r.FormValue("ifindex_f"))
+	v := r.FormValue("ifindex_f")
+	if v != "" {
+		p.IfindexF = strToNullString(&v)
+	}
 
 	// Alias filter
-	p.AliasF = strToNullString(r.FormValue("alias_f"))
+	v = r.FormValue("alias_f")
+	if v != "" {
+		p.AliasF = strToNullString(&v)
+	}
 
 	// Host IPv4 filter
-	p.HostIp4F = strToPgInet(r.FormValue("host_ip4_f"))
+	v = r.FormValue("host_ip4_f")
+	if v != "" {
+		p.HostIp4F = strToPgInet(&v)
+	}
 
 	// Host IPv6 filter
-	p.HostIp6F = strToPgInet(r.FormValue("host_ip6_f"))
+	v = r.FormValue("host_ip6_f")
+	if v != "" {
+		p.HostIp6F = strToPgInet(&v)
+	}
 
 	// MAC filter
-	p.MacF = strToPgMacaddr(r.FormValue("mac_f"))
+	v = r.FormValue("mac_f")
+	if v != "" {
+		p.MacF = strToPgMacaddr(&v)
+	}
 
 	// Hostname filter
-	v := r.FormValue("hostname_f")
+	v = r.FormValue("hostname_f")
 	if v != "" {
 		p.HostnameF = v
 	}

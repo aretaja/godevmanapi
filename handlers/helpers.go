@@ -68,23 +68,23 @@ func parseTimeFilter(r *http.Request) []time.Time {
 	return res
 }
 
-// IP/CIDR string to pgtype.Inet parser
-func strToPgInet(s string) pgtype.Inet {
+// IP/CIDR string pointer to pgtype.Inet converter
+func strToPgInet(p *string) pgtype.Inet {
 	r := pgtype.Inet{
 		Status: pgtype.Null,
 	}
 
-	if s != "" {
+	if p != nil {
 		// Add CIDR network part if missing
-		if ok := strings.Contains(s, "/"); !ok {
-			if strings.Contains(s, ".") {
-				s += "/32"
+		if ok := strings.Contains(*p, "/"); !ok {
+			if strings.Contains(*p, ".") {
+				*p += "/32"
 			} else {
-				s += "/128"
+				*p += "/128"
 			}
 		}
 
-		if _, ip, err := net.ParseCIDR(s); err == nil {
+		if _, ip, err := net.ParseCIDR(*p); err == nil {
 			r.IPNet = ip
 			r.Status = pgtype.Present
 		}
@@ -92,14 +92,14 @@ func strToPgInet(s string) pgtype.Inet {
 	return r
 }
 
-// MAC string to pgtype.Macaddr parser
-func strToPgMacaddr(s string) pgtype.Macaddr {
+// MAC string pointer to pgtype.Macaddr converter
+func strToPgMacaddr(p *string) pgtype.Macaddr {
 	r := pgtype.Macaddr{
 		Status: pgtype.Null,
 	}
 
-	if s != "" {
-		if mac, err := net.ParseMAC(s); err == nil {
+	if p != nil {
+		if mac, err := net.ParseMAC(*p); err == nil {
 			r.Addr = mac
 			r.Status = pgtype.Present
 		}
@@ -107,13 +107,13 @@ func strToPgMacaddr(s string) pgtype.Macaddr {
 	return r
 }
 
-// String to sql.NullString parser
-func strToNullString(s string) sql.NullString {
+// String pointer to sql.NullString converter
+func strToNullString(p *string) sql.NullString {
 	r := sql.NullString{}
 
-	if s != "" {
+	if p != nil {
 		r = sql.NullString{
-			String: s,
+			String: *p,
 			Valid:  true,
 		}
 	}
