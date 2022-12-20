@@ -68,8 +68,8 @@ func parseTimeFilter(r *http.Request) []time.Time {
 	return res
 }
 
-// IP to pgtype parser
-func cidr2PgInet(s string) pgtype.Inet {
+// IP/CIDR string to pgtype.Inet parser
+func strToPgInet(s string) pgtype.Inet {
 	r := pgtype.Inet{
 		Status: pgtype.Null,
 	}
@@ -92,8 +92,8 @@ func cidr2PgInet(s string) pgtype.Inet {
 	return r
 }
 
-// MAC to pgtype parser
-func mac2PgMacaddr(s string) pgtype.Macaddr {
+// MAC string to pgtype.Macaddr parser
+func strToPgMacaddr(s string) pgtype.Macaddr {
 	r := pgtype.Macaddr{
 		Status: pgtype.Null,
 	}
@@ -108,7 +108,7 @@ func mac2PgMacaddr(s string) pgtype.Macaddr {
 }
 
 // String to sql.NullString parser
-func str2NullString(s string) sql.NullString {
+func strToNullString(s string) sql.NullString {
 	r := sql.NullString{}
 
 	if s != "" {
