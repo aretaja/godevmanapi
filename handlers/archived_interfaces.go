@@ -1,113 +1,91 @@
 package handlers
 
 import (
-	"database/sql"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
-	"github.com/jackc/pgtype"
-	"github.com/jinzhu/copier"
 )
 
-// Local type to use with copier. Used for sql Null* field replacement in json response
-type ArchivedInterface struct {
-	UpdatedOn             time.Time `json:"updated_on"`
-	CreatedOn             time.Time `json:"created_on"`
-	HostIp6Val            *string   `json:"host_ip6"`
-	CiscoOptPowerIndexVal *int64    `json:"cisco_opt_power_index"`
-	HostIp4Val            *string   `json:"host_ip4"`
-	AliasVal              *string   `json:"alias"`
-	TypeEnumVal           *int64    `json:"type_enum"`
-	MacVal                *string   `json:"mac"`
-	OtnIfIDVal            *int64    `json:"otn_if_id"`
-	IfindexVal            *int64    `json:"ifindex"`
-	Hostname              string    `json:"hostname"`
-	Manufacturer          string    `json:"manufacturer"`
-	Model                 string    `json:"model"`
-	Descr                 string    `json:"descr"`
-	IfaID                 int64     `json:"ifa_id"`
+// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
+type archivedInterface struct {
+	UpdatedOn          time.Time `json:"updated_on"`
+	CreatedOn          time.Time `json:"created_on"`
+	HostIp6            *string   `json:"host_ip6"`
+	CiscoOptPowerIndex *string   `json:"cisco_opt_power_index"`
+	HostIp4            *string   `json:"host_ip4"`
+	Alias              *string   `json:"alias"`
+	TypeEnum           *int64    `json:"type_enum"`
+	Mac                *string   `json:"mac"`
+	OtnIfID            *int64    `json:"otn_if_id"`
+	Ifindex            *int64    `json:"ifindex"`
+	Hostname           string    `json:"hostname"`
+	Manufacturer       string    `json:"manufacturer"`
+	Model              string    `json:"model"`
+	Descr              string    `json:"descr"`
+	IfaID              int64     `json:"ifa_id"`
 }
 
-func (a *ArchivedInterface) Ifindex(m sql.NullInt64) {
-	if m.Valid {
-		if v, err := m.Value(); err == nil {
-			if res, ok := v.(int64); ok {
-				a.IfindexVal = &res
-			}
-		}
-	}
+// Import values from corresponding godevmandb struct
+func (r *archivedInterface) getValues(s godevmandb.ArchivedInterface) {
+	r.IfaID = s.IfaID
+	r.Hostname = s.Hostname
+	r.Manufacturer = s.Manufacturer
+	r.Model = s.Model
+	r.Descr = s.Descr
+	r.UpdatedOn = s.UpdatedOn
+	r.CreatedOn = s.CreatedOn
+	r.Ifindex = nullInt64ToPtr(s.Ifindex)
+	r.OtnIfID = nullInt64ToPtr(s.OtnIfID)
+	r.CiscoOptPowerIndex = nullStringToPtr(s.CiscoOptPowerIndex)
+	r.HostIp4 = pgInetToPtr(s.HostIp4)
+	r.HostIp6 = pgInetToPtr(s.HostIp6)
+	r.Alias = nullStringToPtr(s.Alias)
+	r.TypeEnum = nullInt16ToPtr(s.TypeEnum)
+	r.Mac = pgMacaddrToPtr(s.Mac)
 }
 
-func (a *ArchivedInterface) OtnIfID(m sql.NullInt64) {
-	if m.Valid {
-		if v, err := m.Value(); err == nil {
-			if res, ok := v.(int64); ok {
-				a.OtnIfIDVal = &res
-			}
-		}
-	}
+// Return corresponding godevmandb create parameters
+func (r *archivedInterface) createParams() godevmandb.CreateArchivedInterfaceParams {
+	s := godevmandb.CreateArchivedInterfaceParams{}
+
+	s.Hostname = r.Hostname
+	s.Manufacturer = r.Manufacturer
+	s.Model = r.Model
+	s.Descr = r.Descr
+	s.Ifindex = int64ToNullInt64(r.Ifindex)
+	s.OtnIfID = int64ToNullInt64(r.OtnIfID)
+	s.CiscoOptPowerIndex = strToNullString(r.CiscoOptPowerIndex)
+	s.HostIp4 = strToPgInet(r.HostIp4)
+	s.HostIp6 = strToPgInet(r.HostIp6)
+	s.Alias = strToNullString(r.Alias)
+	s.TypeEnum = int64ToNullInt16(r.TypeEnum)
+	s.Mac = strToPgMacaddr(r.Mac)
+
+	return s
 }
 
-func (a *ArchivedInterface) CiscoOptPowerIndex(m sql.NullInt64) {
-	if m.Valid {
-		if v, err := m.Value(); err == nil {
-			if res, ok := v.(int64); ok {
-				a.CiscoOptPowerIndexVal = &res
-			}
-		}
-	}
-}
+// Return corresponding godevmandb update parameters
+func (r *archivedInterface) updateParams() godevmandb.UpdateArchivedInterfaceParams {
+	s := godevmandb.UpdateArchivedInterfaceParams{}
 
-func (a *ArchivedInterface) Alias(m sql.NullString) {
-	if m.Valid {
-		if v, err := m.Value(); err == nil {
-			if res, ok := v.(string); ok {
-				a.AliasVal = &res
-			}
-		}
-	}
-}
+	s.Hostname = r.Hostname
+	s.Manufacturer = r.Manufacturer
+	s.Model = r.Model
+	s.Descr = r.Descr
+	s.Ifindex = int64ToNullInt64(r.Ifindex)
+	s.OtnIfID = int64ToNullInt64(r.OtnIfID)
+	s.CiscoOptPowerIndex = strToNullString(r.CiscoOptPowerIndex)
+	s.HostIp4 = strToPgInet(r.HostIp4)
+	s.HostIp6 = strToPgInet(r.HostIp6)
+	s.Alias = strToNullString(r.Alias)
+	s.TypeEnum = int64ToNullInt16(r.TypeEnum)
+	s.Mac = strToPgMacaddr(r.Mac)
 
-func (a *ArchivedInterface) TypeEnum(m sql.NullInt16) {
-	if m.Valid {
-		if v, err := m.Value(); err == nil {
-			if res, ok := v.(int64); ok {
-				a.TypeEnumVal = &res
-			}
-		}
-	}
-}
-
-func (a *ArchivedInterface) Mac(m pgtype.Macaddr) {
-	if m.Status == 2 {
-		if v, err := m.Value(); err == nil {
-			res := fmt.Sprintf("%s", v)
-			a.MacVal = &res
-		}
-	}
-}
-
-func (a *ArchivedInterface) HostIp4(m pgtype.Inet) {
-	if m.Status == 2 {
-		if v, err := m.Value(); err == nil {
-			res := fmt.Sprintf("%s", v)
-			a.HostIp4Val = &res
-		}
-	}
-}
-
-func (a *ArchivedInterface) HostIp6(m pgtype.Inet) {
-	if m.Status == 2 {
-		if v, err := m.Value(); err == nil {
-			res := fmt.Sprintf("%s", v)
-			a.HostIp6Val = &res
-		}
-	}
+	return s
 }
 
 // Count ArchivedInterfaces
@@ -149,7 +127,7 @@ func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} ArchivedInterface
+// @Success 200 {array} archivedInterface
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -189,18 +167,21 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 	}
 
 	// Host IPv4 filter
+	p.HostIp4F = strToPgInet(nil)
 	v = r.FormValue("host_ip4_f")
 	if v != "" {
 		p.HostIp4F = strToPgInet(&v)
 	}
 
 	// Host IPv6 filter
+	p.HostIp6F = strToPgInet(nil)
 	v = r.FormValue("host_ip6_f")
 	if v != "" {
 		p.HostIp6F = strToPgInet(&v)
 	}
 
 	// MAC filter
+	p.MacF = strToPgMacaddr(nil)
 	v = r.FormValue("mac_f")
 	if v != "" {
 		p.MacF = strToPgMacaddr(&v)
@@ -226,8 +207,12 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	out := []ArchivedInterface{}
-	copier.Copy(&out, &res)
+	out := []archivedInterface{}
+	for _, s := range res {
+		a := archivedInterface{}
+		a.getValues(s)
+		out = append(out, a)
+	}
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -238,7 +223,7 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 // @Tags archived
 // @ID get-archived_interface
 // @Param ifa_id path string true "ifa_id"
-// @Success 200 {object} ArchivedInterface
+// @Success 200 {object} archivedInterface
 // @Failure 400 {object} StatusResponse "Invalid ifa_id"
 // @Failure 404 {object} StatusResponse "Archived interface not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -262,8 +247,8 @@ func (h *Handler) GetArchivedInterface(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := ArchivedInterface{}
-	copier.Copy(&out, &res)
+	out := archivedInterface{}
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -273,21 +258,24 @@ func (h *Handler) GetArchivedInterface(w http.ResponseWriter, r *http.Request) {
 // @Description Create archived interface
 // @Tags archived
 // @ID create-archived_interface
-// @Param Body body godevmandb.CreateArchivedInterfaceParams true "JSON object of CreateArchivedInterfaceParams"
-// @Success 201 {object} ArchivedInterface
+// @Param Body body archivedInterface true "JSON object of archivedInterface.<br />Ignored fields:<ul><li>ifa_id</li><li>updated_on</li><li>created_on</li></ul>"
+// @Success 201 {object} archivedInterface
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/interfaces [POST]
 func (h *Handler) CreateArchivedInterface(w http.ResponseWriter, r *http.Request) {
-	var p godevmandb.CreateArchivedInterfaceParams
+	var pIn archivedInterface
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&p); err != nil {
+	if err := decoder.Decode(&pIn); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
+
+	// Create parameters for new db record
+	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateArchivedInterface(h.ctx, p)
@@ -297,8 +285,8 @@ func (h *Handler) CreateArchivedInterface(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	out := ArchivedInterface{}
-	copier.Copy(&out, &res)
+	out := archivedInterface{}
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusCreated, out)
 }
@@ -309,8 +297,8 @@ func (h *Handler) CreateArchivedInterface(w http.ResponseWriter, r *http.Request
 // @Tags archived
 // @ID update-archived_interface
 // @Param ifa_id path string true "ifa_id"
-// @Param Body body godevmandb.UpdateArchivedInterfaceParams true "JSON object of UpdateArchivedInterfaceParams"
-// @Success 200 {object} ArchivedInterface
+// @Param Body body archivedInterface true "JSON object of archivedInterface.<br />Ignored fields:<ul><li>ifa_id</li><li>updated_on</li><li>created_on</li></ul>"
+// @Success 200 {object} archivedInterface
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -323,13 +311,16 @@ func (h *Handler) UpdateArchivedInterface(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	var p godevmandb.UpdateArchivedInterfaceParams
+	var pIn archivedInterface
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&p); err != nil {
+	if err := decoder.Decode(&pIn); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
+
+	// Update parameters for new db record
+	p := pIn.updateParams()
 	p.IfaID = id
 
 	q := godevmandb.New(h.db)
@@ -340,8 +331,8 @@ func (h *Handler) UpdateArchivedInterface(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	out := ArchivedInterface{}
-	copier.Copy(&out, &res)
+	out := archivedInterface{}
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }

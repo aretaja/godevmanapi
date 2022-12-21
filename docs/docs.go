@@ -147,7 +147,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.ArchivedInterface"
+                                "$ref": "#/definitions/handlers.archivedInterface"
                             }
                         }
                     },
@@ -180,12 +180,12 @@ const docTemplate = `{
                 "operationId": "create-archived_interface",
                 "parameters": [
                     {
-                        "description": "JSON object of CreateArchivedInterfaceParams",
+                        "description": "JSON object of archivedInterface.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eifa_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateArchivedInterfaceParams"
+                            "$ref": "#/definitions/handlers.archivedInterface"
                         }
                     }
                 ],
@@ -193,7 +193,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ArchivedInterface"
+                            "$ref": "#/definitions/handlers.archivedInterface"
                         }
                     },
                     "400": {
@@ -280,7 +280,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ArchivedInterface"
+                            "$ref": "#/definitions/handlers.archivedInterface"
                         }
                     },
                     "400": {
@@ -325,12 +325,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of UpdateArchivedInterfaceParams",
+                        "description": "JSON object of archivedInterface.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eifa_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateArchivedInterfaceParams"
+                            "$ref": "#/definitions/handlers.archivedInterface"
                         }
                     }
                 ],
@@ -338,7 +338,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.ArchivedInterface"
+                            "$ref": "#/definitions/handlers.archivedInterface"
                         }
                     },
                     "400": {
@@ -425,7 +425,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL like value",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
                         "name": "hint_f",
                         "in": "query"
                     },
@@ -472,7 +472,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.Connection"
+                                "$ref": "#/definitions/handlers.connection"
                             }
                         }
                     },
@@ -505,12 +505,12 @@ const docTemplate = `{
                 "operationId": "create-connection",
                 "parameters": [
                     {
-                        "description": "JSON object of CreateConnectionParams",
+                        "description": "JSON object of connection.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateConnectionParams"
+                            "$ref": "#/definitions/handlers.connection"
                         }
                     }
                 ],
@@ -518,7 +518,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.Connection"
+                            "$ref": "#/definitions/handlers.connection"
                         }
                     },
                     "400": {
@@ -559,7 +559,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL like value",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
@@ -606,7 +606,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.ConCapacity"
+                                "$ref": "#/definitions/handlers.conCapacity"
                             }
                         }
                     },
@@ -639,12 +639,12 @@ const docTemplate = `{
                 "operationId": "create-capacity",
                 "parameters": [
                     {
-                        "description": "JSON object of CreateConCapacityParams",
+                        "description": "JSON object of conCapacity.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_cap_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateConCapacityParams"
+                            "$ref": "#/definitions/handlers.conCapacity"
                         }
                     }
                 ],
@@ -652,7 +652,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConCapacity"
+                            "$ref": "#/definitions/handlers.conCapacity"
                         }
                     },
                     "400": {
@@ -739,7 +739,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConCapacity"
+                            "$ref": "#/definitions/handlers.conCapacity"
                         }
                     },
                     "400": {
@@ -784,12 +784,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of UpdateConCapacityParams",
+                        "description": "JSON object of conCapacity.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_cap_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateConCapacityParams"
+                            "$ref": "#/definitions/handlers.conCapacity"
                         }
                     }
                 ],
@@ -797,7 +797,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConCapacity"
+                            "$ref": "#/definitions/handlers.conCapacity"
                         }
                     },
                     "400": {
@@ -896,7 +896,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.Connection"
+                                "$ref": "#/definitions/handlers.connection"
                             }
                         }
                     },
@@ -938,7 +938,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL like value",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
@@ -985,7 +985,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.ConClass"
+                                "$ref": "#/definitions/handlers.conClass"
                             }
                         }
                     },
@@ -1018,12 +1018,12 @@ const docTemplate = `{
                 "operationId": "create-con_class",
                 "parameters": [
                     {
-                        "description": "JSON object of CreateConClassParams",
+                        "description": "JSON object of conClass\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_class_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateConClassParams"
+                            "$ref": "#/definitions/handlers.conClass"
                         }
                     }
                 ],
@@ -1031,7 +1031,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConClass"
+                            "$ref": "#/definitions/handlers.conClass"
                         }
                     },
                     "400": {
@@ -1118,7 +1118,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConClass"
+                            "$ref": "#/definitions/handlers.conClass"
                         }
                     },
                     "400": {
@@ -1163,12 +1163,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of UpdateConClassParams",
+                        "description": "JSON object of conClass.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_class_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateConClassParams"
+                            "$ref": "#/definitions/handlers.conClass"
                         }
                     }
                 ],
@@ -1176,7 +1176,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConClass"
+                            "$ref": "#/definitions/handlers.conClass"
                         }
                     },
                     "400": {
@@ -1275,7 +1275,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.Connection"
+                                "$ref": "#/definitions/handlers.connection"
                             }
                         }
                     },
@@ -1353,7 +1353,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL like value",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
@@ -1400,7 +1400,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.ConProvider"
+                                "$ref": "#/definitions/handlers.conProvider"
                             }
                         }
                     },
@@ -1433,12 +1433,12 @@ const docTemplate = `{
                 "operationId": "create-con_provider",
                 "parameters": [
                     {
-                        "description": "JSON object of CreateConProviderParams",
+                        "description": "JSON object of conProvider.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_prov_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateConProviderParams"
+                            "$ref": "#/definitions/handlers.conProvider"
                         }
                     }
                 ],
@@ -1446,7 +1446,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConProvider"
+                            "$ref": "#/definitions/handlers.conProvider"
                         }
                     },
                     "400": {
@@ -1533,7 +1533,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConProvider"
+                            "$ref": "#/definitions/handlers.conProvider"
                         }
                     },
                     "400": {
@@ -1578,12 +1578,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of UpdateConProviderParams",
+                        "description": "JSON object of conProvider.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_prov_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateConProviderParams"
+                            "$ref": "#/definitions/handlers.conProvider"
                         }
                     }
                 ],
@@ -1591,7 +1591,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConProvider"
+                            "$ref": "#/definitions/handlers.conProvider"
                         }
                     },
                     "400": {
@@ -1690,7 +1690,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.Connection"
+                                "$ref": "#/definitions/handlers.connection"
                             }
                         }
                     },
@@ -1732,7 +1732,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL like value",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
@@ -1779,7 +1779,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.ConType"
+                                "$ref": "#/definitions/handlers.conType"
                             }
                         }
                     },
@@ -1812,12 +1812,12 @@ const docTemplate = `{
                 "operationId": "create-con_type",
                 "parameters": [
                     {
-                        "description": "JSON object of CreateConTypeParams",
+                        "description": "JSON object of conType.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_type_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateConTypeParams"
+                            "$ref": "#/definitions/handlers.conType"
                         }
                     }
                 ],
@@ -1825,7 +1825,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConType"
+                            "$ref": "#/definitions/handlers.conType"
                         }
                     },
                     "400": {
@@ -1912,7 +1912,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConType"
+                            "$ref": "#/definitions/handlers.conType"
                         }
                     },
                     "400": {
@@ -1957,12 +1957,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of UpdateConTypeParams",
+                        "description": "JSON object of conType.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_type_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateConTypeParams"
+                            "$ref": "#/definitions/handlers.conType"
                         }
                     }
                 ],
@@ -1970,7 +1970,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConType"
+                            "$ref": "#/definitions/handlers.conType"
                         }
                     },
                     "400": {
@@ -2069,7 +2069,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/godevmandb.Connection"
+                                "$ref": "#/definitions/handlers.connection"
                             }
                         }
                     },
@@ -2121,7 +2121,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.Connection"
+                            "$ref": "#/definitions/handlers.connection"
                         }
                     },
                     "400": {
@@ -2166,12 +2166,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of UpdateConnectionParams",
+                        "description": "JSON object of connection.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateConnectionParams"
+                            "$ref": "#/definitions/handlers.connection"
                         }
                     }
                 ],
@@ -2179,7 +2179,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.Connection"
+                            "$ref": "#/definitions/handlers.connection"
                         }
                     },
                     "400": {
@@ -2276,7 +2276,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConCapacity"
+                            "$ref": "#/definitions/handlers.conCapacity"
                         }
                     },
                     "400": {
@@ -2327,61 +2327,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConClass"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid con_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/connections/{con_id}/interfaces": {
-            "get": {
-                "description": "List connection interfaces info",
-                "tags": [
-                    "connections"
-                ],
-                "summary": "List connection interfaces",
-                "operationId": "list-connection-interfaces",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "con_id",
-                        "name": "con_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/godevmandb.Interface"
-                            }
+                            "$ref": "#/definitions/handlers.conClass"
                         }
                     },
                     "400": {
@@ -2432,58 +2378,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConProvider"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid con_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/connections/{con_id}/site": {
-            "get": {
-                "description": "Get connection site info",
-                "tags": [
-                    "connections"
-                ],
-                "summary": "Get connection site",
-                "operationId": "get-connection-site",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "con_id",
-                        "name": "con_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.Site"
+                            "$ref": "#/definitions/handlers.conProvider"
                         }
                     },
                     "400": {
@@ -2534,7 +2429,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.ConType"
+                            "$ref": "#/definitions/handlers.conType"
                         }
                     },
                     "400": {
@@ -2596,532 +2491,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "godevmandb.ConCapacity": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.ConClass": {
-            "type": "object",
-            "properties": {
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.ConProvider": {
-            "type": "object",
-            "properties": {
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.ConType": {
-            "type": "object",
-            "properties": {
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.Connection": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "con_id": {
-                    "type": "integer"
-                },
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "hint": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "in_use": {
-                    "type": "boolean"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "site_id": {
-                    "type": "integer"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.CreateArchivedInterfaceParams": {
-            "type": "object",
-            "properties": {
-                "alias": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "cisco_opt_power_index": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "host_ip4": {
-                    "$ref": "#/definitions/pgtype.Inet"
-                },
-                "host_ip6": {
-                    "$ref": "#/definitions/pgtype.Inet"
-                },
-                "hostname": {
-                    "type": "string"
-                },
-                "ifindex": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "mac": {
-                    "$ref": "#/definitions/pgtype.Macaddr"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "model": {
-                    "type": "string"
-                },
-                "otn_if_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "type_enum": {
-                    "$ref": "#/definitions/sql.NullInt16"
-                }
-            }
-        },
-        "godevmandb.CreateConCapacityParams": {
-            "type": "object",
-            "properties": {
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.CreateConClassParams": {
-            "type": "object",
-            "properties": {
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.CreateConProviderParams": {
-            "type": "object",
-            "properties": {
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.CreateConTypeParams": {
-            "type": "object",
-            "properties": {
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.CreateConnectionParams": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "hint": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "in_use": {
-                    "type": "boolean"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "site_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "godevmandb.Interface": {
-            "type": "object",
-            "properties": {
-                "adm": {
-                    "$ref": "#/definitions/sql.NullInt16"
-                },
-                "alias": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "con_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "dev_id": {
-                    "type": "integer"
-                },
-                "ent_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "if_id": {
-                    "type": "integer"
-                },
-                "ifindex": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "mac": {
-                    "$ref": "#/definitions/pgtype.Macaddr"
-                },
-                "minspeed": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "monerrors": {
-                    "type": "integer"
-                },
-                "monload": {
-                    "type": "integer"
-                },
-                "monstatus": {
-                    "type": "integer"
-                },
-                "montraffic": {
-                    "type": "integer"
-                },
-                "oper": {
-                    "$ref": "#/definitions/sql.NullInt16"
-                },
-                "otn_if_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "parent": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "speed": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "type_enum": {
-                    "$ref": "#/definitions/sql.NullInt16"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.Site": {
-            "type": "object",
-            "properties": {
-                "addr": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "area": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "country_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "ext_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "ext_name": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "latitude": {
-                    "$ref": "#/definitions/sql.NullFloat64"
-                },
-                "longitude": {
-                    "$ref": "#/definitions/sql.NullFloat64"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "site_id": {
-                    "type": "integer"
-                },
-                "uident": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "godevmandb.UpdateArchivedInterfaceParams": {
-            "type": "object",
-            "properties": {
-                "alias": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "cisco_opt_power_index": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "host_ip4": {
-                    "$ref": "#/definitions/pgtype.Inet"
-                },
-                "host_ip6": {
-                    "$ref": "#/definitions/pgtype.Inet"
-                },
-                "hostname": {
-                    "type": "string"
-                },
-                "ifa_id": {
-                    "type": "integer"
-                },
-                "ifindex": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "mac": {
-                    "$ref": "#/definitions/pgtype.Macaddr"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "model": {
-                    "type": "string"
-                },
-                "otn_if_id": {
-                    "$ref": "#/definitions/sql.NullInt64"
-                },
-                "type_enum": {
-                    "$ref": "#/definitions/sql.NullInt16"
-                }
-            }
-        },
-        "godevmandb.UpdateConCapacityParams": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.UpdateConClassParams": {
-            "type": "object",
-            "properties": {
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.UpdateConProviderParams": {
-            "type": "object",
-            "properties": {
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.UpdateConTypeParams": {
-            "type": "object",
-            "properties": {
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                }
-            }
-        },
-        "godevmandb.UpdateConnectionParams": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "con_id": {
-                    "type": "integer"
-                },
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "hint": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "in_use": {
-                    "type": "boolean"
-                },
-                "notes": {
-                    "$ref": "#/definitions/sql.NullString"
-                },
-                "site_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "handlers.ArchivedInterface": {
-            "type": "object",
-            "properties": {
-                "alias": {
-                    "type": "string"
-                },
-                "cisco_opt_power_index": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "host_ip4": {
-                    "type": "string"
-                },
-                "host_ip6": {
-                    "type": "string"
-                },
-                "hostname": {
-                    "type": "string"
-                },
-                "ifa_id": {
-                    "type": "integer"
-                },
-                "ifindex": {
-                    "type": "integer"
-                },
-                "mac": {
-                    "type": "string"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "model": {
-                    "type": "string"
-                },
-                "otn_if_id": {
-                    "type": "integer"
-                },
-                "type_enum": {
-                    "type": "integer"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
         "handlers.CountResponse": {
             "type": "object",
             "properties": {
@@ -3141,95 +2510,171 @@ const docTemplate = `{
                 }
             }
         },
-        "net.IPNet": {
+        "handlers.archivedInterface": {
             "type": "object",
             "properties": {
-                "ip": {
-                    "description": "network number",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "mask": {
-                    "description": "network mask",
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                }
-            }
-        },
-        "pgtype.Inet": {
-            "type": "object",
-            "properties": {
-                "ipnet": {
-                    "$ref": "#/definitions/net.IPNet"
-                },
-                "status": {
-                    "type": "integer"
-                }
-            }
-        },
-        "pgtype.Macaddr": {
-            "type": "object",
-            "properties": {
-                "addr": {
-                    "type": "array",
-                    "items": {
-                        "type": "integer"
-                    }
-                },
-                "status": {
-                    "type": "integer"
-                }
-            }
-        },
-        "sql.NullFloat64": {
-            "type": "object",
-            "properties": {
-                "float64": {
-                    "type": "number"
-                },
-                "valid": {
-                    "description": "Valid is true if Float64 is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "sql.NullInt16": {
-            "type": "object",
-            "properties": {
-                "int16": {
-                    "type": "integer"
-                },
-                "valid": {
-                    "description": "Valid is true if Int16 is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "sql.NullInt64": {
-            "type": "object",
-            "properties": {
-                "int64": {
-                    "type": "integer"
-                },
-                "valid": {
-                    "description": "Valid is true if Int64 is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "sql.NullString": {
-            "type": "object",
-            "properties": {
-                "string": {
+                "alias": {
                     "type": "string"
                 },
-                "valid": {
-                    "description": "Valid is true if String is not NULL",
+                "cisco_opt_power_index": {
+                    "type": "string"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "host_ip4": {
+                    "type": "string"
+                },
+                "host_ip6": {
+                    "type": "string"
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "ifa_id": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "type": "integer"
+                },
+                "mac": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "otn_if_id": {
+                    "type": "integer"
+                },
+                "type_enum": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.conCapacity": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.conClass": {
+            "type": "object",
+            "properties": {
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.conProvider": {
+            "type": "object",
+            "properties": {
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.conType": {
+            "type": "object",
+            "properties": {
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.connection": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "con_id": {
+                    "type": "integer"
+                },
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "hint": {
+                    "type": "string"
+                },
+                "in_use": {
                     "type": "boolean"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "site_id": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
                 }
             }
         }

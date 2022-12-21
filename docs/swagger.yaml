@@ -1,349 +1,5 @@
 basePath: /
 definitions:
-  godevmandb.ConCapacity:
-    properties:
-      con_cap_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      updated_on:
-        type: string
-    type: object
-  godevmandb.ConClass:
-    properties:
-      con_class_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      updated_on:
-        type: string
-    type: object
-  godevmandb.ConProvider:
-    properties:
-      con_prov_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      updated_on:
-        type: string
-    type: object
-  godevmandb.ConType:
-    properties:
-      con_type_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      updated_on:
-        type: string
-    type: object
-  godevmandb.Connection:
-    properties:
-      con_cap_id:
-        type: integer
-      con_class_id:
-        type: integer
-      con_id:
-        type: integer
-      con_prov_id:
-        type: integer
-      con_type_id:
-        type: integer
-      created_on:
-        type: string
-      hint:
-        $ref: '#/definitions/sql.NullString'
-      in_use:
-        type: boolean
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      site_id:
-        type: integer
-      updated_on:
-        type: string
-    type: object
-  godevmandb.CreateArchivedInterfaceParams:
-    properties:
-      alias:
-        $ref: '#/definitions/sql.NullString'
-      cisco_opt_power_index:
-        $ref: '#/definitions/sql.NullString'
-      descr:
-        type: string
-      host_ip4:
-        $ref: '#/definitions/pgtype.Inet'
-      host_ip6:
-        $ref: '#/definitions/pgtype.Inet'
-      hostname:
-        type: string
-      ifindex:
-        $ref: '#/definitions/sql.NullInt64'
-      mac:
-        $ref: '#/definitions/pgtype.Macaddr'
-      manufacturer:
-        type: string
-      model:
-        type: string
-      otn_if_id:
-        $ref: '#/definitions/sql.NullInt64'
-      type_enum:
-        $ref: '#/definitions/sql.NullInt16'
-    type: object
-  godevmandb.CreateConCapacityParams:
-    properties:
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.CreateConClassParams:
-    properties:
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.CreateConProviderParams:
-    properties:
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.CreateConTypeParams:
-    properties:
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.CreateConnectionParams:
-    properties:
-      con_cap_id:
-        type: integer
-      con_class_id:
-        type: integer
-      con_prov_id:
-        type: integer
-      con_type_id:
-        type: integer
-      hint:
-        $ref: '#/definitions/sql.NullString'
-      in_use:
-        type: boolean
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      site_id:
-        type: integer
-    type: object
-  godevmandb.Interface:
-    properties:
-      adm:
-        $ref: '#/definitions/sql.NullInt16'
-      alias:
-        $ref: '#/definitions/sql.NullString'
-      con_id:
-        $ref: '#/definitions/sql.NullInt64'
-      created_on:
-        type: string
-      descr:
-        type: string
-      dev_id:
-        type: integer
-      ent_id:
-        $ref: '#/definitions/sql.NullInt64'
-      if_id:
-        type: integer
-      ifindex:
-        $ref: '#/definitions/sql.NullInt64'
-      mac:
-        $ref: '#/definitions/pgtype.Macaddr'
-      minspeed:
-        $ref: '#/definitions/sql.NullInt64'
-      monerrors:
-        type: integer
-      monload:
-        type: integer
-      monstatus:
-        type: integer
-      montraffic:
-        type: integer
-      oper:
-        $ref: '#/definitions/sql.NullInt16'
-      otn_if_id:
-        $ref: '#/definitions/sql.NullInt64'
-      parent:
-        $ref: '#/definitions/sql.NullInt64'
-      speed:
-        $ref: '#/definitions/sql.NullInt64'
-      type_enum:
-        $ref: '#/definitions/sql.NullInt16'
-      updated_on:
-        type: string
-    type: object
-  godevmandb.Site:
-    properties:
-      addr:
-        $ref: '#/definitions/sql.NullString'
-      area:
-        $ref: '#/definitions/sql.NullString'
-      country_id:
-        $ref: '#/definitions/sql.NullInt64'
-      created_on:
-        type: string
-      descr:
-        type: string
-      ext_id:
-        $ref: '#/definitions/sql.NullInt64'
-      ext_name:
-        $ref: '#/definitions/sql.NullString'
-      latitude:
-        $ref: '#/definitions/sql.NullFloat64'
-      longitude:
-        $ref: '#/definitions/sql.NullFloat64'
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      site_id:
-        type: integer
-      uident:
-        $ref: '#/definitions/sql.NullString'
-      updated_on:
-        type: string
-    type: object
-  godevmandb.UpdateArchivedInterfaceParams:
-    properties:
-      alias:
-        $ref: '#/definitions/sql.NullString'
-      cisco_opt_power_index:
-        $ref: '#/definitions/sql.NullString'
-      descr:
-        type: string
-      host_ip4:
-        $ref: '#/definitions/pgtype.Inet'
-      host_ip6:
-        $ref: '#/definitions/pgtype.Inet'
-      hostname:
-        type: string
-      ifa_id:
-        type: integer
-      ifindex:
-        $ref: '#/definitions/sql.NullInt64'
-      mac:
-        $ref: '#/definitions/pgtype.Macaddr'
-      manufacturer:
-        type: string
-      model:
-        type: string
-      otn_if_id:
-        $ref: '#/definitions/sql.NullInt64'
-      type_enum:
-        $ref: '#/definitions/sql.NullInt16'
-    type: object
-  godevmandb.UpdateConCapacityParams:
-    properties:
-      con_cap_id:
-        type: integer
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.UpdateConClassParams:
-    properties:
-      con_class_id:
-        type: integer
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.UpdateConProviderParams:
-    properties:
-      con_prov_id:
-        type: integer
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.UpdateConTypeParams:
-    properties:
-      con_type_id:
-        type: integer
-      descr:
-        type: string
-      notes:
-        $ref: '#/definitions/sql.NullString'
-    type: object
-  godevmandb.UpdateConnectionParams:
-    properties:
-      con_cap_id:
-        type: integer
-      con_class_id:
-        type: integer
-      con_id:
-        type: integer
-      con_prov_id:
-        type: integer
-      con_type_id:
-        type: integer
-      hint:
-        $ref: '#/definitions/sql.NullString'
-      in_use:
-        type: boolean
-      notes:
-        $ref: '#/definitions/sql.NullString'
-      site_id:
-        type: integer
-    type: object
-  handlers.ArchivedInterface:
-    properties:
-      alias:
-        type: string
-      cisco_opt_power_index:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      host_ip4:
-        type: string
-      host_ip6:
-        type: string
-      hostname:
-        type: string
-      ifa_id:
-        type: integer
-      ifindex:
-        type: integer
-      mac:
-        type: string
-      manufacturer:
-        type: string
-      model:
-        type: string
-      otn_if_id:
-        type: integer
-      type_enum:
-        type: integer
-      updated_on:
-        type: string
-    type: object
   handlers.CountResponse:
     properties:
       count:
@@ -356,66 +12,115 @@ definitions:
       message:
         type: string
     type: object
-  net.IPNet:
+  handlers.archivedInterface:
     properties:
-      ip:
-        description: network number
-        items:
-          type: integer
-        type: array
-      mask:
-        description: network mask
-        items:
-          type: integer
-        type: array
-    type: object
-  pgtype.Inet:
-    properties:
-      ipnet:
-        $ref: '#/definitions/net.IPNet'
-      status:
-        type: integer
-    type: object
-  pgtype.Macaddr:
-    properties:
-      addr:
-        items:
-          type: integer
-        type: array
-      status:
-        type: integer
-    type: object
-  sql.NullFloat64:
-    properties:
-      float64:
-        type: number
-      valid:
-        description: Valid is true if Float64 is not NULL
-        type: boolean
-    type: object
-  sql.NullInt16:
-    properties:
-      int16:
-        type: integer
-      valid:
-        description: Valid is true if Int16 is not NULL
-        type: boolean
-    type: object
-  sql.NullInt64:
-    properties:
-      int64:
-        type: integer
-      valid:
-        description: Valid is true if Int64 is not NULL
-        type: boolean
-    type: object
-  sql.NullString:
-    properties:
-      string:
+      alias:
         type: string
-      valid:
-        description: Valid is true if String is not NULL
+      cisco_opt_power_index:
+        type: string
+      created_on:
+        type: string
+      descr:
+        type: string
+      host_ip4:
+        type: string
+      host_ip6:
+        type: string
+      hostname:
+        type: string
+      ifa_id:
+        type: integer
+      ifindex:
+        type: integer
+      mac:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      otn_if_id:
+        type: integer
+      type_enum:
+        type: integer
+      updated_on:
+        type: string
+    type: object
+  handlers.conCapacity:
+    properties:
+      con_cap_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  handlers.conClass:
+    properties:
+      con_class_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  handlers.conProvider:
+    properties:
+      con_prov_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  handlers.conType:
+    properties:
+      con_type_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  handlers.connection:
+    properties:
+      con_cap_id:
+        type: integer
+      con_class_id:
+        type: integer
+      con_id:
+        type: integer
+      con_prov_id:
+        type: integer
+      con_type_id:
+        type: integer
+      created_on:
+        type: string
+      hint:
+        type: string
+      in_use:
         type: boolean
+      notes:
+        type: string
+      site_id:
+        type: integer
+      updated_on:
+        type: string
     type: object
 info:
   contact:
@@ -510,7 +215,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.ArchivedInterface'
+              $ref: '#/definitions/handlers.archivedInterface'
             type: array
         "404":
           description: Invalid route error
@@ -531,17 +236,17 @@ paths:
       description: Create archived interface
       operationId: create-archived_interface
       parameters:
-      - description: JSON object of CreateArchivedInterfaceParams
+      - description: JSON object of archivedInterface.<br />Ignored fields:<ul><li>ifa_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.CreateArchivedInterfaceParams'
+          $ref: '#/definitions/handlers.archivedInterface'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.ArchivedInterface'
+            $ref: '#/definitions/handlers.archivedInterface'
         "400":
           description: Invalid request payload
           schema:
@@ -606,7 +311,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.ArchivedInterface'
+            $ref: '#/definitions/handlers.archivedInterface'
         "400":
           description: Invalid ifa_id
           schema:
@@ -635,17 +340,17 @@ paths:
         name: ifa_id
         required: true
         type: string
-      - description: JSON object of UpdateArchivedInterfaceParams
+      - description: JSON object of archivedInterface.<br />Ignored fields:<ul><li>ifa_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.UpdateArchivedInterfaceParams'
+          $ref: '#/definitions/handlers.archivedInterface'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.ArchivedInterface'
+            $ref: '#/definitions/handlers.archivedInterface'
         "400":
           description: Invalid request
           schema:
@@ -694,7 +399,7 @@ paths:
       description: List connection info
       operationId: list-connections
       parameters:
-      - description: url encoded SQL like value
+      - description: url encoded SQL 'LIKE' operator pattern
         in: query
         name: hint_f
         type: string
@@ -727,7 +432,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.Connection'
+              $ref: '#/definitions/handlers.connection'
             type: array
         "404":
           description: Invalid route error
@@ -748,17 +453,17 @@ paths:
       description: Create connection
       operationId: create-connection
       parameters:
-      - description: JSON object of CreateConnectionParams
+      - description: JSON object of connection.<br />Ignored fields:<ul><li>con_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.CreateConnectionParams'
+          $ref: '#/definitions/handlers.connection'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/godevmandb.Connection'
+            $ref: '#/definitions/handlers.connection'
         "400":
           description: Invalid request payload
           schema:
@@ -823,7 +528,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.Connection'
+            $ref: '#/definitions/handlers.connection'
         "400":
           description: Invalid con_id
           schema:
@@ -852,17 +557,17 @@ paths:
         name: con_id
         required: true
         type: string
-      - description: JSON object of UpdateConnectionParams
+      - description: JSON object of connection.<br />Ignored fields:<ul><li>con_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.UpdateConnectionParams'
+          $ref: '#/definitions/handlers.connection'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.Connection'
+            $ref: '#/definitions/handlers.connection'
         "400":
           description: Invalid request
           schema:
@@ -896,7 +601,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConCapacity'
+            $ref: '#/definitions/handlers.conCapacity'
         "400":
           description: Invalid con_id
           schema:
@@ -930,7 +635,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConClass'
+            $ref: '#/definitions/handlers.conClass'
         "400":
           description: Invalid con_id
           schema:
@@ -950,42 +655,6 @@ paths:
       summary: Get connection class
       tags:
       - connections
-  /connections/{con_id}/interfaces:
-    get:
-      description: List connection interfaces info
-      operationId: list-connection-interfaces
-      parameters:
-      - description: con_id
-        in: path
-        name: con_id
-        required: true
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            items:
-              $ref: '#/definitions/godevmandb.Interface'
-            type: array
-        "400":
-          description: Invalid con_id
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-        "404":
-          description: Invalid route error
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-        "405":
-          description: Invalid method error
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-        "500":
-          description: Failde DB transaction
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-      summary: List connection interfaces
-      tags:
-      - connections
   /connections/{con_id}/provider:
     get:
       description: Get connection provider info
@@ -1000,7 +669,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConProvider'
+            $ref: '#/definitions/handlers.conProvider'
         "400":
           description: Invalid con_id
           schema:
@@ -1020,40 +689,6 @@ paths:
       summary: Get connection provider
       tags:
       - connections
-  /connections/{con_id}/site:
-    get:
-      description: Get connection site info
-      operationId: get-connection-site
-      parameters:
-      - description: con_id
-        in: path
-        name: con_id
-        required: true
-        type: string
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/godevmandb.Site'
-        "400":
-          description: Invalid con_id
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-        "404":
-          description: Invalid route error
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-        "405":
-          description: Invalid method error
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-        "500":
-          description: Failde DB transaction
-          schema:
-            $ref: '#/definitions/handlers.StatusResponse'
-      summary: Get connection site
-      tags:
-      - connections
   /connections/{con_id}/type:
     get:
       description: Get connection type info
@@ -1068,7 +703,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConType'
+            $ref: '#/definitions/handlers.conType'
         "400":
           description: Invalid con_id
           schema:
@@ -1093,7 +728,7 @@ paths:
       description: List connection capacities info
       operationId: list-con_capacities
       parameters:
-      - description: url encoded SQL like value
+      - description: url encoded SQL 'LIKE' operator pattern
         in: query
         name: descr_f
         type: string
@@ -1126,7 +761,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.ConCapacity'
+              $ref: '#/definitions/handlers.conCapacity'
             type: array
         "404":
           description: Invalid route error
@@ -1147,17 +782,17 @@ paths:
       description: Create connection capacity
       operationId: create-capacity
       parameters:
-      - description: JSON object of CreateConCapacityParams
+      - description: JSON object of conCapacity.<br />Ignored fields:<ul><li>con_cap_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.CreateConCapacityParams'
+          $ref: '#/definitions/handlers.conCapacity'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/godevmandb.ConCapacity'
+            $ref: '#/definitions/handlers.conCapacity'
         "400":
           description: Invalid request payload
           schema:
@@ -1222,7 +857,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConCapacity'
+            $ref: '#/definitions/handlers.conCapacity'
         "400":
           description: Invalid con_cap_id
           schema:
@@ -1251,17 +886,17 @@ paths:
         name: con_cap_id
         required: true
         type: string
-      - description: JSON object of UpdateConCapacityParams
+      - description: JSON object of conCapacity.<br />Ignored fields:<ul><li>con_cap_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.UpdateConCapacityParams'
+          $ref: '#/definitions/handlers.conCapacity'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConCapacity'
+            $ref: '#/definitions/handlers.conCapacity'
         "400":
           description: Invalid request
           schema:
@@ -1296,7 +931,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.Connection'
+              $ref: '#/definitions/handlers.connection'
             type: array
         "400":
           description: Invalid con_cap_id
@@ -1346,7 +981,7 @@ paths:
       description: List connection classes info
       operationId: list-con_classes
       parameters:
-      - description: url encoded SQL like value
+      - description: url encoded SQL 'LIKE' operator pattern
         in: query
         name: descr_f
         type: string
@@ -1379,7 +1014,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.ConClass'
+              $ref: '#/definitions/handlers.conClass'
             type: array
         "404":
           description: Invalid route error
@@ -1400,17 +1035,17 @@ paths:
       description: Create connection class
       operationId: create-con_class
       parameters:
-      - description: JSON object of CreateConClassParams
+      - description: JSON object of conClass<br />Ignored fields:<ul><li>con_class_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.CreateConClassParams'
+          $ref: '#/definitions/handlers.conClass'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/godevmandb.ConClass'
+            $ref: '#/definitions/handlers.conClass'
         "400":
           description: Invalid request payload
           schema:
@@ -1475,7 +1110,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConClass'
+            $ref: '#/definitions/handlers.conClass'
         "400":
           description: Invalid con_class_id
           schema:
@@ -1504,17 +1139,17 @@ paths:
         name: con_class_id
         required: true
         type: string
-      - description: JSON object of UpdateConClassParams
+      - description: JSON object of conClass.<br />Ignored fields:<ul><li>con_class_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.UpdateConClassParams'
+          $ref: '#/definitions/handlers.conClass'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConClass'
+            $ref: '#/definitions/handlers.conClass'
         "400":
           description: Invalid request
           schema:
@@ -1549,7 +1184,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.Connection'
+              $ref: '#/definitions/handlers.connection'
             type: array
         "400":
           description: Invalid con_class_id
@@ -1623,7 +1258,7 @@ paths:
       description: List connection providers info
       operationId: list-con_providers
       parameters:
-      - description: url encoded SQL like value
+      - description: url encoded SQL 'LIKE' operator pattern
         in: query
         name: descr_f
         type: string
@@ -1656,7 +1291,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.ConProvider'
+              $ref: '#/definitions/handlers.conProvider'
             type: array
         "404":
           description: Invalid route error
@@ -1677,17 +1312,17 @@ paths:
       description: Create connection provider
       operationId: create-con_provider
       parameters:
-      - description: JSON object of CreateConProviderParams
+      - description: JSON object of conProvider.<br />Ignored fields:<ul><li>con_prov_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.CreateConProviderParams'
+          $ref: '#/definitions/handlers.conProvider'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/godevmandb.ConProvider'
+            $ref: '#/definitions/handlers.conProvider'
         "400":
           description: Invalid request payload
           schema:
@@ -1752,7 +1387,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConProvider'
+            $ref: '#/definitions/handlers.conProvider'
         "400":
           description: Invalid con_prov_id
           schema:
@@ -1781,17 +1416,17 @@ paths:
         name: con_prov_id
         required: true
         type: string
-      - description: JSON object of UpdateConProviderParams
+      - description: JSON object of conProvider.<br />Ignored fields:<ul><li>con_prov_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.UpdateConProviderParams'
+          $ref: '#/definitions/handlers.conProvider'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConProvider'
+            $ref: '#/definitions/handlers.conProvider'
         "400":
           description: Invalid request
           schema:
@@ -1826,7 +1461,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.Connection'
+              $ref: '#/definitions/handlers.connection'
             type: array
         "400":
           description: Invalid con_prov_id
@@ -1876,7 +1511,7 @@ paths:
       description: List connection types info
       operationId: list-con_types
       parameters:
-      - description: url encoded SQL like value
+      - description: url encoded SQL 'LIKE' operator pattern
         in: query
         name: descr_f
         type: string
@@ -1909,7 +1544,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.ConType'
+              $ref: '#/definitions/handlers.conType'
             type: array
         "404":
           description: Invalid route error
@@ -1930,17 +1565,17 @@ paths:
       description: Create connection type
       operationId: create-con_type
       parameters:
-      - description: JSON object of CreateConTypeParams
+      - description: JSON object of conType.<br />Ignored fields:<ul><li>con_type_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.CreateConTypeParams'
+          $ref: '#/definitions/handlers.conType'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/godevmandb.ConType'
+            $ref: '#/definitions/handlers.conType'
         "400":
           description: Invalid request payload
           schema:
@@ -2005,7 +1640,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConType'
+            $ref: '#/definitions/handlers.conType'
         "400":
           description: Invalid con_type_id
           schema:
@@ -2034,17 +1669,17 @@ paths:
         name: con_type_id
         required: true
         type: string
-      - description: JSON object of UpdateConTypeParams
+      - description: JSON object of conType.<br />Ignored fields:<ul><li>con_type_id</li><li>updated_on</li><li>created_on</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/godevmandb.UpdateConTypeParams'
+          $ref: '#/definitions/handlers.conType'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/godevmandb.ConType'
+            $ref: '#/definitions/handlers.conType'
         "400":
           description: Invalid request
           schema:
@@ -2079,7 +1714,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/godevmandb.Connection'
+              $ref: '#/definitions/handlers.connection'
             type: array
         "400":
           description: Invalid con_type_id

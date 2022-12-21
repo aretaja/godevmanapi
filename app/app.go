@@ -135,9 +135,9 @@ func (a *App) initializeRoutes() {
 			r.Get("/capacity", a.Handler.GetConnectionConCapacitiy)
 			r.Get("/class", a.Handler.GetConnectionConClass)
 			r.Get("/provider", a.Handler.GetConnectionConProvider)
-			r.Get("/site", a.Handler.GetConnectionSite)
+			// r.Get("/site", a.Handler.GetConnectionSite)
 			r.Get("/type", a.Handler.GetConnectionConType)
-			r.Get("/interfaces", a.Handler.GetConnectionInterfaces)
+			// r.Get("/interfaces", a.Handler.GetConnectionInterfaces)
 		})
 	})
 

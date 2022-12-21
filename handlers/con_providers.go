@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"database/sql"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -9,26 +8,44 @@ import (
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
-	"github.com/jinzhu/copier"
 )
 
-// Local type to use with copier. Used for sql Null* field replacement in json response
-type ConProvider struct {
-	ConProvID int64     `json:"con_prov_id"`
-	Descr     string    `json:"descr"`
-	NotesVal  *string   `json:"notes"`
+// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
+type conProvider struct {
 	UpdatedOn time.Time `json:"updated_on"`
 	CreatedOn time.Time `json:"created_on"`
+	Notes     *string   `json:"notes"`
+	Descr     string    `json:"descr"`
+	ConProvID int64     `json:"con_prov_id"`
 }
 
-func (a *ConProvider) Notes(m sql.NullString) {
-	if m.Valid {
-		if v, err := m.Value(); err == nil {
-			if res, ok := v.(string); ok {
-				a.NotesVal = &res
-			}
-		}
-	}
+// Import values from corresponding godevmandb struct
+func (r *conProvider) getValues(s godevmandb.ConProvider) {
+	r.ConProvID = s.ConProvID
+	r.Descr = s.Descr
+	r.UpdatedOn = s.UpdatedOn
+	r.CreatedOn = s.CreatedOn
+	r.Notes = nullStringToPtr(s.Notes)
+}
+
+// Return corresponding godevmandb create parameters
+func (r *conProvider) createParams() godevmandb.CreateConProviderParams {
+	s := godevmandb.CreateConProviderParams{}
+
+	s.Descr = r.Descr
+	s.Notes = strToNullString(r.Notes)
+
+	return s
+}
+
+// Return corresponding godevmandb update parameters
+func (r *conProvider) updateParams() godevmandb.UpdateConProviderParams {
+	s := godevmandb.UpdateConProviderParams{}
+
+	s.Descr = r.Descr
+	s.Notes = strToNullString(r.Notes)
+
+	return s
 }
 
 // Count ConProviders
@@ -64,7 +81,7 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} ConProvider
+// @Success 200 {array} conProvider
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -105,8 +122,12 @@ func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []ConProvider{}
-	copier.Copy(&out, &res)
+	out := []conProvider{}
+	for _, s := range res {
+		r := conProvider{}
+		r.getValues(s)
+		out = append(out, r)
+	}
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -117,7 +138,7 @@ func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID get-con_provider
 // @Param con_prov_id path string true "con_prov_id"
-// @Success 200 {object} ConProvider
+// @Success 200 {object} conProvider
 // @Failure 400 {object} StatusResponse "Invalid con_prov_id"
 // @Failure 404 {object} StatusResponse "Provider not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -141,8 +162,8 @@ func (h *Handler) GetConProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := ConProvider{}
-	copier.Copy(&out, &res)
+	out := conProvider{}
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -152,21 +173,24 @@ func (h *Handler) GetConProvider(w http.ResponseWriter, r *http.Request) {
 // @Description Create connection provider
 // @Tags connections
 // @ID create-con_provider
-// @Param Body body godevmandb.CreateConProviderParams true "JSON object of CreateConProviderParams"
-// @Success 201 {object} ConProvider
+// @Param Body body conProvider true "JSON object of conProvider.<br />Ignored fields:<ul><li>con_prov_id</li><li>updated_on</li><li>created_on</li></ul>"
+// @Success 201 {object} conProvider
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /connections/providers [POST]
 func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
-	var p godevmandb.CreateConProviderParams
+	var pIn conProvider
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&p); err != nil {
+	if err := decoder.Decode(&pIn); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
+
+	// Create parameters for new db record
+	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateConProvider(h.ctx, p)
@@ -176,8 +200,8 @@ func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := ConProvider{}
-	copier.Copy(&out, &res)
+	out := conProvider{}
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusCreated, out)
 }
@@ -188,8 +212,8 @@ func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID update-con_provider
 // @Param con_prov_id path string true "con_prov_id"
-// @Param Body body godevmandb.UpdateConProviderParams true "JSON object of UpdateConProviderParams"
-// @Success 200 {object} ConProvider
+// @Param Body body conProvider true "JSON object of conProvider.<br />Ignored fields:<ul><li>con_prov_id</li><li>updated_on</li><li>created_on</li></ul>"
+// @Success 200 {object} conProvider
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -202,13 +226,16 @@ func (h *Handler) UpdateConProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var p godevmandb.UpdateConProviderParams
+	var pIn conProvider
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&p); err != nil {
+	if err := decoder.Decode(&pIn); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
+
+	// Update parameters for new db record
+	p := pIn.updateParams()
 	p.ConProvID = id
 
 	q := godevmandb.New(h.db)
@@ -219,8 +246,8 @@ func (h *Handler) UpdateConProvider(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := ConProvider{}
-	copier.Copy(&out, &res)
+	out := conProvider{}
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -261,7 +288,7 @@ func (h *Handler) DeleteConProvider(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-con_provider-connections
 // @Param con_prov_id path string true "con_prov_id"
-// @Success 200 {array} Connection
+// @Success 200 {array} connection
 // @Failure 400 {object} StatusResponse "Invalid con_prov_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -281,8 +308,12 @@ func (h *Handler) GetConProviderConnections(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	out := []Connection{}
-	copier.Copy(&out, &res)
+	out := []connection{}
+	for _, s := range res {
+		a := connection{}
+		a.getValues(s)
+		out = append(out, a)
+	}
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
