@@ -115,6 +115,26 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/archived/subinterfaces" resource
+	r.Route("/archived/subinterfaces", func(r chi.Router) {
+		// Filter parameters:
+		//   ifindex_f, hostname_f, host_ip4_f, host_ip6_f, descr_f, alias_f, mac_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetArchivedSubinterfaces)
+		r.Get("/count", a.Handler.CountArchivedSubinterfaces)
+		r.Post("/", a.Handler.CreateArchivedSubinterface)
+
+		// Subroutes
+		r.Route("/{ifa_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetArchivedSubinterface)
+			r.Put("/", a.Handler.UpdateArchivedSubinterface)
+			r.Delete("/", a.Handler.DeleteArchivedSubinterface)
+		})
+	})
+
 	// Routes for "/connections" resource
 	r.Route("/connections", func(r chi.Router) {
 		// Filter parameters:
