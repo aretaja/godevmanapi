@@ -121,7 +121,7 @@ func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request
 // @Param host_ip4_f query string false "ip or containing net in CIDR notation"
 // @Param host_ip6_f query string false "ip or containing net in CIDR notation"
 // @Param mac_f query string false "SQL '=' operator value (MAC address)"
-// @Param limit query int false "min: 1; max: 1000; default: 1000"
+// @Param limit query int false "min: 1; max: 100; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
@@ -135,13 +135,15 @@ func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request
 func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) {
 	// Pagination
 	var p = godevmandb.GetArchivedInterfacesParams{
-		LimitQ:  1000,
+		LimitQ:  100,
 		OffsetQ: 0,
 	}
 
 	lp := paginateValues(r)
 	if lp[0] != nil {
-		p.LimitQ = *lp[0]
+		if *lp[0] < 100 {
+			p.LimitQ = *lp[0]
+		}
 	}
 	if lp[1] != nil {
 		p.OffsetQ = *lp[1]

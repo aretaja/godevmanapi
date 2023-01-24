@@ -106,7 +106,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -467,7 +467,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -792,7 +792,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -926,7 +926,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -1305,7 +1305,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -1720,7 +1720,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -2099,7 +2099,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 1000; default: 1000",
+                        "description": "min: 1; max: 100; default: 100",
                         "name": "limit",
                         "in": "query"
                     },

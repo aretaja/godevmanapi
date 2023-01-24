@@ -99,7 +99,7 @@ func (h *Handler) CountConnections(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-connections
 // @Param hint_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param limit query int false "min: 1; max: 1000; default: 1000"
+// @Param limit query int false "min: 1; max: 100; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
@@ -119,7 +119,9 @@ func (h *Handler) GetConnections(w http.ResponseWriter, r *http.Request) {
 
 	lp := paginateValues(r)
 	if lp[0] != nil {
-		p.LimitQ = *lp[0]
+		if *lp[0] < 100 {
+			p.LimitQ = *lp[0]
+		}
 	}
 	if lp[1] != nil {
 		p.OffsetQ = *lp[1]

@@ -101,7 +101,7 @@ func (a *App) initializeRoutes() {
 		//   ifindex_f, hostname_f, host_ip4_f, host_ip6_f, descr_f, alias_f, mac_f,
 		//   updated_ge, updated_le, created_ge, created_le
 		// Pagination parameters:
-		//   count(1000), start(0).
+		//   count(100), start(0).
 		//   Uses default if not set.
 		r.Get("/", a.Handler.GetArchivedInterfaces)
 		r.Get("/count", a.Handler.CountArchivedInterfaces)
@@ -141,7 +141,7 @@ func (a *App) initializeRoutes() {
 		//   hint_f,
 		//   updated_ge, updated_le, created_ge, created_le
 		// Pagination parameters:
-		//   count(1000), start(0).
+		//   count(100), start(0).
 		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConnections)
 		r.Get("/count", a.Handler.CountConnections)
@@ -167,7 +167,7 @@ func (a *App) initializeRoutes() {
 		//   descr_f,
 		//   updated_ge, updated_le, created_ge, created_le
 		// Pagination parameters:
-		//   count(1000), start(0).
+		//   count(100), start(0).
 		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConCapacities)
 		r.Get("/count", a.Handler.CountConCapacities)
@@ -188,7 +188,7 @@ func (a *App) initializeRoutes() {
 		//   descr_f,
 		//   updated_ge, updated_le, created_ge, created_le
 		// Pagination parameters:
-		//   count(1000), start(0).
+		//   count(100), start(0).
 		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConClasses)
 		r.Get("/count", a.Handler.CountConClasses)
@@ -209,7 +209,7 @@ func (a *App) initializeRoutes() {
 		//   descr_f,
 		//   updated_ge, updated_le, created_ge, created_le
 		// Pagination parameters:
-		//   count(1000), start(0).
+		//   count(100), start(0).
 		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConProviders)
 		r.Get("/count", a.Handler.CountConProviders)
@@ -230,7 +230,7 @@ func (a *App) initializeRoutes() {
 		//   descr_f,
 		//   updated_ge, updated_le, created_ge, created_le
 		// Pagination parameters:
-		//   count(1000), start(0).
+		//   count(100), start(0).
 		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConTypes)
 		r.Get("/count", a.Handler.CountConTypes)
