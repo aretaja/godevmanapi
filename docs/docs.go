@@ -414,6 +414,367 @@ const docTemplate = `{
                 }
             }
         },
+        "/archived/subinterfaces": {
+            "get": {
+                "description": "List archived subinterfaces info",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "List archived_subinterfaces",
+                "operationId": "list-archived_subinterfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "ifindex_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "hostname_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "alias_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "host_ip4_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "host_ip6_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SQL '=' operator value (MAC address)",
+                        "name": "mac_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 1000",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.archivedSubinterface"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create archived subinterface",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Create archived_subinterface",
+                "operationId": "create-archived_subinterface",
+                "parameters": [
+                    {
+                        "description": "JSON object of archivedSubinterface.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esifa_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.archivedSubinterface"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.archivedSubinterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/archived/subinterfaces/count": {
+            "get": {
+                "description": "Count number of archived subinterfaces",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Count archived_subinterfaces",
+                "operationId": "count-archived_subinterfaces",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/archived/subinterfaces/{sifa_id}": {
+            "get": {
+                "description": "Get archived subinterface info",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Get archived_subinterface",
+                "operationId": "get-archived_subinterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sifa_id",
+                        "name": "sifa_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.archivedSubinterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid sifa_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Archived subinterface not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update archived subinterface",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Update archived_subinterface",
+                "operationId": "update-archived_subinterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sifa_id",
+                        "name": "sifa_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of archivedSubinterface.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esifa_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.archivedSubinterface"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.archivedSubinterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete archived subinterface",
+                "tags": [
+                    "archived"
+                ],
+                "summary": "Delete archived_subinterface",
+                "operationId": "delete-archived_subinterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sifa_id",
+                        "name": "sifa_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid sifa_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/connections": {
             "get": {
                 "description": "List connection info",
@@ -2554,6 +2915,47 @@ const docTemplate = `{
                 },
                 "type_enum": {
                     "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.archivedSubinterface": {
+            "type": "object",
+            "properties": {
+                "alias": {
+                    "type": "string"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "host_ip4": {
+                    "type": "string"
+                },
+                "host_ip6": {
+                    "type": "string"
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "ifindex": {
+                    "type": "integer"
+                },
+                "mac": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "sifa_id": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
                 },
                 "updated_on": {
                     "type": "string"

@@ -11,7 +11,7 @@ import (
 )
 
 // JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type archivedSubInterface struct {
+type archivedSubinterface struct {
 	UpdatedOn time.Time `json:"updated_on"`
 	CreatedOn time.Time `json:"created_on"`
 	HostIp6   *string   `json:"host_ip6"`
@@ -27,7 +27,7 @@ type archivedSubInterface struct {
 }
 
 // Import values from corresponding godevmandb struct
-func (r *archivedSubInterface) getValues(s godevmandb.ArchivedSubInterface) {
+func (r *archivedSubinterface) getValues(s godevmandb.ArchivedSubinterface) {
 	r.SifaID = s.SifaID
 	r.Hostname = s.Hostname
 	r.Descr = s.Descr
@@ -43,8 +43,8 @@ func (r *archivedSubInterface) getValues(s godevmandb.ArchivedSubInterface) {
 }
 
 // Return corresponding godevmandb create parameters
-func (r *archivedSubInterface) createParams() godevmandb.CreateArchivedSubInterfaceParams {
-	s := godevmandb.CreateArchivedSubInterfaceParams{}
+func (r *archivedSubinterface) createParams() godevmandb.CreateArchivedSubinterfaceParams {
+	s := godevmandb.CreateArchivedSubinterfaceParams{}
 
 	s.Hostname = r.Hostname
 	s.Descr = r.Descr
@@ -53,15 +53,15 @@ func (r *archivedSubInterface) createParams() godevmandb.CreateArchivedSubInterf
 	s.HostIp6 = strToPgInet(r.HostIp6)
 	s.Alias = strToNullString(r.Alias)
 	s.Notes = strToNullString(r.Notes)
-	s.Type = nullStringToPtr(r.Type)
+	s.Type = strToNullString(r.Type)
 	s.Mac = strToPgMacaddr(r.Mac)
 
 	return s
 }
 
 // Return corresponding godevmandb update parameters
-func (r *archivedSubInterface) updateParams() godevmandb.UpdateArchivedSubInterfaceParams {
-	s := godevmandb.UpdateArchivedSubInterfaceParams{}
+func (r *archivedSubinterface) updateParams() godevmandb.UpdateArchivedSubinterfaceParams {
+	s := godevmandb.UpdateArchivedSubinterfaceParams{}
 
 	s.Hostname = r.Hostname
 	s.Descr = r.Descr
@@ -70,13 +70,13 @@ func (r *archivedSubInterface) updateParams() godevmandb.UpdateArchivedSubInterf
 	s.HostIp6 = strToPgInet(r.HostIp6)
 	s.Alias = strToNullString(r.Alias)
 	s.Notes = strToNullString(r.Notes)
-	s.Type = nullStringToPtr(r.Type)
+	s.Type = strToNullString(r.Type)
 	s.Mac = strToPgMacaddr(r.Mac)
 
 	return s
 }
 
-// Count ArchivedSubInterfaces
+// Count ArchivedSubinterfaces
 // @Summary Count archived_subinterfaces
 // @Description Count number of archived subinterfaces
 // @Tags archived
@@ -86,9 +86,9 @@ func (r *archivedSubInterface) updateParams() godevmandb.UpdateArchivedSubInterf
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/subinterfaces/count [GET]
-func (h *Handler) CountArchivedSubInterfaces(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) CountArchivedSubinterfaces(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
-	res, err := q.CountArchivedSubInterfaces(h.ctx)
+	res, err := q.CountArchivedSubinterfaces(h.ctx)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
@@ -115,14 +115,14 @@ func (h *Handler) CountArchivedSubInterfaces(w http.ResponseWriter, r *http.Requ
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} archivedSubInterface
+// @Success 200 {array} archivedSubinterface
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/subinterfaces [GET]
-func (h *Handler) GetArchivedSubInterfaces(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetArchivedSubinterfaces(w http.ResponseWriter, r *http.Request) {
 	// Pagination
-	var p = godevmandb.GetArchivedSubInterfacesParams{
+	var p = godevmandb.GetArchivedSubinterfacesParams{
 		LimitQ:  100,
 		OffsetQ: 0,
 	}
@@ -189,15 +189,15 @@ func (h *Handler) GetArchivedSubInterfaces(w http.ResponseWriter, r *http.Reques
 
 	// Query DB
 	q := godevmandb.New(h.db)
-	res, err := q.GetArchivedSubInterfaces(h.ctx, p)
+	res, err := q.GetArchivedSubinterfaces(h.ctx, p)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	out := []archivedSubInterface{}
+	out := []archivedSubinterface{}
 	for _, s := range res {
-		a := archivedSubInterface{}
+		a := archivedSubinterface{}
 		a.getValues(s)
 		out = append(out, a)
 	}
@@ -205,19 +205,19 @@ func (h *Handler) GetArchivedSubInterfaces(w http.ResponseWriter, r *http.Reques
 	RespondJSON(w, r, http.StatusOK, out)
 }
 
-// Get ArchivedSubInterface
+// Get ArchivedSubinterface
 // @Summary Get archived_subinterface
 // @Description Get archived subinterface info
 // @Tags archived
 // @ID get-archived_subinterface
 // @Param sifa_id path string true "sifa_id"
-// @Success 200 {object} archivedSubInterface
+// @Success 200 {object} archivedSubinterface
 // @Failure 400 {object} StatusResponse "Invalid sifa_id"
 // @Failure 404 {object} StatusResponse "Archived subinterface not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/subinterfaces/{sifa_id} [GET]
-func (h *Handler) GetArchivedSubInterface(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "sifa_id"), 10, 64)
 	if err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid archived subinterface ID")
@@ -225,7 +225,7 @@ func (h *Handler) GetArchivedSubInterface(w http.ResponseWriter, r *http.Request
 	}
 
 	q := godevmandb.New(h.db)
-	res, err := q.GetArchivedSubInterface(h.ctx, id)
+	res, err := q.GetArchivedSubinterface(h.ctx, id)
 	if err != nil {
 		if err.Error() == "no rows in result set" {
 			RespondError(w, r, http.StatusNotFound, "Archived subinterface not found")
@@ -235,26 +235,26 @@ func (h *Handler) GetArchivedSubInterface(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	out := archivedSubInterface{}
+	out := archivedSubinterface{}
 	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
 
-// Create ArchivedSubInterface
+// Create ArchivedSubinterface
 // @Summary Create archived_subinterface
 // @Description Create archived subinterface
 // @Tags archived
 // @ID create-archived_subinterface
-// @Param Body body archivedSubInterface true "JSON object of archivedSubInterface.<br />Ignored fields:<ul><li>sifa_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} archivedSubInterface
+// @Param Body body archivedSubinterface true "JSON object of archivedSubinterface.<br />Ignored fields:<ul><li>sifa_id</li><li>updated_on</li><li>created_on</li></ul>"
+// @Success 201 {object} archivedSubinterface
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/subinterfaces [POST]
-func (h *Handler) CreateArchivedSubInterface(w http.ResponseWriter, r *http.Request) {
-	var pIn archivedSubInterface
+func (h *Handler) CreateArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
+	var pIn archivedSubinterface
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&pIn); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
@@ -266,40 +266,40 @@ func (h *Handler) CreateArchivedSubInterface(w http.ResponseWriter, r *http.Requ
 	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
-	res, err := q.CreateArchivedSubInterface(h.ctx, p)
+	res, err := q.CreateArchivedSubinterface(h.ctx, p)
 
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	out := archivedSubInterface{}
+	out := archivedSubinterface{}
 	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusCreated, out)
 }
 
-// Update ArchivedSubInterface
+// Update ArchivedSubinterface
 // @Summary Update archived_subinterface
 // @Description Update archived subinterface
 // @Tags archived
 // @ID update-archived_subinterface
 // @Param sifa_id path string true "sifa_id"
-// @Param Body body archivedSubInterface true "JSON object of archivedSubInterface.<br />Ignored fields:<ul><li>sifa_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} archivedSubInterface
+// @Param Body body archivedSubinterface true "JSON object of archivedSubinterface.<br />Ignored fields:<ul><li>sifa_id</li><li>updated_on</li><li>created_on</li></ul>"
+// @Success 200 {object} archivedSubinterface
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/subinterfaces/{sifa_id} [PUT]
-func (h *Handler) UpdateArchivedSubInterface(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) UpdateArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "sifa_id"), 10, 64)
 	if err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid archived subinterface ID")
 		return
 	}
 
-	var pIn archivedSubInterface
+	var pIn archivedSubinterface
 	decoder := json.NewDecoder(r.Body)
 	if err := decoder.Decode(&pIn); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
@@ -312,20 +312,20 @@ func (h *Handler) UpdateArchivedSubInterface(w http.ResponseWriter, r *http.Requ
 	p.SifaID = id
 
 	q := godevmandb.New(h.db)
-	res, err := q.UpdateArchivedSubInterface(h.ctx, p)
+	res, err := q.UpdateArchivedSubinterface(h.ctx, p)
 
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	out := archivedSubInterface{}
+	out := archivedSubinterface{}
 	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
 
-// Delete ArchivedSubInterface
+// Delete ArchivedSubinterface
 // @Summary Delete archived_subinterface
 // @Description Delete archived subinterface
 // @Tags archived
@@ -337,7 +337,7 @@ func (h *Handler) UpdateArchivedSubInterface(w http.ResponseWriter, r *http.Requ
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /archived/subinterfaces/{sifa_id} [DELETE]
-func (h *Handler) DeleteArchivedSubInterface(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) DeleteArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "sifa_id"), 10, 64)
 	if err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid archived subinterface ID")
@@ -345,7 +345,7 @@ func (h *Handler) DeleteArchivedSubInterface(w http.ResponseWriter, r *http.Requ
 	}
 
 	q := godevmandb.New(h.db)
-	err = q.DeleteArchivedSubInterface(h.ctx, id)
+	err = q.DeleteArchivedSubinterface(h.ctx, id)
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
