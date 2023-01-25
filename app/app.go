@@ -245,6 +245,29 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/sites" resource
+
+	// Routes for "/sites/countries" resource
+	r.Route("/sites/countries", func(r chi.Router) {
+		// Filter parameters:
+		//   descr_f, code_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetCountries)
+		r.Get("/count", a.Handler.CountCountries)
+		r.Post("/", a.Handler.CreateCountry)
+
+		// Subroutes
+		r.Route("/{country_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetCountry)
+			r.Put("/", a.Handler.UpdateCountry)
+			r.Delete("/", a.Handler.DeleteCountry)
+			// r.Get("/sites", a.Handler.GetCountrySites)
+		})
+	})
+
 	// Swagger
 	r.Route("/swagger", func(r chi.Router) {
 		r.Get("/*", httpSwagger.Handler(
