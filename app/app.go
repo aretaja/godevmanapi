@@ -245,6 +245,26 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/data/credentials" resource
+	r.Route("/data/credentials", func(r chi.Router) {
+		// Filter parameters:
+		//   label_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetCredentials)
+		r.Get("/count", a.Handler.CountCredentials)
+		r.Post("/", a.Handler.CreateCredential)
+
+		// Subroutes
+		r.Route("/{cred_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetCredential)
+			r.Put("/", a.Handler.UpdateCredential)
+			r.Delete("/", a.Handler.DeleteCredential)
+		})
+	})
+
 	// Routes for "/sites" resource
 
 	// Routes for "/sites/countries" resource

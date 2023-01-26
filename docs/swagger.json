@@ -2812,6 +2812,331 @@
                 }
             }
         },
+        "/data/credentials": {
+            "get": {
+                "description": "List credentials info",
+                "tags": [
+                    "data"
+                ],
+                "summary": "List credentials",
+                "operationId": "list-credentials",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "label_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 100; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.credential"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create credential",
+                "tags": [
+                    "data"
+                ],
+                "summary": "Create credential",
+                "operationId": "create-credential",
+                "parameters": [
+                    {
+                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.credential"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.credential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/credentials/count": {
+            "get": {
+                "description": "Count number of credentials",
+                "tags": [
+                    "data"
+                ],
+                "summary": "Count credentials",
+                "operationId": "count-credentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/data/credentials/{cred_id}": {
+            "get": {
+                "description": "Get credential info",
+                "tags": [
+                    "data"
+                ],
+                "summary": "Get credential",
+                "operationId": "get-credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cred_id",
+                        "name": "cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.credential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update credential",
+                "tags": [
+                    "data"
+                ],
+                "summary": "Update credential",
+                "operationId": "update-credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cred_id",
+                        "name": "cred_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.credential"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.credential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete credential",
+                "tags": [
+                    "data"
+                ],
+                "summary": "Delete credential",
+                "operationId": "delete-credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cred_id",
+                        "name": "cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/sites/countries": {
             "get": {
                 "description": "List countries info",
@@ -3143,60 +3468,6 @@
                 }
             }
         },
-        "/sites/countries/{country_id}/sites": {
-            "get": {
-                "description": "List country sites info",
-                "tags": [
-                    "sites"
-                ],
-                "summary": "List country sites",
-                "operationId": "list-country-sites",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "country_id",
-                        "name": "country_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/handlers.connection"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid country_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/version": {
             "get": {
                 "description": "Return API version info",
@@ -3473,6 +3744,29 @@
                     "type": "string"
                 },
                 "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.credential": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "cred_id": {
+                    "type": "integer"
+                },
+                "enc_secret": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
