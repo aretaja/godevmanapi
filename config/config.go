@@ -6,11 +6,14 @@ import (
 	"github.com/tkanos/gonfig"
 )
 
+// API configuration sruct
 type Configuration struct {
 	DbURL     string `env:"GODEVMANAPI_DBURL"`
 	ApiListen string `env:"GODEVMANAPI_LISTEN"`
+	Salt      string `env:"GODEVMANAPI_SALT"`
 }
 
+// Fills Configuration struct. Prefers environment variables
 func GetConfig() (*Configuration, error) {
 	conf := new(Configuration)
 
