@@ -21,35 +21,55 @@ type credential struct {
 }
 
 // Import values from corresponding godevmandb struct
-func (r *credential) getValues(s godevmandb.Credential) {
+func (r *credential) getValues(s godevmandb.Credential, salt string) error {
 	r.CredID = s.CredID
 	r.Label = s.Label
-	r.EncSecret = s.EncSecret
 	r.UpdatedOn = s.UpdatedOn
 	r.CreatedOn = s.CreatedOn
 	r.Username = nullStringToPtr(s.Username)
+
+	val, err := godevmandb.DecryptStrAes(s.EncSecret, salt)
+	if err != nil {
+		return err
+	}
+
+	r.EncSecret = val
+
+	return nil
 }
 
 // Return corresponding godevmandb create parameters
-func (r *credential) createParams() godevmandb.CreateCredentialParams {
+func (r *credential) createParams(salt string) (godevmandb.CreateCredentialParams, error) {
 	s := godevmandb.CreateCredentialParams{}
 
 	s.Label = r.Label
-	s.EncSecret = r.EncSecret
 	s.Username = strToNullString(r.Username)
 
-	return s
+	val, err := godevmandb.EncryptStrAes(r.EncSecret, salt)
+	if err != nil {
+		return s, err
+	}
+
+	s.EncSecret = val
+
+	return s, nil
 }
 
 // Return corresponding godevmandb update parameters
-func (r *credential) updateParams() godevmandb.UpdateCredentialParams {
+func (r *credential) updateParams(salt string) (godevmandb.UpdateCredentialParams, error) {
 	s := godevmandb.UpdateCredentialParams{}
 
 	s.Label = r.Label
-	s.EncSecret = r.EncSecret
 	s.Username = strToNullString(r.Username)
 
-	return s
+	val, err := godevmandb.EncryptStrAes(r.EncSecret, salt)
+	if err != nil {
+		return s, err
+	}
+
+	s.EncSecret = val
+
+	return s, nil
 }
 
 // Count Credentials
@@ -131,7 +151,7 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 	out := []credential{}
 	for _, s := range res {
 		r := credential{}
-		r.getValues(s)
+		r.getValues(s, h.salt)
 		out = append(out, r)
 	}
 
@@ -169,7 +189,7 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out := credential{}
-	out.getValues(res)
+	out.getValues(res, h.salt)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -196,18 +216,21 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Create parameters for new db record
-	p := pIn.createParams()
+	p, err := pIn.createParams(h.salt)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateCredential(h.ctx, p)
-
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	out := credential{}
-	out.getValues(res)
+	out.getValues(res, h.salt)
 
 	RespondJSON(w, r, http.StatusCreated, out)
 }
@@ -241,7 +264,12 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Update parameters for new db record
-	p := pIn.updateParams()
+	p, err := pIn.updateParams(h.salt)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
 	p.CredID = id
 
 	q := godevmandb.New(h.db)
@@ -253,7 +281,7 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out := credential{}
-	out.getValues(res)
+	out.getValues(res, h.salt)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }

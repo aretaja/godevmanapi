@@ -12,13 +12,15 @@ import (
 )
 
 type Handler struct {
-	db  *pgxpool.Pool
-	ctx context.Context
+	ctx  context.Context
+	db   *pgxpool.Pool
+	salt string
 }
 
 // Create connection pool
-func (h *Handler) Initialize(dbURL string) error {
+func (h *Handler) Initialize(dbURL, salt string) error {
 	h.ctx = context.Background()
+	h.salt = salt
 
 	pool, err := pgxpool.Connect(h.ctx, dbURL)
 	if err != nil {

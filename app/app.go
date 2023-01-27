@@ -39,7 +39,7 @@ func (a *App) Initialize() {
 
 	// Handler instance
 	a.Handler = new(handlers.Handler)
-	err = a.Handler.Initialize(a.Conf.DbURL)
+	err = a.Handler.Initialize(a.Conf.DbURL, a.Conf.Salt)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -262,6 +262,26 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetCredential)
 			r.Put("/", a.Handler.UpdateCredential)
 			r.Delete("/", a.Handler.DeleteCredential)
+		})
+	})
+
+	// Routes for "/data/custom_entities" resource
+	r.Route("/data/custom_entities", func(r chi.Router) {
+		// Filter parameters:
+		//   serial_nr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetCustomEntities)
+		r.Get("/count", a.Handler.CountCustomEntities)
+		r.Post("/", a.Handler.CreateCustomEntity)
+
+		// Subroutes
+		r.Route("/{cent_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetCustomEntity)
+			r.Put("/", a.Handler.UpdateCustomEntity)
+			r.Delete("/", a.Handler.DeleteCustomEntity)
 		})
 	})
 
