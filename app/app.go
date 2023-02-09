@@ -329,6 +329,28 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/types" resource
+	r.Route("/devices/types", func(r chi.Router) {
+		// Filter parameters:
+		//   sys_id_f, manufacturer_f, model_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetDeviceTypes)
+		r.Get("/count", a.Handler.CountDeviceTypes)
+		r.Post("/", a.Handler.CreateDeviceType)
+
+		// Subroutes
+		r.Route("/{sys_id:[\\w-\\.]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetDeviceType)
+			r.Put("/", a.Handler.UpdateDeviceType)
+			r.Delete("/", a.Handler.DeleteDeviceType)
+			r.Get("/class", a.Handler.GetDeviceTypeClass)
+			// r.Get("/devices", a.Handler.GetDeviceTypeDevices)
+		})
+	})
+
 	// Routes for "/sites" resource
 
 	// Routes for "/sites/countries" resource
