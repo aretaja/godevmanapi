@@ -177,6 +177,34 @@ definitions:
       username:
         type: string
     type: object
+  handlers.customEntity:
+    properties:
+      cent_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      manufacturer:
+        type: string
+      part:
+        type: string
+      serial_nr:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  handlers.deviceClass:
+    properties:
+      class_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      updated_on:
+        type: string
+    type: object
 info:
   contact:
     email: marko@aretaja.org
@@ -2272,6 +2300,440 @@ paths:
       summary: Count credentials
       tags:
       - data
+  /data/custom_entities:
+    get:
+      description: List custom_entities info
+      operationId: list-custom_entities
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: serial_nr_f
+        type: string
+      - description: 'min: 1; max: 100; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.customEntity'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List custom_entities
+      tags:
+      - data
+    post:
+      description: Create customEntity
+      operationId: create-customEntity
+      parameters:
+      - description: JSON object of customEntity.<br />Ignored fields:<ul><li>cent_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.customEntity'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.customEntity'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create customEntity
+      tags:
+      - data
+  /data/custom_entities/{cent_id}:
+    delete:
+      description: Delete customEntity
+      operationId: delete-customEntity
+      parameters:
+      - description: cent_id
+        in: path
+        name: cent_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid cent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete customEntity
+      tags:
+      - data
+    get:
+      description: Get customEntity info
+      operationId: get-customEntity
+      parameters:
+      - description: cent_id
+        in: path
+        name: cent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.customEntity'
+        "400":
+          description: Invalid cent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: CustomEntity not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get customEntity
+      tags:
+      - data
+    put:
+      description: Update customEntity
+      operationId: update-customEntity
+      parameters:
+      - description: cent_id
+        in: path
+        name: cent_id
+        required: true
+        type: string
+      - description: JSON object of customEntity.<br />Ignored fields:<ul><li>cent_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.customEntity'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.customEntity'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update customEntity
+      tags:
+      - data
+  /data/custom_entities/count:
+    get:
+      description: Count number of custom_entities
+      operationId: count-custom_entities
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count custom_entities
+      tags:
+      - data
+  /devices/classes:
+    get:
+      description: List device classes info
+      operationId: list-device_classes
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: 'min: 1; max: 100; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.deviceClass'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device_classes
+      tags:
+      - devices
+    post:
+      description: Create device class
+      operationId: create-device_class
+      parameters:
+      - description: JSON object of deviceClass<br />Ignored fields:<ul><li>class_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.deviceClass'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.deviceClass'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create device_class
+      tags:
+      - devices
+  /devices/classes/{class_id}:
+    delete:
+      description: Delete device class
+      operationId: delete-device_class
+      parameters:
+      - description: class_id
+        in: path
+        name: class_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid class_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete device_class
+      tags:
+      - devices
+    get:
+      description: Get device class info
+      operationId: get-device_class
+      parameters:
+      - description: class_id
+        in: path
+        name: class_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.deviceClass'
+        "400":
+          description: Invalid class_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Class not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device_class
+      tags:
+      - devices
+    put:
+      description: Update device class
+      operationId: update-device_class
+      parameters:
+      - description: class_id
+        in: path
+        name: class_id
+        required: true
+        type: string
+      - description: JSON object of deviceClass.<br />Ignored fields:<ul><li>class_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.deviceClass'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.deviceClass'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update device_class
+      tags:
+      - devices
+  /devices/classes/count:
+    get:
+      description: Count number of device classes
+      operationId: count-device_classes
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count device_classes
+      tags:
+      - devices
   /sites/countries:
     get:
       description: List countries info
