@@ -308,6 +308,27 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/domains" resource
+	r.Route("/devices/domains", func(r chi.Router) {
+		// Filter parameters:
+		//   descr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetDeviceDomains)
+		r.Get("/count", a.Handler.CountDeviceDomains)
+		r.Post("/", a.Handler.CreateDeviceDomain)
+
+		// Subroutes
+		r.Route("/{dom_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetDeviceDomain)
+			r.Put("/", a.Handler.UpdateDeviceDomain)
+			r.Delete("/", a.Handler.DeleteDeviceDomain)
+			// r.Get("/devices", a.Handler.GetDeviceDomainDevices)
+		})
+	})
+
 	// Routes for "/sites" resource
 
 	// Routes for "/sites/countries" resource

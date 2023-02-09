@@ -3787,6 +3787,331 @@
                 }
             }
         },
+        "/devices/domains": {
+            "get": {
+                "description": "List device domains info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List device_domains",
+                "operationId": "list-device_domains",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 100; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.deviceDomain"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create device domain",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create device_domain",
+                "operationId": "create-device_domain",
+                "parameters": [
+                    {
+                        "description": "JSON object of deviceDomain\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edom_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.deviceDomain"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.deviceDomain"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/domains/count": {
+            "get": {
+                "description": "Count number of device domains",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count device_domains",
+                "operationId": "count-device_domains",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/domains/{dom_id}": {
+            "get": {
+                "description": "Get device domain info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get device_domain",
+                "operationId": "get-device_domain",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.deviceDomain"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid dom_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Domain not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update device domain",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update device_domain",
+                "operationId": "update-device_domain",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of deviceDomain.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edom_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.deviceDomain"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.deviceDomain"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete device domain",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete device_domain",
+                "operationId": "delete-device_domain",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid dom_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/sites/countries": {
             "get": {
                 "description": "List countries info",
@@ -4458,6 +4783,23 @@
                 },
                 "descr": {
                     "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "handlers.deviceDomain": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "dom_id": {
+                    "type": "integer"
                 },
                 "updated_on": {
                     "type": "string"
