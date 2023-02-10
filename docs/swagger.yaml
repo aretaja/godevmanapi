@@ -2740,6 +2740,42 @@ paths:
       summary: Update device_class
       tags:
       - devices
+  /devices/classes/{class_id}/types:
+    get:
+      description: List device class device types info
+      operationId: list-device_class-device_types
+      parameters:
+      - description: class_id
+        in: path
+        name: class_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.deviceType'
+            type: array
+        "400":
+          description: Invalid class_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device_class device_types
+      tags:
+      - devices
   /devices/classes/count:
     get:
       description: Count number of device classes

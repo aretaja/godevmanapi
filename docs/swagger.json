@@ -3787,6 +3787,60 @@
                 }
             }
         },
+        "/devices/classes/{class_id}/types": {
+            "get": {
+                "description": "List device class device types info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List device_class device_types",
+                "operationId": "list-device_class-device_types",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "class_id",
+                        "name": "class_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.deviceType"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid class_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/devices/domains": {
             "get": {
                 "description": "List device domains info",

@@ -304,7 +304,7 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetDeviceClass)
 			r.Put("/", a.Handler.UpdateDeviceClass)
 			r.Delete("/", a.Handler.DeleteDeviceClass)
-			// r.Get("/devices", a.Handler.GetDeviceClassDevices)
+			r.Get("/types", a.Handler.GetDeviceClassTypes)
 		})
 	})
 

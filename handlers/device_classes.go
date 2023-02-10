@@ -276,38 +276,38 @@ func (h *Handler) DeleteDeviceClass(w http.ResponseWriter, r *http.Request) {
 }
 
 // Relations
-// List DeviceClass Devices
-// @Summary List device_class devices
-// @Description List device class devices info
+// List Device Class Device Types
+// @Summary List device_class device_types
+// @Description List device class device types info
 // @Tags devices
-// @ID list-device_class-devices
+// @ID list-device_class-device_types
 // @Param class_id path string true "class_id"
-// @Success 200 {array} device
+// @Success 200 {array} deviceType
 // @Failure 400 {object} StatusResponse "Invalid class_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /devices/classes/{class_id}/devices [GET]
-// func (h *Handler) GetDeviceClassDevices(w http.ResponseWriter, r *http.Request) {
-// 	id, err := strconv.ParseInt(chi.URLParam(r, "class_id"), 10, 64)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusBadRequest, "Invalid class ID")
-// 		return
-// 	}
+// @Router /devices/classes/{class_id}/types [GET]
+func (h *Handler) GetDeviceClassTypes(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "class_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid class ID")
+		return
+	}
 
-// 	q := godevmandb.New(h.db)
-// 	res, err := q.GetDeviceClassDevices(h.ctx, id)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	q := godevmandb.New(h.db)
+	res, err := q.GetDeviceClassDeviceTypes(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	out := []device{}
-// 	for _, s := range res {
-// 		a := device{}
-// 		a.getValues(s)
-// 		out = append(out, a)
-// 	}
+	out := []deviceType{}
+	for _, s := range res {
+		a := deviceType{}
+		a.getValues(s)
+		out = append(out, a)
+	}
 
-// 	RespondJSON(w, r, http.StatusOK, out)
-// }
+	RespondJSON(w, r, http.StatusOK, out)
+}
