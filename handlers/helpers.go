@@ -9,6 +9,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/httplog"
 	"github.com/jackc/pgtype"
 )
@@ -144,6 +145,45 @@ func int64ToNullInt64(p *int64) sql.NullInt64 {
 	return r
 }
 
+// godevmandb.SnmpAuthProto pointer to godevmandb.NullSnmpAuthProto converter
+func snmpAuthProtoToNullSnmpAuthProto(p *godevmandb.SnmpAuthProto) godevmandb.NullSnmpAuthProto {
+	r := godevmandb.NullSnmpAuthProto{}
+
+	if p != nil {
+		r = godevmandb.NullSnmpAuthProto{
+			SnmpAuthProto: *p,
+			Valid:         true,
+		}
+	}
+	return r
+}
+
+// godevmandb.SnmpPrivProto pointer to godevmandb.NullSnmpPrivProto converter
+func snmpPrivProtoToNullSnmpPrivProto(p *godevmandb.SnmpPrivProto) godevmandb.NullSnmpPrivProto {
+	r := godevmandb.NullSnmpPrivProto{}
+
+	if p != nil {
+		r = godevmandb.NullSnmpPrivProto{
+			SnmpPrivProto: *p,
+			Valid:         true,
+		}
+	}
+	return r
+}
+
+// godevmandb.SnmpSecLevel pointer to godevmandb.NullSnmpSecLevel converter
+func snmpSecLevelToNullSnmpSecLevel(p *godevmandb.SnmpSecLevel) godevmandb.NullSnmpSecLevel {
+	r := godevmandb.NullSnmpSecLevel{}
+
+	if p != nil {
+		r = godevmandb.NullSnmpSecLevel{
+			SnmpSecLevel: *p,
+			Valid:        true,
+		}
+	}
+	return r
+}
+
 // sql.NullString to string pointer converter
 func nullStringToPtr(n sql.NullString) *string {
 	if n.Valid {
@@ -198,6 +238,30 @@ func pgMacaddrToPtr(n pgtype.Macaddr) *string {
 			res := fmt.Sprintf("%s", v)
 			return &res
 		}
+	}
+	return nil
+}
+
+// godevmandb.NullSnmpAuthProto to SnmpAuthProto pointer converter
+func nullSnmpAuthProtoToPtr(n godevmandb.NullSnmpAuthProto) *godevmandb.SnmpAuthProto {
+	if n.Valid {
+		return &n.SnmpAuthProto
+	}
+	return nil
+}
+
+// godevmandb.NullSnmpPrivProto to SnmpPrivProto pointer converter
+func nullSnmpPrivProtoToPtr(n godevmandb.NullSnmpPrivProto) *godevmandb.SnmpPrivProto {
+	if n.Valid {
+		return &n.SnmpPrivProto
+	}
+	return nil
+}
+
+// godevmandb.NullSnmpSecLevel to SnmpSecLevel pointer converter
+func nullSnmpSecLevelToPtr(n godevmandb.NullSnmpSecLevel) *godevmandb.SnmpSecLevel {
+	if n.Valid {
+		return &n.SnmpSecLevel
 	}
 	return nil
 }

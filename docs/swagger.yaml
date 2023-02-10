@@ -250,6 +250,31 @@ definitions:
       updated_on:
         type: string
     type: object
+  handlers.snmpCredential:
+    properties:
+      auth_name:
+        type: string
+      auth_pass:
+        type: string
+      auth_proto:
+        type: string
+      created_on:
+        type: string
+      label:
+        type: string
+      priv_pass:
+        type: string
+      priv_proto:
+        type: string
+      sec_level:
+        type: string
+      snmp_snmp_cred_id:
+        type: integer
+      updated_on:
+        type: string
+      variant:
+        type: integer
+    type: object
 info:
   contact:
     email: marko@aretaja.org
@@ -3247,6 +3272,223 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count device_domains
+      tags:
+      - devices
+  /devices/snmp_credentials:
+    get:
+      description: List snmp credentials info
+      operationId: list-snmp_credentials
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: label_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.snmpCredential'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List snmp_credentials
+      tags:
+      - devices
+    post:
+      description: Create snmp credential
+      operationId: create-snmp_credential
+      parameters:
+      - description: JSON object of credential.<br />Ignored fields:<ul><li>snmp_cred_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.snmpCredential'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.snmpCredential'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create snmp_credential
+      tags:
+      - devices
+  /devices/snmp_credentials/{snmp_cred_id}:
+    delete:
+      description: Delete snmp credential
+      operationId: delete-snmp_credential
+      parameters:
+      - description: snmp_cred_id
+        in: path
+        name: snmp_cred_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid snmp_cred_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete snmp_credential
+      tags:
+      - devices
+    get:
+      description: Get snmp credential info
+      operationId: get-snmp_credential
+      parameters:
+      - description: snmp_cred_id
+        in: path
+        name: snmp_cred_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.snmpCredential'
+        "400":
+          description: Invalid snmp_cred_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Credential not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get snmp_credential
+      tags:
+      - devices
+    put:
+      description: Update snmp credential
+      operationId: update-snmp_credential
+      parameters:
+      - description: snmp_cred_id
+        in: path
+        name: snmp_cred_id
+        required: true
+        type: string
+      - description: JSON object of credential.<br />Ignored fields:<ul><li>snmp_cred_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.snmpCredential'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.snmpCredential'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update snmp_credential
+      tags:
+      - devices
+  /devices/snmp_credentials/count:
+    get:
+      description: Count number of snmp credentials
+      operationId: count-snmp_credentials
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count snmp_credentials
       tags:
       - devices
   /devices/types:

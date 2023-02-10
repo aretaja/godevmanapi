@@ -4491,6 +4491,331 @@
                 }
             }
         },
+        "/devices/snmp_credentials": {
+            "get": {
+                "description": "List snmp credentials info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List snmp_credentials",
+                "operationId": "list-snmp_credentials",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "label_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.snmpCredential"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create snmp credential",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create snmp_credential",
+                "operationId": "create-snmp_credential",
+                "parameters": [
+                    {
+                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esnmp_cred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/snmp_credentials/count": {
+            "get": {
+                "description": "Count number of snmp credentials",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count snmp_credentials",
+                "operationId": "count-snmp_credentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/snmp_credentials/{snmp_cred_id}": {
+            "get": {
+                "description": "Get snmp credential info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get snmp_credential",
+                "operationId": "get-snmp_credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update snmp credential",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update snmp_credential",
+                "operationId": "update-snmp_credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esnmp_cred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete snmp credential",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete snmp_credential",
+                "operationId": "delete-snmp_credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/devices/types": {
             "get": {
                 "description": "List device types info",
@@ -5622,6 +5947,44 @@
                 },
                 "updated_on": {
                     "type": "string"
+                }
+            }
+        },
+        "handlers.snmpCredential": {
+            "type": "object",
+            "properties": {
+                "auth_name": {
+                    "type": "string"
+                },
+                "auth_pass": {
+                    "type": "string"
+                },
+                "auth_proto": {
+                    "type": "string"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "priv_pass": {
+                    "type": "string"
+                },
+                "priv_proto": {
+                    "type": "string"
+                },
+                "sec_level": {
+                    "type": "string"
+                },
+                "snmp_snmp_cred_id": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "variant": {
+                    "type": "integer"
                 }
             }
         }

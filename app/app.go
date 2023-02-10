@@ -349,6 +349,26 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/snmp_credentials" resource
+	r.Route("/devices/snmp_credentials", func(r chi.Router) {
+		// Filter parameters:
+		//   label_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetSnmpCredentials)
+		r.Get("/count", a.Handler.CountSnmpCredentials)
+		r.Post("/", a.Handler.CreateSnmpCredential)
+
+		// Subroutes
+		r.Route("/{snmp_cred_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetSnmpCredential)
+			r.Put("/", a.Handler.UpdateSnmpCredential)
+			r.Delete("/", a.Handler.DeleteSnmpCredential)
+		})
+	})
+
 	// Routes for "/devices/types" resource
 	r.Route("/devices/types", func(r chi.Router) {
 		// Filter parameters:
