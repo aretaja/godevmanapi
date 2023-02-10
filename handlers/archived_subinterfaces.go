@@ -103,9 +103,9 @@ func (h *Handler) CountArchivedSubinterfaces(w http.ResponseWriter, r *http.Requ
 // @Tags archived
 // @ID list-archived_subinterfaces
 // @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param hostname_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param alias_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param hostname_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param host_ip4_f query string false "ip or containing net in CIDR notation"
 // @Param host_ip6_f query string false "ip or containing net in CIDR notation"
 // @Param mac_f query string false "SQL '=' operator value (MAC address)"

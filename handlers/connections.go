@@ -98,7 +98,7 @@ func (h *Handler) CountConnections(w http.ResponseWriter, r *http.Request) {
 // @Description List connection info
 // @Tags connections
 // @ID list-connections
-// @Param hint_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param hint_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"

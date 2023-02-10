@@ -74,8 +74,8 @@ func (h *Handler) CountCountries(w http.ResponseWriter, r *http.Request) {
 // @Description List countries info
 // @Tags sites
 // @ID list-countries
-// @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param code_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param code_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"

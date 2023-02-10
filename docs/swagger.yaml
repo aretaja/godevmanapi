@@ -290,15 +290,15 @@ paths:
         in: query
         name: ifindex_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: hostname_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: alias_f
         type: string
@@ -314,7 +314,7 @@ paths:
         in: query
         name: mac_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -531,15 +531,15 @@ paths:
         in: query
         name: ifindex_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: hostname_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: alias_f
         type: string
@@ -555,7 +555,7 @@ paths:
         in: query
         name: mac_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -768,11 +768,11 @@ paths:
       description: List connection info
       operationId: list-connections
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: hint_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -1097,11 +1097,11 @@ paths:
       description: List connection capacities info
       operationId: list-con_capacities
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -1350,11 +1350,11 @@ paths:
       description: List connection classes info
       operationId: list-con_classes
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -1627,11 +1627,11 @@ paths:
       description: List connection providers info
       operationId: list-con_providers
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -1880,11 +1880,11 @@ paths:
       description: List connection types info
       operationId: list-con_types
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -2133,11 +2133,11 @@ paths:
       description: List credentials info
       operationId: list-credentials
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: label_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -2350,11 +2350,11 @@ paths:
       description: List custom_entities info
       operationId: list-custom_entities
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: serial_nr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -2567,11 +2567,11 @@ paths:
       description: List device classes info
       operationId: list-device_classes
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -2824,7 +2824,7 @@ paths:
         in: query
         name: username_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -3037,11 +3037,11 @@ paths:
       description: List device domains info
       operationId: list-device_domains
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -3266,7 +3266,7 @@ paths:
         in: query
         name: model_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer
@@ -3514,15 +3514,15 @@ paths:
       description: List countries info
       operationId: list-countries
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: code_f
         type: string
-      - description: 'min: 1; max: 100; default: 100'
+      - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
         type: integer

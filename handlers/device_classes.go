@@ -66,7 +66,7 @@ func (h *Handler) CountDeviceClasses(w http.ResponseWriter, r *http.Request) {
 // @Description List device classes info
 // @Tags devices
 // @ID list-device_classes
-// @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"

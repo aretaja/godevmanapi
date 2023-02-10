@@ -70,19 +70,19 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "hostname_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "alias_f",
                         "in": "query"
                     },
@@ -106,7 +106,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -431,19 +431,19 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "hostname_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "alias_f",
                         "in": "query"
                     },
@@ -467,7 +467,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -786,13 +786,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "hint_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -920,13 +920,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -1299,13 +1299,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -1714,13 +1714,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -2093,13 +2093,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -2831,13 +2831,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "label_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -3156,13 +3156,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "serial_nr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -3481,13 +3481,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -3866,7 +3866,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -4185,13 +4185,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -4528,7 +4528,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
@@ -4898,19 +4898,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "code_f",
                         "in": "query"
                     },
                     {
                         "type": "integer",
-                        "description": "min: 1; max: 100; default: 100",
+                        "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
                         "in": "query"
                     },
