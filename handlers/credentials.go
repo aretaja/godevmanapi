@@ -21,7 +21,7 @@ type credential struct {
 }
 
 // Import values from corresponding godevmandb struct
-func (r *credential) getValues(s godevmandb.Credential, salt string) error {
+func (r *credential) getValues(s godevmandb.Credential) error {
 	r.CredID = s.CredID
 	r.Label = s.Label
 	r.UpdatedOn = s.UpdatedOn
@@ -39,7 +39,7 @@ func (r *credential) getValues(s godevmandb.Credential, salt string) error {
 }
 
 // Return corresponding godevmandb create parameters
-func (r *credential) createParams(salt string) (godevmandb.CreateCredentialParams, error) {
+func (r *credential) createParams() (godevmandb.CreateCredentialParams, error) {
 	s := godevmandb.CreateCredentialParams{}
 
 	s.Label = r.Label
@@ -56,7 +56,7 @@ func (r *credential) createParams(salt string) (godevmandb.CreateCredentialParam
 }
 
 // Return corresponding godevmandb update parameters
-func (r *credential) updateParams(salt string) (godevmandb.UpdateCredentialParams, error) {
+func (r *credential) updateParams() (godevmandb.UpdateCredentialParams, error) {
 	s := godevmandb.UpdateCredentialParams{}
 
 	s.Label = r.Label
@@ -151,7 +151,7 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 	out := []credential{}
 	for _, s := range res {
 		r := credential{}
-		r.getValues(s, h.salt)
+		r.getValues(s)
 		out = append(out, r)
 	}
 
@@ -189,7 +189,7 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out := credential{}
-	out.getValues(res, h.salt)
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }
@@ -216,7 +216,7 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Create parameters for new db record
-	p, err := pIn.createParams(h.salt)
+	p, err := pIn.createParams()
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
@@ -230,7 +230,7 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out := credential{}
-	out.getValues(res, h.salt)
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusCreated, out)
 }
@@ -264,7 +264,7 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
 	// Update parameters for new db record
-	p, err := pIn.updateParams(h.salt)
+	p, err := pIn.updateParams()
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
@@ -281,7 +281,7 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 	}
 
 	out := credential{}
-	out.getValues(res, h.salt)
+	out.getValues(res)
 
 	RespondJSON(w, r, http.StatusOK, out)
 }

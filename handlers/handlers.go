@@ -11,16 +11,18 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 )
 
+// Global encryption salt
+var salt string
+
 type Handler struct {
-	ctx  context.Context
-	db   *pgxpool.Pool
-	salt string
+	ctx context.Context
+	db  *pgxpool.Pool
 }
 
 // Create connection pool
-func (h *Handler) Initialize(dbURL, salt string) error {
+func (h *Handler) Initialize(dbURL, s string) error {
 	h.ctx = context.Background()
-	h.salt = salt
+	salt = s
 
 	pool, err := pgxpool.Connect(h.ctx, dbURL)
 	if err != nil {
