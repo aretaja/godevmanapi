@@ -205,6 +205,21 @@ definitions:
       updated_on:
         type: string
     type: object
+  handlers.deviceCredential:
+    properties:
+      created_on:
+        type: string
+      cred_id:
+        type: integer
+      dev_id:
+        type: integer
+      enc_secret:
+        type: string
+      updated_on:
+        type: string
+      username:
+        type: string
+    type: object
   handlers.deviceDomain:
     properties:
       created_on:
@@ -2798,6 +2813,223 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count device_classes
+      tags:
+      - devices
+  /devices/credentials:
+    get:
+      description: List device credentials info
+      operationId: list-device_credentials
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: username_f
+        type: string
+      - description: 'min: 1; max: 100; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.deviceCredential'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device_credentials
+      tags:
+      - devices
+    post:
+      description: Create device credential
+      operationId: create-device_credential
+      parameters:
+      - description: JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.deviceCredential'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.deviceCredential'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create device_credential
+      tags:
+      - devices
+  /devices/credentials/{cred_id}:
+    delete:
+      description: Delete device credential
+      operationId: delete-device_credential
+      parameters:
+      - description: cred_id
+        in: path
+        name: cred_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid cred_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete device_credential
+      tags:
+      - devices
+    get:
+      description: Get device credential info
+      operationId: get-device_credential
+      parameters:
+      - description: cred_id
+        in: path
+        name: cred_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.deviceCredential'
+        "400":
+          description: Invalid cred_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Credential not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device_credential
+      tags:
+      - devices
+    put:
+      description: Update device credential
+      operationId: update-device_credential
+      parameters:
+      - description: cred_id
+        in: path
+        name: cred_id
+        required: true
+        type: string
+      - description: JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.deviceCredential'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.deviceCredential'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update device_credential
+      tags:
+      - devices
+  /devices/credentials/count:
+    get:
+      description: Count number of credentials
+      operationId: count-device_credentials
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count credentials
       tags:
       - devices
   /devices/domains:

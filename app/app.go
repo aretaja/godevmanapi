@@ -308,6 +308,26 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/credentials" resource
+	r.Route("/devices/credentials", func(r chi.Router) {
+		// Filter parameters:
+		//   username_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetDeviceCredentials)
+		r.Get("/count", a.Handler.CountDeviceCredentials)
+		r.Post("/", a.Handler.CreateDeviceCredential)
+
+		// Subroutes
+		r.Route("/{cred_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetDeviceCredential)
+			r.Put("/", a.Handler.UpdateDeviceCredential)
+			r.Delete("/", a.Handler.DeleteDeviceCredential)
+		})
+	})
+
 	// Routes for "/devices/domains" resource
 	r.Route("/devices/domains", func(r chi.Router) {
 		// Filter parameters:
