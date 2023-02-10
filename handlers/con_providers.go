@@ -75,7 +75,7 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-con_providers
 // @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param limit query int false "min: 1; max: 100; default: 100"
+// @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"

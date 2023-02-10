@@ -121,7 +121,7 @@ func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request
 // @Param host_ip4_f query string false "ip or containing net in CIDR notation"
 // @Param host_ip6_f query string false "ip or containing net in CIDR notation"
 // @Param mac_f query string false "SQL '=' operator value (MAC address)"
-// @Param limit query int false "min: 1; max: 100; default: 100"
+// @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"

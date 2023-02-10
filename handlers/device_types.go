@@ -90,7 +90,7 @@ func (h *Handler) CountDeviceTypes(w http.ResponseWriter, r *http.Request) {
 // @Param sys_id_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param manufacturer_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param model_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param limit query int false "min: 1; max: 100; default: 100"
+// @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
