@@ -3462,6 +3462,176 @@
                 }
             }
         },
+        "/devices": {
+            "get": {
+                "description": "List devices info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List devices",
+                "operationId": "list-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "sys_id_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "host_name_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "name_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "sw_version_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "ip4_addr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "ip6_addr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create device",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create device",
+                "operationId": "create-device",
+                "parameters": [
+                    {
+                        "description": "JSON object of device.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edev_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/devices/classes": {
             "get": {
                 "description": "List device classes info",
@@ -3818,6 +3988,42 @@
                         "description": "Invalid class_id",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/count": {
+            "get": {
+                "description": "Count number of devices",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count devices",
+                "operationId": "count-devices",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
                         }
                     },
                     "404": {
@@ -5204,6 +5410,161 @@
                 }
             }
         },
+        "/devices/{dev_id}": {
+            "get": {
+                "description": "Get device info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get device",
+                "operationId": "get-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dev_id",
+                        "name": "dev_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid dev_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Device not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update device",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update device",
+                "operationId": "update-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dev_id",
+                        "name": "dev_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of device.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edev_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete device",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete device",
+                "operationId": "delete-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dev_id",
+                        "name": "dev_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid dev_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/sites/countries": {
             "get": {
                 "description": "List countries info",
@@ -5861,6 +6222,92 @@
                 },
                 "updated_on": {
                     "type": "string"
+                }
+            }
+        },
+        "handlers.device": {
+            "type": "object",
+            "properties": {
+                "backup": {
+                    "type": "boolean"
+                },
+                "backup_failed": {
+                    "type": "boolean"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "dom_id": {
+                    "type": "integer"
+                },
+                "ext_model": {
+                    "type": "string"
+                },
+                "graph": {
+                    "type": "boolean"
+                },
+                "host_name": {
+                    "type": "string"
+                },
+                "installed": {
+                    "type": "boolean"
+                },
+                "ip4_addr": {
+                    "type": "string"
+                },
+                "ip6_addr": {
+                    "type": "string"
+                },
+                "monitor": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "parent": {
+                    "type": "integer"
+                },
+                "site_id": {
+                    "type": "integer"
+                },
+                "snmp_main_id": {
+                    "type": "integer"
+                },
+                "snmp_ro_id": {
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "sw_version": {
+                    "type": "string"
+                },
+                "sys_contact": {
+                    "type": "string"
+                },
+                "sys_id": {
+                    "type": "string"
+                },
+                "sys_location": {
+                    "type": "string"
+                },
+                "sys_name": {
+                    "type": "string"
+                },
+                "type_changed": {
+                    "type": "boolean"
+                },
+                "unresponsive": {
+                    "type": "boolean"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "validation_failed": {
+                    "type": "boolean"
                 }
             }
         },

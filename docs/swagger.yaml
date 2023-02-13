@@ -194,6 +194,63 @@ definitions:
       updated_on:
         type: string
     type: object
+  handlers.device:
+    properties:
+      backup:
+        type: boolean
+      backup_failed:
+        type: boolean
+      created_on:
+        type: string
+      dev_id:
+        type: integer
+      dom_id:
+        type: integer
+      ext_model:
+        type: string
+      graph:
+        type: boolean
+      host_name:
+        type: string
+      installed:
+        type: boolean
+      ip4_addr:
+        type: string
+      ip6_addr:
+        type: string
+      monitor:
+        type: boolean
+      notes:
+        type: string
+      parent:
+        type: integer
+      site_id:
+        type: integer
+      snmp_main_id:
+        type: integer
+      snmp_ro_id:
+        type: integer
+      source:
+        type: string
+      sw_version:
+        type: string
+      sys_contact:
+        type: string
+      sys_id:
+        type: string
+      sys_location:
+        type: string
+      sys_name:
+        type: string
+      type_changed:
+        type: boolean
+      unresponsive:
+        type: boolean
+      updated_on:
+        type: string
+      validation_failed:
+        type: boolean
+    type: object
   handlers.deviceClass:
     properties:
       class_id:
@@ -2587,6 +2644,223 @@ paths:
       summary: Count custom_entities
       tags:
       - data
+  /devices:
+    get:
+      description: List devices info
+      operationId: list-devices
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: sys_id_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: host_name_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: name_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: sw_version_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: notes_f
+        type: string
+      - description: ip or containing net in CIDR notation
+        in: query
+        name: ip4_addr_f
+        type: string
+      - description: ip or containing net in CIDR notation
+        in: query
+        name: ip6_addr_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.device'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List devices
+      tags:
+      - devices
+    post:
+      description: Create device
+      operationId: create-device
+      parameters:
+      - description: JSON object of device.<br />Ignored fields:<ul><li>dev_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.device'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create device
+      tags:
+      - devices
+  /devices/{dev_id}:
+    delete:
+      description: Delete device
+      operationId: delete-device
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete device
+      tags:
+      - devices
+    get:
+      description: Get device info
+      operationId: get-device
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Device not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device
+      tags:
+      - devices
+    put:
+      description: Update device
+      operationId: update-device
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      - description: JSON object of device.<br />Ignored fields:<ul><li>dev_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.device'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update device
+      tags:
+      - devices
   /devices/classes:
     get:
       description: List device classes info
@@ -2838,6 +3112,30 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count device_classes
+      tags:
+      - devices
+  /devices/count:
+    get:
+      description: Count number of devices
+      operationId: count-devices
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count devices
       tags:
       - devices
   /devices/credentials:

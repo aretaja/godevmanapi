@@ -286,6 +286,30 @@ func (a *App) initializeRoutes() {
 	})
 
 	// Routes for "/devices" resource
+	r.Route("/devices", func(r chi.Router) {
+		// Filter parameters:
+		//   sys_id_f, host_name_f, sw_version_f, notes_f, name_f, ip4_addr_f, ip6_addr_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetDevices)
+		r.Get("/count", a.Handler.CountDevices)
+		r.Post("/", a.Handler.CreateDevice)
+
+		// Subroutes
+		r.Route("/{dev_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetDevice)
+			r.Put("/", a.Handler.UpdateDevice)
+			r.Delete("/", a.Handler.DeleteDevice)
+			// r.Get("/capacity", a.Handler.GetConnectionConCapacitiy)
+			// r.Get("/class", a.Handler.GetConnectionConClass)
+			// r.Get("/provider", a.Handler.GetConnectionConProvider)
+			// r.Get("/site", a.Handler.GetConnectionSite)
+			// r.Get("/type", a.Handler.GetConnectionConType)
+			// r.Get("/interfaces", a.Handler.GetConnectionInterfaces)
+		})
+	})
 
 	// Routes for "/devices/classes" resource
 	r.Route("/devices/classes", func(r chi.Router) {
