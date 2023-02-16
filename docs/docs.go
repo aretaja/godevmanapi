@@ -833,7 +833,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.connection"
+                                "$ref": "#/definitions/godevmandb.Connection"
                             }
                         }
                     },
@@ -866,12 +866,12 @@ const docTemplate = `{
                 "operationId": "create-connection",
                 "parameters": [
                     {
-                        "description": "JSON object of connection.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateConnectionParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.connection"
+                            "$ref": "#/definitions/godevmandb.CreateConnectionParams"
                         }
                     }
                 ],
@@ -879,7 +879,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.connection"
+                            "$ref": "#/definitions/godevmandb.Connection"
                         }
                     },
                     "400": {
@@ -967,7 +967,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.conCapacity"
+                                "$ref": "#/definitions/godevmandb.ConCapacity"
                             }
                         }
                     },
@@ -1000,12 +1000,12 @@ const docTemplate = `{
                 "operationId": "create-capacity",
                 "parameters": [
                     {
-                        "description": "JSON object of conCapacity.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_cap_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateConCapacityParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conCapacity"
+                            "$ref": "#/definitions/godevmandb.CreateConCapacityParams"
                         }
                     }
                 ],
@@ -1013,7 +1013,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conCapacity"
+                            "$ref": "#/definitions/godevmandb.ConCapacity"
                         }
                     },
                     "400": {
@@ -1100,7 +1100,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conCapacity"
+                            "$ref": "#/definitions/godevmandb.ConCapacity"
                         }
                     },
                     "400": {
@@ -1145,12 +1145,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of conCapacity.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_cap_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateConCapacityParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_cap_id\u003c/li\u003e/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conCapacity"
+                            "$ref": "#/definitions/godevmandb.UpdateConCapacityParams"
                         }
                     }
                 ],
@@ -1158,7 +1158,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conCapacity"
+                            "$ref": "#/definitions/godevmandb.ConCapacity"
                         }
                     },
                     "400": {
@@ -1257,7 +1257,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.connection"
+                                "$ref": "#/definitions/godevmandb.Connection"
                             }
                         }
                     },
@@ -1346,7 +1346,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.conClass"
+                                "$ref": "#/definitions/godevmandb.ConClass"
                             }
                         }
                     },
@@ -1379,12 +1379,12 @@ const docTemplate = `{
                 "operationId": "create-con_class",
                 "parameters": [
                     {
-                        "description": "JSON object of conClass\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_class_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateConClassParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conClass"
+                            "$ref": "#/definitions/godevmandb.CreateConClassParams"
                         }
                     }
                 ],
@@ -1392,7 +1392,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conClass"
+                            "$ref": "#/definitions/godevmandb.ConClass"
                         }
                     },
                     "400": {
@@ -1479,7 +1479,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conClass"
+                            "$ref": "#/definitions/godevmandb.ConClass"
                         }
                     },
                     "400": {
@@ -1524,12 +1524,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of conClass.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_class_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateConClassParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_class_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conClass"
+                            "$ref": "#/definitions/godevmandb.UpdateConClassParams"
                         }
                     }
                 ],
@@ -1537,7 +1537,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conClass"
+                            "$ref": "#/definitions/godevmandb.ConClass"
                         }
                     },
                     "400": {
@@ -1636,7 +1636,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.connection"
+                                "$ref": "#/definitions/godevmandb.Connection"
                             }
                         }
                     },
@@ -1761,7 +1761,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.conProvider"
+                                "$ref": "#/definitions/godevmandb.ConProvider"
                             }
                         }
                     },
@@ -1794,12 +1794,12 @@ const docTemplate = `{
                 "operationId": "create-con_provider",
                 "parameters": [
                     {
-                        "description": "JSON object of conProvider.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_prov_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateConProviderParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conProvider"
+                            "$ref": "#/definitions/godevmandb.CreateConProviderParams"
                         }
                     }
                 ],
@@ -1807,7 +1807,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conProvider"
+                            "$ref": "#/definitions/godevmandb.ConProvider"
                         }
                     },
                     "400": {
@@ -1894,7 +1894,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conProvider"
+                            "$ref": "#/definitions/godevmandb.ConProvider"
                         }
                     },
                     "400": {
@@ -1939,12 +1939,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of conProvider.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_prov_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateConProviderParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_prov_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conProvider"
+                            "$ref": "#/definitions/godevmandb.UpdateConProviderParams"
                         }
                     }
                 ],
@@ -1952,7 +1952,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conProvider"
+                            "$ref": "#/definitions/godevmandb.ConProvider"
                         }
                     },
                     "400": {
@@ -2051,7 +2051,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.connection"
+                                "$ref": "#/definitions/godevmandb.Connection"
                             }
                         }
                     },
@@ -2140,7 +2140,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.conType"
+                                "$ref": "#/definitions/godevmandb.ConType"
                             }
                         }
                     },
@@ -2173,12 +2173,12 @@ const docTemplate = `{
                 "operationId": "create-con_type",
                 "parameters": [
                     {
-                        "description": "JSON object of conType.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_type_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateConTypeParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conType"
+                            "$ref": "#/definitions/godevmandb.CreateConTypeParams"
                         }
                     }
                 ],
@@ -2186,7 +2186,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conType"
+                            "$ref": "#/definitions/godevmandb.ConType"
                         }
                     },
                     "400": {
@@ -2273,7 +2273,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conType"
+                            "$ref": "#/definitions/godevmandb.ConType"
                         }
                     },
                     "400": {
@@ -2318,12 +2318,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of conType.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_type_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateConTypeParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_type_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.conType"
+                            "$ref": "#/definitions/godevmandb.UpdateConTypeParams"
                         }
                     }
                 ],
@@ -2331,7 +2331,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conType"
+                            "$ref": "#/definitions/godevmandb.ConType"
                         }
                     },
                     "400": {
@@ -2430,7 +2430,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.connection"
+                                "$ref": "#/definitions/godevmandb.Connection"
                             }
                         }
                     },
@@ -2482,7 +2482,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.connection"
+                            "$ref": "#/definitions/godevmandb.Connection"
                         }
                     },
                     "400": {
@@ -2527,12 +2527,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of connection.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateConnectionParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003econ_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.connection"
+                            "$ref": "#/definitions/godevmandb.UpdateConnectionParams"
                         }
                     }
                 ],
@@ -2540,7 +2540,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.connection"
+                            "$ref": "#/definitions/godevmandb.Connection"
                         }
                     },
                     "400": {
@@ -2637,7 +2637,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conCapacity"
+                            "$ref": "#/definitions/godevmandb.ConCapacity"
                         }
                     },
                     "400": {
@@ -2688,7 +2688,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conClass"
+                            "$ref": "#/definitions/godevmandb.ConClass"
                         }
                     },
                     "400": {
@@ -2739,7 +2739,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conProvider"
+                            "$ref": "#/definitions/godevmandb.ConProvider"
                         }
                     },
                     "400": {
@@ -2790,7 +2790,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.conType"
+                            "$ref": "#/definitions/godevmandb.ConType"
                         }
                     },
                     "400": {
@@ -2878,7 +2878,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.credential"
+                                "$ref": "#/definitions/godevmandb.Credential"
                             }
                         }
                     },
@@ -2911,12 +2911,12 @@ const docTemplate = `{
                 "operationId": "create-credential",
                 "parameters": [
                     {
-                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateCredentialParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.credential"
+                            "$ref": "#/definitions/godevmandb.CreateCredentialParams"
                         }
                     }
                 ],
@@ -2924,7 +2924,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.credential"
+                            "$ref": "#/definitions/godevmandb.Credential"
                         }
                     },
                     "400": {
@@ -3011,7 +3011,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.credential"
+                            "$ref": "#/definitions/godevmandb.Credential"
                         }
                     },
                     "400": {
@@ -3056,12 +3056,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateCredentialParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.credential"
+                            "$ref": "#/definitions/godevmandb.UpdateCredentialParams"
                         }
                     }
                 ],
@@ -3069,7 +3069,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.credential"
+                            "$ref": "#/definitions/godevmandb.Credential"
                         }
                     },
                     "400": {
@@ -3203,7 +3203,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.customEntity"
+                                "$ref": "#/definitions/godevmandb.CustomEntity"
                             }
                         }
                     },
@@ -3236,12 +3236,12 @@ const docTemplate = `{
                 "operationId": "create-customEntity",
                 "parameters": [
                     {
-                        "description": "JSON object of customEntity.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecent_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateCustomEntityParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.customEntity"
+                            "$ref": "#/definitions/godevmandb.CreateCustomEntityParams"
                         }
                     }
                 ],
@@ -3249,7 +3249,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.customEntity"
+                            "$ref": "#/definitions/godevmandb.CustomEntity"
                         }
                     },
                     "400": {
@@ -3336,7 +3336,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.customEntity"
+                            "$ref": "#/definitions/godevmandb.CustomEntity"
                         }
                     },
                     "400": {
@@ -3381,12 +3381,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of customEntity.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecent_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateCustomEntityParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecent_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.customEntity"
+                            "$ref": "#/definitions/godevmandb.UpdateCustomEntityParams"
                         }
                     }
                 ],
@@ -3394,7 +3394,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.customEntity"
+                            "$ref": "#/definitions/godevmandb.CustomEntity"
                         }
                     },
                     "400": {
@@ -3698,7 +3698,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.deviceClass"
+                                "$ref": "#/definitions/godevmandb.DeviceClass"
                             }
                         }
                     },
@@ -3731,12 +3731,12 @@ const docTemplate = `{
                 "operationId": "create-device_class",
                 "parameters": [
                     {
-                        "description": "JSON object of deviceClass\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eclass_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "Device class description \u0026quot;string\u0026quot;",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceClass"
+                            "type": "string"
                         }
                     }
                 ],
@@ -3744,7 +3744,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceClass"
+                            "$ref": "#/definitions/godevmandb.DeviceClass"
                         }
                     },
                     "400": {
@@ -3831,7 +3831,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceClass"
+                            "$ref": "#/definitions/godevmandb.DeviceClass"
                         }
                     },
                     "400": {
@@ -3876,12 +3876,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of deviceClass.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eclass_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateDeviceClassParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eclass_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceClass"
+                            "$ref": "#/definitions/godevmandb.UpdateDeviceClassParams"
                         }
                     }
                 ],
@@ -3889,7 +3889,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceClass"
+                            "$ref": "#/definitions/godevmandb.DeviceClass"
                         }
                     },
                     "400": {
@@ -3988,7 +3988,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.deviceType"
+                                "$ref": "#/definitions/godevmandb.DeviceType"
                             }
                         }
                     },
@@ -4113,7 +4113,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.deviceCredential"
+                                "$ref": "#/definitions/godevmandb.DeviceCredential"
                             }
                         }
                     },
@@ -4146,12 +4146,12 @@ const docTemplate = `{
                 "operationId": "create-device_credential",
                 "parameters": [
                     {
-                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateDeviceCredentialParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceCredential"
+                            "$ref": "#/definitions/godevmandb.CreateDeviceCredentialParams"
                         }
                     }
                 ],
@@ -4159,7 +4159,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceCredential"
+                            "$ref": "#/definitions/godevmandb.DeviceCredential"
                         }
                     },
                     "400": {
@@ -4246,7 +4246,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceCredential"
+                            "$ref": "#/definitions/godevmandb.DeviceCredential"
                         }
                     },
                     "400": {
@@ -4291,12 +4291,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateDeviceCredentialParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceCredential"
+                            "$ref": "#/definitions/godevmandb.UpdateDeviceCredentialParams"
                         }
                     }
                 ],
@@ -4304,7 +4304,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceCredential"
+                            "$ref": "#/definitions/godevmandb.DeviceCredential"
                         }
                     },
                     "400": {
@@ -4438,7 +4438,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.deviceDomain"
+                                "$ref": "#/definitions/godevmandb.DeviceDomain"
                             }
                         }
                     },
@@ -4471,12 +4471,12 @@ const docTemplate = `{
                 "operationId": "create-device_domain",
                 "parameters": [
                     {
-                        "description": "JSON object of deviceDomain\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edom_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "Device domain \u0026quot;string\u0026quot;",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceDomain"
+                            "type": "string"
                         }
                     }
                 ],
@@ -4484,7 +4484,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceDomain"
+                            "$ref": "#/definitions/godevmandb.DeviceDomain"
                         }
                     },
                     "400": {
@@ -4571,7 +4571,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceDomain"
+                            "$ref": "#/definitions/godevmandb.DeviceDomain"
                         }
                     },
                     "400": {
@@ -4616,12 +4616,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of deviceDomain.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edom_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateDeviceDomainParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edom_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceDomain"
+                            "$ref": "#/definitions/godevmandb.UpdateDeviceDomainParams"
                         }
                     }
                 ],
@@ -4629,7 +4629,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceDomain"
+                            "$ref": "#/definitions/godevmandb.DeviceDomain"
                         }
                     },
                     "400": {
@@ -5100,7 +5100,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.deviceType"
+                                "$ref": "#/definitions/godevmandb.DeviceType"
                             }
                         }
                     },
@@ -5133,12 +5133,12 @@ const docTemplate = `{
                 "operationId": "create-device_type",
                 "parameters": [
                     {
-                        "description": "JSON object of deviceType\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003esys_id must match ^[\\w-\\.]+$ regex",
+                        "description": "JSON object of godevmandb.CreateDeviceTypeParams\u003cbr /\u003esys_id must match ^[\\w-\\.]+$ regex",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceType"
+                            "$ref": "#/definitions/godevmandb.CreateDeviceTypeParams"
                         }
                     }
                 ],
@@ -5146,7 +5146,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceType"
+                            "$ref": "#/definitions/godevmandb.DeviceType"
                         }
                     },
                     "400": {
@@ -5233,7 +5233,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceType"
+                            "$ref": "#/definitions/godevmandb.DeviceType"
                         }
                     },
                     "400": {
@@ -5278,12 +5278,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of deviceType.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esys_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateDeviceTypeParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esys_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceType"
+                            "$ref": "#/definitions/godevmandb.UpdateDeviceTypeParams"
                         }
                     }
                 ],
@@ -5291,7 +5291,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceType"
+                            "$ref": "#/definitions/godevmandb.DeviceType"
                         }
                     },
                     "400": {
@@ -5388,7 +5388,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.deviceClass"
+                            "$ref": "#/definitions/godevmandb.DeviceClass"
                         }
                     },
                     "400": {
@@ -5637,7 +5637,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/handlers.country"
+                                "$ref": "#/definitions/godevmandb.Country"
                             }
                         }
                     },
@@ -5670,12 +5670,12 @@ const docTemplate = `{
                 "operationId": "create-country",
                 "parameters": [
                     {
-                        "description": "JSON object of country.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecountry_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.CreateCountryParams",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.country"
+                            "$ref": "#/definitions/godevmandb.CreateCountryParams"
                         }
                     }
                 ],
@@ -5683,7 +5683,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/handlers.country"
+                            "$ref": "#/definitions/godevmandb.Country"
                         }
                     },
                     "400": {
@@ -5770,7 +5770,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.country"
+                            "$ref": "#/definitions/godevmandb.Country"
                         }
                     },
                     "400": {
@@ -5815,12 +5815,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "JSON object of country.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecountry_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "description": "JSON object of godevmandb.UpdateCountryParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecountry_id\u003c/li\u003e\u003c/ul\u003e",
                         "name": "Body",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handlers.country"
+                            "$ref": "#/definitions/godevmandb.UpdateCountryParams"
                         }
                     }
                 ],
@@ -5828,7 +5828,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/handlers.country"
+                            "$ref": "#/definitions/godevmandb.Country"
                         }
                     },
                     "400": {
@@ -5936,6 +5936,635 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "godevmandb.ConCapacity": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.ConClass": {
+            "type": "object",
+            "properties": {
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.ConProvider": {
+            "type": "object",
+            "properties": {
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.ConType": {
+            "type": "object",
+            "properties": {
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.Connection": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "con_id": {
+                    "type": "integer"
+                },
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "hint": {
+                    "type": "string"
+                },
+                "in_use": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "site_id": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.Country": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "ISO 3166-1 Alpha-2 code",
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateConCapacityParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateConClassParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateConProviderParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateConTypeParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateConnectionParams": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "hint": {
+                    "type": "string"
+                },
+                "in_use": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "site_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "godevmandb.CreateCountryParams": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateCredentialParams": {
+            "type": "object",
+            "properties": {
+                "enc_secret": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateCustomEntityParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "part": {
+                    "type": "string"
+                },
+                "serial_nr": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateDeviceCredentialParams": {
+            "type": "object",
+            "properties": {
+                "dev_id": {
+                    "type": "integer"
+                },
+                "enc_secret": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateDeviceTypeParams": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "hc": {
+                    "type": "boolean"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "snmp_ver": {
+                    "type": "integer"
+                },
+                "sys_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.Credential": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "cred_id": {
+                    "type": "integer"
+                },
+                "enc_secret": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CustomEntity": {
+            "type": "object",
+            "properties": {
+                "cent_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "part": {
+                    "type": "string"
+                },
+                "serial_nr": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.DeviceClass": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.DeviceCredential": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "cred_id": {
+                    "type": "integer"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "enc_secret": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.DeviceDomain": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "dom_id": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.DeviceType": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "hc": {
+                    "type": "boolean"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "snmp_ver": {
+                    "description": "highest supported snmp version",
+                    "type": "integer"
+                },
+                "sys_id": {
+                    "description": "snmp sysObjectId or some unique identifier if snmp is not supported",
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateConCapacityParams": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateConClassParams": {
+            "type": "object",
+            "properties": {
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateConProviderParams": {
+            "type": "object",
+            "properties": {
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateConTypeParams": {
+            "type": "object",
+            "properties": {
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateConnectionParams": {
+            "type": "object",
+            "properties": {
+                "con_cap_id": {
+                    "type": "integer"
+                },
+                "con_class_id": {
+                    "type": "integer"
+                },
+                "con_id": {
+                    "type": "integer"
+                },
+                "con_prov_id": {
+                    "type": "integer"
+                },
+                "con_type_id": {
+                    "type": "integer"
+                },
+                "hint": {
+                    "type": "string"
+                },
+                "in_use": {
+                    "type": "boolean"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "site_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "godevmandb.UpdateCountryParams": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateCredentialParams": {
+            "type": "object",
+            "properties": {
+                "cred_id": {
+                    "type": "integer"
+                },
+                "enc_secret": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateCustomEntityParams": {
+            "type": "object",
+            "properties": {
+                "cent_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "part": {
+                    "type": "string"
+                },
+                "serial_nr": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateDeviceClassParams": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateDeviceCredentialParams": {
+            "type": "object",
+            "properties": {
+                "cred_id": {
+                    "type": "integer"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "enc_secret": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateDeviceDomainParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "dom_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "godevmandb.UpdateDeviceTypeParams": {
+            "type": "object",
+            "properties": {
+                "class_id": {
+                    "type": "integer"
+                },
+                "hc": {
+                    "type": "boolean"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "snmp_ver": {
+                    "type": "integer"
+                },
+                "sys_id": {
+                    "type": "string"
+                }
+            }
+        },
         "handlers.CountResponse": {
             "type": "object",
             "properties": {
@@ -6046,193 +6675,6 @@ const docTemplate = `{
                 }
             }
         },
-        "handlers.conCapacity": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.conClass": {
-            "type": "object",
-            "properties": {
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.conProvider": {
-            "type": "object",
-            "properties": {
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.conType": {
-            "type": "object",
-            "properties": {
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.connection": {
-            "type": "object",
-            "properties": {
-                "con_cap_id": {
-                    "type": "integer"
-                },
-                "con_class_id": {
-                    "type": "integer"
-                },
-                "con_id": {
-                    "type": "integer"
-                },
-                "con_prov_id": {
-                    "type": "integer"
-                },
-                "con_type_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "hint": {
-                    "type": "string"
-                },
-                "in_use": {
-                    "type": "boolean"
-                },
-                "notes": {
-                    "type": "string"
-                },
-                "site_id": {
-                    "type": "integer"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.country": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "string"
-                },
-                "country_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.credential": {
-            "type": "object",
-            "properties": {
-                "created_on": {
-                    "type": "string"
-                },
-                "cred_id": {
-                    "type": "integer"
-                },
-                "enc_secret": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.customEntity": {
-            "type": "object",
-            "properties": {
-                "cent_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "part": {
-                    "type": "string"
-                },
-                "serial_nr": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
         "handlers.device": {
             "type": "object",
             "properties": {
@@ -6316,92 +6758,6 @@ const docTemplate = `{
                 },
                 "validation_failed": {
                     "type": "boolean"
-                }
-            }
-        },
-        "handlers.deviceClass": {
-            "type": "object",
-            "properties": {
-                "class_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.deviceCredential": {
-            "type": "object",
-            "properties": {
-                "created_on": {
-                    "type": "string"
-                },
-                "cred_id": {
-                    "type": "integer"
-                },
-                "dev_id": {
-                    "type": "integer"
-                },
-                "enc_secret": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.deviceDomain": {
-            "type": "object",
-            "properties": {
-                "created_on": {
-                    "type": "string"
-                },
-                "descr": {
-                    "type": "string"
-                },
-                "dom_id": {
-                    "type": "integer"
-                },
-                "updated_on": {
-                    "type": "string"
-                }
-            }
-        },
-        "handlers.deviceType": {
-            "type": "object",
-            "properties": {
-                "class_id": {
-                    "type": "integer"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "hc": {
-                    "type": "boolean"
-                },
-                "manufacturer": {
-                    "type": "string"
-                },
-                "model": {
-                    "type": "string"
-                },
-                "snmp_ver": {
-                    "type": "integer"
-                },
-                "sys_id": {
-                    "type": "string"
-                },
-                "updated_on": {
-                    "type": "string"
                 }
             }
         },

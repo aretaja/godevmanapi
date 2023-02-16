@@ -4,73 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type credential struct {
-	UpdatedOn time.Time `json:"updated_on"`
-	CreatedOn time.Time `json:"created_on"`
-	Username  *string   `json:"username"`
-	EncSecret string    `json:"enc_secret"`
-	Label     string    `json:"label"`
-	CredID    int64     `json:"cred_id"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *credential) getValues(s godevmandb.Credential) error {
-	r.CredID = s.CredID
-	r.Label = s.Label
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-	r.Username = nullStringToPtr(s.Username)
-
-	val, err := godevmandb.DecryptStrAes(s.EncSecret, salt)
-	if err != nil {
-		return err
-	}
-
-	r.EncSecret = val
-
-	return nil
-}
-
-// Return corresponding godevmandb create parameters
-func (r *credential) createParams() (godevmandb.CreateCredentialParams, error) {
-	s := godevmandb.CreateCredentialParams{}
-
-	s.Label = r.Label
-	s.Username = strToNullString(r.Username)
-
-	val, err := godevmandb.EncryptStrAes(r.EncSecret, salt)
-	if err != nil {
-		return s, err
-	}
-
-	s.EncSecret = val
-
-	return s, nil
-}
-
-// Return corresponding godevmandb update parameters
-func (r *credential) updateParams() (godevmandb.UpdateCredentialParams, error) {
-	s := godevmandb.UpdateCredentialParams{}
-
-	s.Label = r.Label
-	s.Username = strToNullString(r.Username)
-
-	val, err := godevmandb.EncryptStrAes(r.EncSecret, salt)
-	if err != nil {
-		return s, err
-	}
-
-	s.EncSecret = val
-
-	return s, nil
-}
 
 // Count Credentials
 // @Summary Count credentials
@@ -105,7 +42,7 @@ func (h *Handler) CountCredentials(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} credential
+// @Success 200 {array} godevmandb.Credential
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -148,14 +85,20 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []credential{}
-	for _, s := range res {
-		r := credential{}
-		r.getValues(s)
-		out = append(out, r)
+	// Decrypt secret
+	for i, s := range res {
+		if s.EncSecret != "" {
+			val, err := godevmandb.DecryptStrAes(s.EncSecret, salt)
+			if err != nil {
+				RespondError(w, r, http.StatusInternalServerError, err.Error())
+				return
+			}
+
+			res[i].EncSecret = val
+		}
 	}
 
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get Credential
@@ -164,7 +107,7 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 // @Tags data
 // @ID get-credential
 // @Param cred_id path string true "cred_id"
-// @Success 200 {object} credential
+// @Success 200 {object} godevmandb.Credential
 // @Failure 400 {object} StatusResponse "Invalid cred_id"
 // @Failure 404 {object} StatusResponse "Credential not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -188,10 +131,18 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := credential{}
-	out.getValues(res)
+	// Decrypt secret
+	if res.EncSecret != "" {
+		val, err := godevmandb.DecryptStrAes(res.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
 
-	RespondJSON(w, r, http.StatusOK, out)
+		res.EncSecret = val
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create Credential
@@ -199,27 +150,31 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 // @Description Create credential
 // @Tags data
 // @ID create-credential
-// @Param Body body credential true "JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} credential
+// @Param Body body godevmandb.CreateCredentialParams true "JSON object of godevmandb.CreateCredentialParams"
+// @Success 201 {object} godevmandb.Credential
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /data/credentials [POST]
 func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
-	var pIn credential
+	var p godevmandb.CreateCredentialParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Create parameters for new db record
-	p, err := pIn.createParams()
-	if err != nil {
-		RespondError(w, r, http.StatusInternalServerError, err.Error())
-		return
+	// Encrypt secret
+	if p.EncSecret != "" {
+		val, err := godevmandb.EncryptStrAes(p.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		p.EncSecret = val
 	}
 
 	q := godevmandb.New(h.db)
@@ -229,10 +184,18 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := credential{}
-	out.getValues(res)
+	// Decrypt secret
+	if res.EncSecret != "" {
+		val, err := godevmandb.DecryptStrAes(res.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
 
-	RespondJSON(w, r, http.StatusCreated, out)
+		res.EncSecret = val
+	}
+
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update Credential
@@ -241,8 +204,8 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 // @Tags data
 // @ID update-credential
 // @Param cred_id path string true "cred_id"
-// @Param Body body credential true "JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} credential
+// @Param Body body godevmandb.UpdateCredentialParams true "JSON object of godevmandb.UpdateCredentialParams.<br />Ignored fields:<ul><li>cred_id</li></ul>"
+// @Success 200 {object} godevmandb.Credential
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -255,22 +218,26 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var pIn credential
+	var p godevmandb.UpdateCredentialParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Update parameters for new db record
-	p, err := pIn.updateParams()
-	if err != nil {
-		RespondError(w, r, http.StatusInternalServerError, err.Error())
-		return
-	}
-
 	p.CredID = id
+
+	// Encrypt secret
+	if p.EncSecret != "" {
+		val, err := godevmandb.EncryptStrAes(p.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		p.EncSecret = val
+	}
 
 	q := godevmandb.New(h.db)
 	res, err := q.UpdateCredential(h.ctx, p)
@@ -280,10 +247,18 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := credential{}
-	out.getValues(res)
+	// Decrypt secret
+	if res.EncSecret != "" {
+		val, err := godevmandb.DecryptStrAes(res.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
 
-	RespondJSON(w, r, http.StatusOK, out)
+		res.EncSecret = val
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete Credential

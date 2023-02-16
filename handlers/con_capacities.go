@@ -4,49 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type conCapacity struct {
-	UpdatedOn time.Time `json:"updated_on"`
-	CreatedOn time.Time `json:"created_on"`
-	Notes     *string   `json:"notes"`
-	Descr     string    `json:"descr"`
-	ConCapID  int64     `json:"con_cap_id"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *conCapacity) getValues(s godevmandb.ConCapacity) {
-	r.ConCapID = s.ConCapID
-	r.Descr = s.Descr
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-	r.Notes = nullStringToPtr(s.Notes)
-}
-
-// Return corresponding godevmandb create parameters
-func (r *conCapacity) createParams() godevmandb.CreateConCapacityParams {
-	s := godevmandb.CreateConCapacityParams{}
-
-	s.Descr = r.Descr
-	s.Notes = strToNullString(r.Notes)
-
-	return s
-}
-
-// Return corresponding godevmandb update parameters
-func (r *conCapacity) updateParams() godevmandb.UpdateConCapacityParams {
-	s := godevmandb.UpdateConCapacityParams{}
-
-	s.Descr = r.Descr
-	s.Notes = strToNullString(r.Notes)
-
-	return s
-}
 
 // Count ConCapacities
 // @Summary Count con_capacities
@@ -81,7 +42,7 @@ func (h *Handler) CountConCapacities(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} conCapacity
+// @Success 200 {array} godevmandb.ConCapacity
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -124,14 +85,7 @@ func (h *Handler) GetConCapacities(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []conCapacity{}
-	for _, s := range res {
-		r := conCapacity{}
-		r.getValues(s)
-		out = append(out, r)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get ConCapacity
@@ -140,7 +94,7 @@ func (h *Handler) GetConCapacities(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID get-capacity
 // @Param con_cap_id path string true "con_cap_id"
-// @Success 200 {object} conCapacity
+// @Success 200 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid con_cap_id"
 // @Failure 404 {object} StatusResponse "Capacity not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -164,10 +118,7 @@ func (h *Handler) GetConCapacity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := conCapacity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create ConCapacity
@@ -175,24 +126,21 @@ func (h *Handler) GetConCapacity(w http.ResponseWriter, r *http.Request) {
 // @Description Create connection capacity
 // @Tags connections
 // @ID create-capacity
-// @Param Body body conCapacity true "JSON object of conCapacity.<br />Ignored fields:<ul><li>con_cap_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} conCapacity
+// @Param Body body godevmandb.CreateConCapacityParams true "JSON object of godevmandb.CreateConCapacityParams"
+// @Success 201 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /connections/capacities [POST]
 func (h *Handler) CreateConCapacity(w http.ResponseWriter, r *http.Request) {
-	var pIn conCapacity
+	var p godevmandb.CreateConCapacityParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-
-	// Create parameters for new db record
-	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateConCapacity(h.ctx, p)
@@ -202,10 +150,7 @@ func (h *Handler) CreateConCapacity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := conCapacity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusCreated, out)
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update ConCapacity
@@ -214,8 +159,8 @@ func (h *Handler) CreateConCapacity(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID update-capacity
 // @Param con_cap_id path string true "con_cap_id"
-// @Param Body body conCapacity true "JSON object of conCapacity.<br />Ignored fields:<ul><li>con_cap_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} conCapacity
+// @Param Body body godevmandb.UpdateConCapacityParams true "JSON object of godevmandb.UpdateConCapacityParams.<br />Ignored fields:<ul><li>con_cap_id</li>/ul>"
+// @Success 200 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -228,16 +173,14 @@ func (h *Handler) UpdateConCapacity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var pIn conCapacity
+	var p godevmandb.UpdateConCapacityParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Update parameters for new db record
-	p := pIn.updateParams()
 	p.ConCapID = id
 
 	q := godevmandb.New(h.db)
@@ -248,10 +191,7 @@ func (h *Handler) UpdateConCapacity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := conCapacity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete ConCapacity
@@ -290,7 +230,7 @@ func (h *Handler) DeleteConCapacity(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-capacity-connections
 // @Param con_cap_id path string true "con_cap_id"
-// @Success 200 {array} connection
+// @Success 200 {array} godevmandb.Connection
 // @Failure 400 {object} StatusResponse "Invalid con_cap_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -310,12 +250,5 @@ func (h *Handler) GetConCapacityConnections(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	out := []connection{}
-	for _, s := range res {
-		a := connection{}
-		a.getValues(s)
-		out = append(out, a)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }

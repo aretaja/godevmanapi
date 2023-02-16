@@ -1,5 +1,414 @@
 basePath: /
 definitions:
+  godevmandb.ConCapacity:
+    properties:
+      con_cap_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.ConClass:
+    properties:
+      con_class_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.ConProvider:
+    properties:
+      con_prov_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.ConType:
+    properties:
+      con_type_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.Connection:
+    properties:
+      con_cap_id:
+        type: integer
+      con_class_id:
+        type: integer
+      con_id:
+        type: integer
+      con_prov_id:
+        type: integer
+      con_type_id:
+        type: integer
+      created_on:
+        type: string
+      hint:
+        type: string
+      in_use:
+        type: boolean
+      notes:
+        type: string
+      site_id:
+        type: integer
+      updated_on:
+        type: string
+    type: object
+  godevmandb.Country:
+    properties:
+      code:
+        description: ISO 3166-1 Alpha-2 code
+        type: string
+      country_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.CreateConCapacityParams:
+    properties:
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.CreateConClassParams:
+    properties:
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.CreateConProviderParams:
+    properties:
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.CreateConTypeParams:
+    properties:
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.CreateConnectionParams:
+    properties:
+      con_cap_id:
+        type: integer
+      con_class_id:
+        type: integer
+      con_prov_id:
+        type: integer
+      con_type_id:
+        type: integer
+      hint:
+        type: string
+      in_use:
+        type: boolean
+      notes:
+        type: string
+      site_id:
+        type: integer
+    type: object
+  godevmandb.CreateCountryParams:
+    properties:
+      code:
+        type: string
+      descr:
+        type: string
+    type: object
+  godevmandb.CreateCredentialParams:
+    properties:
+      enc_secret:
+        type: string
+      label:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.CreateCustomEntityParams:
+    properties:
+      descr:
+        type: string
+      manufacturer:
+        type: string
+      part:
+        type: string
+      serial_nr:
+        type: string
+    type: object
+  godevmandb.CreateDeviceCredentialParams:
+    properties:
+      dev_id:
+        type: integer
+      enc_secret:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.CreateDeviceTypeParams:
+    properties:
+      class_id:
+        type: integer
+      hc:
+        type: boolean
+      manufacturer:
+        type: string
+      model:
+        type: string
+      snmp_ver:
+        type: integer
+      sys_id:
+        type: string
+    type: object
+  godevmandb.Credential:
+    properties:
+      created_on:
+        type: string
+      cred_id:
+        type: integer
+      enc_secret:
+        type: string
+      label:
+        type: string
+      updated_on:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.CustomEntity:
+    properties:
+      cent_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      manufacturer:
+        type: string
+      part:
+        type: string
+      serial_nr:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.DeviceClass:
+    properties:
+      class_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.DeviceCredential:
+    properties:
+      created_on:
+        type: string
+      cred_id:
+        type: integer
+      dev_id:
+        type: integer
+      enc_secret:
+        type: string
+      updated_on:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.DeviceDomain:
+    properties:
+      created_on:
+        type: string
+      descr:
+        type: string
+      dom_id:
+        type: integer
+      updated_on:
+        type: string
+    type: object
+  godevmandb.DeviceType:
+    properties:
+      class_id:
+        type: integer
+      created_on:
+        type: string
+      hc:
+        type: boolean
+      manufacturer:
+        type: string
+      model:
+        type: string
+      snmp_ver:
+        description: highest supported snmp version
+        type: integer
+      sys_id:
+        description: snmp sysObjectId or some unique identifier if snmp is not supported
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.UpdateConCapacityParams:
+    properties:
+      con_cap_id:
+        type: integer
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.UpdateConClassParams:
+    properties:
+      con_class_id:
+        type: integer
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.UpdateConProviderParams:
+    properties:
+      con_prov_id:
+        type: integer
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.UpdateConTypeParams:
+    properties:
+      con_type_id:
+        type: integer
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.UpdateConnectionParams:
+    properties:
+      con_cap_id:
+        type: integer
+      con_class_id:
+        type: integer
+      con_id:
+        type: integer
+      con_prov_id:
+        type: integer
+      con_type_id:
+        type: integer
+      hint:
+        type: string
+      in_use:
+        type: boolean
+      notes:
+        type: string
+      site_id:
+        type: integer
+    type: object
+  godevmandb.UpdateCountryParams:
+    properties:
+      code:
+        type: string
+      country_id:
+        type: integer
+      descr:
+        type: string
+    type: object
+  godevmandb.UpdateCredentialParams:
+    properties:
+      cred_id:
+        type: integer
+      enc_secret:
+        type: string
+      label:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.UpdateCustomEntityParams:
+    properties:
+      cent_id:
+        type: integer
+      descr:
+        type: string
+      manufacturer:
+        type: string
+      part:
+        type: string
+      serial_nr:
+        type: string
+    type: object
+  godevmandb.UpdateDeviceClassParams:
+    properties:
+      class_id:
+        type: integer
+      descr:
+        type: string
+    type: object
+  godevmandb.UpdateDeviceCredentialParams:
+    properties:
+      cred_id:
+        type: integer
+      dev_id:
+        type: integer
+      enc_secret:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.UpdateDeviceDomainParams:
+    properties:
+      descr:
+        type: string
+      dom_id:
+        type: integer
+    type: object
+  godevmandb.UpdateDeviceTypeParams:
+    properties:
+      class_id:
+        type: integer
+      hc:
+        type: boolean
+      manufacturer:
+        type: string
+      model:
+        type: string
+      snmp_ver:
+        type: integer
+      sys_id:
+        type: string
+    type: object
   handlers.CountResponse:
     properties:
       count:
@@ -72,128 +481,6 @@ definitions:
       updated_on:
         type: string
     type: object
-  handlers.conCapacity:
-    properties:
-      con_cap_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        type: string
-      updated_on:
-        type: string
-    type: object
-  handlers.conClass:
-    properties:
-      con_class_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        type: string
-      updated_on:
-        type: string
-    type: object
-  handlers.conProvider:
-    properties:
-      con_prov_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        type: string
-      updated_on:
-        type: string
-    type: object
-  handlers.conType:
-    properties:
-      con_type_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      notes:
-        type: string
-      updated_on:
-        type: string
-    type: object
-  handlers.connection:
-    properties:
-      con_cap_id:
-        type: integer
-      con_class_id:
-        type: integer
-      con_id:
-        type: integer
-      con_prov_id:
-        type: integer
-      con_type_id:
-        type: integer
-      created_on:
-        type: string
-      hint:
-        type: string
-      in_use:
-        type: boolean
-      notes:
-        type: string
-      site_id:
-        type: integer
-      updated_on:
-        type: string
-    type: object
-  handlers.country:
-    properties:
-      code:
-        type: string
-      country_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      updated_on:
-        type: string
-    type: object
-  handlers.credential:
-    properties:
-      created_on:
-        type: string
-      cred_id:
-        type: integer
-      enc_secret:
-        type: string
-      label:
-        type: string
-      updated_on:
-        type: string
-      username:
-        type: string
-    type: object
-  handlers.customEntity:
-    properties:
-      cent_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      manufacturer:
-        type: string
-      part:
-        type: string
-      serial_nr:
-        type: string
-      updated_on:
-        type: string
-    type: object
   handlers.device:
     properties:
       backup:
@@ -250,62 +537,6 @@ definitions:
         type: string
       validation_failed:
         type: boolean
-    type: object
-  handlers.deviceClass:
-    properties:
-      class_id:
-        type: integer
-      created_on:
-        type: string
-      descr:
-        type: string
-      updated_on:
-        type: string
-    type: object
-  handlers.deviceCredential:
-    properties:
-      created_on:
-        type: string
-      cred_id:
-        type: integer
-      dev_id:
-        type: integer
-      enc_secret:
-        type: string
-      updated_on:
-        type: string
-      username:
-        type: string
-    type: object
-  handlers.deviceDomain:
-    properties:
-      created_on:
-        type: string
-      descr:
-        type: string
-      dom_id:
-        type: integer
-      updated_on:
-        type: string
-    type: object
-  handlers.deviceType:
-    properties:
-      class_id:
-        type: integer
-      created_on:
-        type: string
-      hc:
-        type: boolean
-      manufacturer:
-        type: string
-      model:
-        type: string
-      snmp_ver:
-        type: integer
-      sys_id:
-        type: string
-      updated_on:
-        type: string
     type: object
   handlers.snmpCredential:
     properties:
@@ -883,7 +1114,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.connection'
+              $ref: '#/definitions/godevmandb.Connection'
             type: array
         "404":
           description: Invalid route error
@@ -904,17 +1135,17 @@ paths:
       description: Create connection
       operationId: create-connection
       parameters:
-      - description: JSON object of connection.<br />Ignored fields:<ul><li>con_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateConnectionParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.connection'
+          $ref: '#/definitions/godevmandb.CreateConnectionParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.connection'
+            $ref: '#/definitions/godevmandb.Connection'
         "400":
           description: Invalid request payload
           schema:
@@ -979,7 +1210,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.connection'
+            $ref: '#/definitions/godevmandb.Connection'
         "400":
           description: Invalid con_id
           schema:
@@ -1008,17 +1239,18 @@ paths:
         name: con_id
         required: true
         type: string
-      - description: JSON object of connection.<br />Ignored fields:<ul><li>con_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateConnectionParams.<br />Ignored
+          fields:<ul><li>con_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.connection'
+          $ref: '#/definitions/godevmandb.UpdateConnectionParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.connection'
+            $ref: '#/definitions/godevmandb.Connection'
         "400":
           description: Invalid request
           schema:
@@ -1052,7 +1284,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conCapacity'
+            $ref: '#/definitions/godevmandb.ConCapacity'
         "400":
           description: Invalid con_id
           schema:
@@ -1086,7 +1318,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conClass'
+            $ref: '#/definitions/godevmandb.ConClass'
         "400":
           description: Invalid con_id
           schema:
@@ -1120,7 +1352,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conProvider'
+            $ref: '#/definitions/godevmandb.ConProvider'
         "400":
           description: Invalid con_id
           schema:
@@ -1154,7 +1386,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conType'
+            $ref: '#/definitions/godevmandb.ConType'
         "400":
           description: Invalid con_id
           schema:
@@ -1212,7 +1444,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.conCapacity'
+              $ref: '#/definitions/godevmandb.ConCapacity'
             type: array
         "404":
           description: Invalid route error
@@ -1233,17 +1465,17 @@ paths:
       description: Create connection capacity
       operationId: create-capacity
       parameters:
-      - description: JSON object of conCapacity.<br />Ignored fields:<ul><li>con_cap_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateConCapacityParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conCapacity'
+          $ref: '#/definitions/godevmandb.CreateConCapacityParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.conCapacity'
+            $ref: '#/definitions/godevmandb.ConCapacity'
         "400":
           description: Invalid request payload
           schema:
@@ -1308,7 +1540,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conCapacity'
+            $ref: '#/definitions/godevmandb.ConCapacity'
         "400":
           description: Invalid con_cap_id
           schema:
@@ -1337,17 +1569,18 @@ paths:
         name: con_cap_id
         required: true
         type: string
-      - description: JSON object of conCapacity.<br />Ignored fields:<ul><li>con_cap_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateConCapacityParams.<br />Ignored
+          fields:<ul><li>con_cap_id</li>/ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conCapacity'
+          $ref: '#/definitions/godevmandb.UpdateConCapacityParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conCapacity'
+            $ref: '#/definitions/godevmandb.ConCapacity'
         "400":
           description: Invalid request
           schema:
@@ -1382,7 +1615,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.connection'
+              $ref: '#/definitions/godevmandb.Connection'
             type: array
         "400":
           description: Invalid con_cap_id
@@ -1465,7 +1698,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.conClass'
+              $ref: '#/definitions/godevmandb.ConClass'
             type: array
         "404":
           description: Invalid route error
@@ -1486,17 +1719,17 @@ paths:
       description: Create connection class
       operationId: create-con_class
       parameters:
-      - description: JSON object of conClass<br />Ignored fields:<ul><li>con_class_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateConClassParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conClass'
+          $ref: '#/definitions/godevmandb.CreateConClassParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.conClass'
+            $ref: '#/definitions/godevmandb.ConClass'
         "400":
           description: Invalid request payload
           schema:
@@ -1561,7 +1794,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conClass'
+            $ref: '#/definitions/godevmandb.ConClass'
         "400":
           description: Invalid con_class_id
           schema:
@@ -1590,17 +1823,18 @@ paths:
         name: con_class_id
         required: true
         type: string
-      - description: JSON object of conClass.<br />Ignored fields:<ul><li>con_class_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateConClassParams.<br />Ignored
+          fields:<ul><li>con_class_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conClass'
+          $ref: '#/definitions/godevmandb.UpdateConClassParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conClass'
+            $ref: '#/definitions/godevmandb.ConClass'
         "400":
           description: Invalid request
           schema:
@@ -1635,7 +1869,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.connection'
+              $ref: '#/definitions/godevmandb.Connection'
             type: array
         "400":
           description: Invalid con_class_id
@@ -1742,7 +1976,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.conProvider'
+              $ref: '#/definitions/godevmandb.ConProvider'
             type: array
         "404":
           description: Invalid route error
@@ -1763,17 +1997,17 @@ paths:
       description: Create connection provider
       operationId: create-con_provider
       parameters:
-      - description: JSON object of conProvider.<br />Ignored fields:<ul><li>con_prov_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateConProviderParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conProvider'
+          $ref: '#/definitions/godevmandb.CreateConProviderParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.conProvider'
+            $ref: '#/definitions/godevmandb.ConProvider'
         "400":
           description: Invalid request payload
           schema:
@@ -1838,7 +2072,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conProvider'
+            $ref: '#/definitions/godevmandb.ConProvider'
         "400":
           description: Invalid con_prov_id
           schema:
@@ -1867,17 +2101,18 @@ paths:
         name: con_prov_id
         required: true
         type: string
-      - description: JSON object of conProvider.<br />Ignored fields:<ul><li>con_prov_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateConProviderParams.<br />Ignored
+          fields:<ul><li>con_prov_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conProvider'
+          $ref: '#/definitions/godevmandb.UpdateConProviderParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conProvider'
+            $ref: '#/definitions/godevmandb.ConProvider'
         "400":
           description: Invalid request
           schema:
@@ -1912,7 +2147,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.connection'
+              $ref: '#/definitions/godevmandb.Connection'
             type: array
         "400":
           description: Invalid con_prov_id
@@ -1995,7 +2230,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.conType'
+              $ref: '#/definitions/godevmandb.ConType'
             type: array
         "404":
           description: Invalid route error
@@ -2016,17 +2251,17 @@ paths:
       description: Create connection type
       operationId: create-con_type
       parameters:
-      - description: JSON object of conType.<br />Ignored fields:<ul><li>con_type_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateConTypeParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conType'
+          $ref: '#/definitions/godevmandb.CreateConTypeParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.conType'
+            $ref: '#/definitions/godevmandb.ConType'
         "400":
           description: Invalid request payload
           schema:
@@ -2091,7 +2326,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conType'
+            $ref: '#/definitions/godevmandb.ConType'
         "400":
           description: Invalid con_type_id
           schema:
@@ -2120,17 +2355,17 @@ paths:
         name: con_type_id
         required: true
         type: string
-      - description: JSON object of conType.<br />Ignored fields:<ul><li>con_type_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateConTypeParams.<br />Ignored fields:<ul><li>con_type_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.conType'
+          $ref: '#/definitions/godevmandb.UpdateConTypeParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.conType'
+            $ref: '#/definitions/godevmandb.ConType'
         "400":
           description: Invalid request
           schema:
@@ -2165,7 +2400,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.connection'
+              $ref: '#/definitions/godevmandb.Connection'
             type: array
         "400":
           description: Invalid con_type_id
@@ -2248,7 +2483,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.credential'
+              $ref: '#/definitions/godevmandb.Credential'
             type: array
         "404":
           description: Invalid route error
@@ -2269,17 +2504,17 @@ paths:
       description: Create credential
       operationId: create-credential
       parameters:
-      - description: JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateCredentialParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.credential'
+          $ref: '#/definitions/godevmandb.CreateCredentialParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.credential'
+            $ref: '#/definitions/godevmandb.Credential'
         "400":
           description: Invalid request payload
           schema:
@@ -2344,7 +2579,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.credential'
+            $ref: '#/definitions/godevmandb.Credential'
         "400":
           description: Invalid cred_id
           schema:
@@ -2373,17 +2608,18 @@ paths:
         name: cred_id
         required: true
         type: string
-      - description: JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateCredentialParams.<br />Ignored
+          fields:<ul><li>cred_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.credential'
+          $ref: '#/definitions/godevmandb.UpdateCredentialParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.credential'
+            $ref: '#/definitions/godevmandb.Credential'
         "400":
           description: Invalid request
           schema:
@@ -2465,7 +2701,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.customEntity'
+              $ref: '#/definitions/godevmandb.CustomEntity'
             type: array
         "404":
           description: Invalid route error
@@ -2486,17 +2722,17 @@ paths:
       description: Create customEntity
       operationId: create-customEntity
       parameters:
-      - description: JSON object of customEntity.<br />Ignored fields:<ul><li>cent_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateCustomEntityParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.customEntity'
+          $ref: '#/definitions/godevmandb.CreateCustomEntityParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.customEntity'
+            $ref: '#/definitions/godevmandb.CustomEntity'
         "400":
           description: Invalid request payload
           schema:
@@ -2561,7 +2797,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.customEntity'
+            $ref: '#/definitions/godevmandb.CustomEntity'
         "400":
           description: Invalid cent_id
           schema:
@@ -2590,17 +2826,18 @@ paths:
         name: cent_id
         required: true
         type: string
-      - description: JSON object of customEntity.<br />Ignored fields:<ul><li>cent_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateCustomEntityParams.<br />Ignored
+          fields:<ul><li>cent_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.customEntity'
+          $ref: '#/definitions/godevmandb.UpdateCustomEntityParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.customEntity'
+            $ref: '#/definitions/godevmandb.CustomEntity'
         "400":
           description: Invalid request
           schema:
@@ -2899,7 +3136,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.deviceClass'
+              $ref: '#/definitions/godevmandb.DeviceClass'
             type: array
         "404":
           description: Invalid route error
@@ -2920,17 +3157,17 @@ paths:
       description: Create device class
       operationId: create-device_class
       parameters:
-      - description: JSON object of deviceClass<br />Ignored fields:<ul><li>class_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: Device class description &quot;string&quot;
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceClass'
+          type: string
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.deviceClass'
+            $ref: '#/definitions/godevmandb.DeviceClass'
         "400":
           description: Invalid request payload
           schema:
@@ -2995,7 +3232,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceClass'
+            $ref: '#/definitions/godevmandb.DeviceClass'
         "400":
           description: Invalid class_id
           schema:
@@ -3024,17 +3261,18 @@ paths:
         name: class_id
         required: true
         type: string
-      - description: JSON object of deviceClass.<br />Ignored fields:<ul><li>class_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateDeviceClassParams.<br />Ignored
+          fields:<ul><li>class_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceClass'
+          $ref: '#/definitions/godevmandb.UpdateDeviceClassParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceClass'
+            $ref: '#/definitions/godevmandb.DeviceClass'
         "400":
           description: Invalid request
           schema:
@@ -3069,7 +3307,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.deviceType'
+              $ref: '#/definitions/godevmandb.DeviceType'
             type: array
         "400":
           description: Invalid class_id
@@ -3176,7 +3414,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.deviceCredential'
+              $ref: '#/definitions/godevmandb.DeviceCredential'
             type: array
         "404":
           description: Invalid route error
@@ -3197,17 +3435,17 @@ paths:
       description: Create device credential
       operationId: create-device_credential
       parameters:
-      - description: JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateDeviceCredentialParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceCredential'
+          $ref: '#/definitions/godevmandb.CreateDeviceCredentialParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.deviceCredential'
+            $ref: '#/definitions/godevmandb.DeviceCredential'
         "400":
           description: Invalid request payload
           schema:
@@ -3272,7 +3510,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceCredential'
+            $ref: '#/definitions/godevmandb.DeviceCredential'
         "400":
           description: Invalid cred_id
           schema:
@@ -3301,17 +3539,18 @@ paths:
         name: cred_id
         required: true
         type: string
-      - description: JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateDeviceCredentialParams.<br />Ignored
+          fields:<ul><li>cred_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceCredential'
+          $ref: '#/definitions/godevmandb.UpdateDeviceCredentialParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceCredential'
+            $ref: '#/definitions/godevmandb.DeviceCredential'
         "400":
           description: Invalid request
           schema:
@@ -3393,7 +3632,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.deviceDomain'
+              $ref: '#/definitions/godevmandb.DeviceDomain'
             type: array
         "404":
           description: Invalid route error
@@ -3414,17 +3653,17 @@ paths:
       description: Create device domain
       operationId: create-device_domain
       parameters:
-      - description: JSON object of deviceDomain<br />Ignored fields:<ul><li>dom_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: Device domain &quot;string&quot;
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceDomain'
+          type: string
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.deviceDomain'
+            $ref: '#/definitions/godevmandb.DeviceDomain'
         "400":
           description: Invalid request payload
           schema:
@@ -3489,7 +3728,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceDomain'
+            $ref: '#/definitions/godevmandb.DeviceDomain'
         "400":
           description: Invalid dom_id
           schema:
@@ -3518,17 +3757,18 @@ paths:
         name: dom_id
         required: true
         type: string
-      - description: JSON object of deviceDomain.<br />Ignored fields:<ul><li>dom_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateDeviceDomainParams.<br />Ignored
+          fields:<ul><li>dom_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceDomain'
+          $ref: '#/definitions/godevmandb.UpdateDeviceDomainParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceDomain'
+            $ref: '#/definitions/godevmandb.DeviceDomain'
         "400":
           description: Invalid request
           schema:
@@ -3835,7 +4075,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.deviceType'
+              $ref: '#/definitions/godevmandb.DeviceType'
             type: array
         "404":
           description: Invalid route error
@@ -3856,18 +4096,18 @@ paths:
       description: Create device type
       operationId: create-device_type
       parameters:
-      - description: JSON object of deviceType<br />Ignored fields:<ul><li>updated_on</li><li>created_on</li></ul>sys_id
+      - description: JSON object of godevmandb.CreateDeviceTypeParams<br />sys_id
           must match ^[\w-\.]+$ regex
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceType'
+          $ref: '#/definitions/godevmandb.CreateDeviceTypeParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.deviceType'
+            $ref: '#/definitions/godevmandb.DeviceType'
         "400":
           description: Invalid request payload
           schema:
@@ -3932,7 +4172,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceType'
+            $ref: '#/definitions/godevmandb.DeviceType'
         "400":
           description: Invalid sys_id
           schema:
@@ -3961,17 +4201,18 @@ paths:
         name: sys_id
         required: true
         type: string
-      - description: JSON object of deviceType.<br />Ignored fields:<ul><li>sys_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateDeviceTypeParams.<br />Ignored
+          fields:<ul><li>sys_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.deviceType'
+          $ref: '#/definitions/godevmandb.UpdateDeviceTypeParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceType'
+            $ref: '#/definitions/godevmandb.DeviceType'
         "400":
           description: Invalid request
           schema:
@@ -4005,7 +4246,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.deviceClass'
+            $ref: '#/definitions/godevmandb.DeviceClass'
         "400":
           description: Invalid sys_id
           schema:
@@ -4091,7 +4332,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/handlers.country'
+              $ref: '#/definitions/godevmandb.Country'
             type: array
         "404":
           description: Invalid route error
@@ -4112,17 +4353,17 @@ paths:
       description: Create country
       operationId: create-country
       parameters:
-      - description: JSON object of country.<br />Ignored fields:<ul><li>country_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.CreateCountryParams
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.country'
+          $ref: '#/definitions/godevmandb.CreateCountryParams'
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/handlers.country'
+            $ref: '#/definitions/godevmandb.Country'
         "400":
           description: Invalid request payload
           schema:
@@ -4187,7 +4428,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.country'
+            $ref: '#/definitions/godevmandb.Country'
         "400":
           description: Invalid country_id
           schema:
@@ -4216,17 +4457,17 @@ paths:
         name: country_id
         required: true
         type: string
-      - description: JSON object of country.<br />Ignored fields:<ul><li>country_id</li><li>updated_on</li><li>created_on</li></ul>
+      - description: JSON object of godevmandb.UpdateCountryParams.<br />Ignored fields:<ul><li>country_id</li></ul>
         in: body
         name: Body
         required: true
         schema:
-          $ref: '#/definitions/handlers.country'
+          $ref: '#/definitions/godevmandb.UpdateCountryParams'
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/handlers.country'
+            $ref: '#/definitions/godevmandb.Country'
         "400":
           description: Invalid request
           schema:

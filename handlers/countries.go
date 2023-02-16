@@ -4,49 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type country struct {
-	UpdatedOn time.Time `json:"updated_on"`
-	CreatedOn time.Time `json:"created_on"`
-	Code      string    `json:"code"`
-	Descr     string    `json:"descr"`
-	CountryID int64     `json:"country_id"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *country) getValues(s godevmandb.Country) {
-	r.CountryID = s.CountryID
-	r.Descr = s.Descr
-	r.Code = s.Code
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-}
-
-// Return corresponding godevmandb create parameters
-func (r *country) createParams() godevmandb.CreateCountryParams {
-	s := godevmandb.CreateCountryParams{}
-
-	s.Descr = r.Descr
-	s.Code = r.Code
-
-	return s
-}
-
-// Return corresponding godevmandb update parameters
-func (r *country) updateParams() godevmandb.UpdateCountryParams {
-	s := godevmandb.UpdateCountryParams{}
-
-	s.Descr = r.Descr
-	s.Code = r.Code
-
-	return s
-}
 
 // Count Countries
 // @Summary Count countries
@@ -82,7 +43,7 @@ func (h *Handler) CountCountries(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} country
+// @Success 200 {array} godevmandb.Country
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -131,14 +92,7 @@ func (h *Handler) GetCountries(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []country{}
-	for _, s := range res {
-		r := country{}
-		r.getValues(s)
-		out = append(out, r)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get Country
@@ -147,7 +101,7 @@ func (h *Handler) GetCountries(w http.ResponseWriter, r *http.Request) {
 // @Tags sites
 // @ID get-country
 // @Param country_id path string true "country_id"
-// @Success 200 {object} country
+// @Success 200 {object} godevmandb.Country
 // @Failure 400 {object} StatusResponse "Invalid country_id"
 // @Failure 404 {object} StatusResponse "Country not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -171,10 +125,7 @@ func (h *Handler) GetCountry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := country{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create Country
@@ -182,24 +133,21 @@ func (h *Handler) GetCountry(w http.ResponseWriter, r *http.Request) {
 // @Description Create country
 // @Tags sites
 // @ID create-country
-// @Param Body body country true "JSON object of country.<br />Ignored fields:<ul><li>country_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} country
+// @Param Body body godevmandb.CreateCountryParams true "JSON object of godevmandb.CreateCountryParams"
+// @Success 201 {object} godevmandb.Country
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /sites/countries [POST]
 func (h *Handler) CreateCountry(w http.ResponseWriter, r *http.Request) {
-	var pIn country
+	var p godevmandb.CreateCountryParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-
-	// Create parameters for new db record
-	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateCountry(h.ctx, p)
@@ -209,10 +157,7 @@ func (h *Handler) CreateCountry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := country{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusCreated, out)
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update Country
@@ -221,8 +166,8 @@ func (h *Handler) CreateCountry(w http.ResponseWriter, r *http.Request) {
 // @Tags sites
 // @ID update-country
 // @Param country_id path string true "country_id"
-// @Param Body body country true "JSON object of country.<br />Ignored fields:<ul><li>country_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} country
+// @Param Body body godevmandb.UpdateCountryParams true "JSON object of godevmandb.UpdateCountryParams.<br />Ignored fields:<ul><li>country_id</li></ul>"
+// @Success 200 {object} godevmandb.Country
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -235,16 +180,14 @@ func (h *Handler) UpdateCountry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var pIn country
+	var p godevmandb.UpdateCountryParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Update parameters for new db record
-	p := pIn.updateParams()
 	p.CountryID = id
 
 	q := godevmandb.New(h.db)
@@ -255,10 +198,7 @@ func (h *Handler) UpdateCountry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := country{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete Country
@@ -297,7 +237,7 @@ func (h *Handler) DeleteCountry(w http.ResponseWriter, r *http.Request) {
 // @Tags sites
 // @ID list-country-sites
 // @Param country_id path string true "country_id"
-// @Success 200 {array} connection
+// @Success 200 {array} godevmandb.Site
 // @Failure 400 {object} StatusResponse "Invalid country_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"

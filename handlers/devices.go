@@ -58,18 +58,18 @@ func (r *device) getValues(s godevmandb.Device) {
 	r.Unresponsive = s.Unresponsive
 	r.UpdatedOn = s.UpdatedOn
 	r.CreatedOn = s.CreatedOn
-	r.SiteID = nullInt64ToPtr(s.SiteID)
-	r.SnmpMainID = nullInt64ToPtr(s.SnmpMainID)
-	r.SnmpRoID = nullInt64ToPtr(s.SnmpRoID)
-	r.Parent = nullInt64ToPtr(s.Parent)
+	r.SiteID = s.SiteID
+	r.SnmpMainID = s.SnmpMainID
+	r.SnmpRoID = s.SnmpRoID
+	r.Parent = s.Parent
 	r.Ip4Addr = pgInetToPtr(s.Ip4Addr)
 	r.Ip6Addr = pgInetToPtr(s.Ip6Addr)
-	r.SysName = nullStringToPtr(s.SysName)
-	r.SysLocation = nullStringToPtr(s.SysLocation)
-	r.SysContact = nullStringToPtr(s.SysContact)
-	r.SwVersion = nullStringToPtr(s.SwVersion)
-	r.ExtModel = nullStringToPtr(s.ExtModel)
-	r.Notes = nullStringToPtr(s.Notes)
+	r.SysName = s.SysName
+	r.SysLocation = s.SysLocation
+	r.SysContact = s.SysContact
+	r.SwVersion = s.SwVersion
+	r.ExtModel = s.ExtModel
+	r.Notes = s.Notes
 }
 
 // Return corresponding godevmandb create parameters
@@ -88,18 +88,18 @@ func (r *device) createParams() godevmandb.CreateDeviceParams {
 	s.BackupFailed = r.BackupFailed
 	s.ValidationFailed = r.ValidationFailed
 	s.Unresponsive = r.Unresponsive
-	s.SiteID = int64ToNullInt64(r.SiteID)
-	s.SnmpMainID = int64ToNullInt64(r.SnmpMainID)
-	s.SnmpRoID = int64ToNullInt64(r.SnmpRoID)
-	s.Parent = int64ToNullInt64(r.Parent)
+	s.SiteID = r.SiteID
+	s.SnmpMainID = r.SnmpMainID
+	s.SnmpRoID = r.SnmpRoID
+	s.Parent = r.Parent
 	s.Ip4Addr = strToPgInet(r.Ip4Addr)
 	s.Ip6Addr = strToPgInet(r.Ip6Addr)
-	s.SysName = strToNullString(r.SysName)
-	s.SysLocation = strToNullString(r.SysLocation)
-	s.SysContact = strToNullString(r.SysContact)
-	s.SwVersion = strToNullString(r.SwVersion)
-	s.ExtModel = strToNullString(r.ExtModel)
-	s.Notes = strToNullString(r.Notes)
+	s.SysName = r.SysName
+	s.SysLocation = r.SysLocation
+	s.SysContact = r.SysContact
+	s.SwVersion = r.SwVersion
+	s.ExtModel = r.ExtModel
+	s.Notes = r.Notes
 
 	return s
 }
@@ -120,18 +120,18 @@ func (r *device) updateParams() godevmandb.UpdateDeviceParams {
 	s.BackupFailed = r.BackupFailed
 	s.ValidationFailed = r.ValidationFailed
 	s.Unresponsive = r.Unresponsive
-	s.SiteID = int64ToNullInt64(r.SiteID)
-	s.SnmpMainID = int64ToNullInt64(r.SnmpMainID)
-	s.SnmpRoID = int64ToNullInt64(r.SnmpRoID)
-	s.Parent = int64ToNullInt64(r.Parent)
+	s.SiteID = r.SiteID
+	s.SnmpMainID = r.SnmpMainID
+	s.SnmpRoID = r.SnmpRoID
+	s.Parent = r.Parent
 	s.Ip4Addr = strToPgInet(r.Ip4Addr)
 	s.Ip6Addr = strToPgInet(r.Ip6Addr)
-	s.SysName = strToNullString(r.SysName)
-	s.SysLocation = strToNullString(r.SysLocation)
-	s.SysContact = strToNullString(r.SysContact)
-	s.SwVersion = strToNullString(r.SwVersion)
-	s.ExtModel = strToNullString(r.ExtModel)
-	s.Notes = strToNullString(r.Notes)
+	s.SysName = r.SysName
+	s.SysLocation = r.SysLocation
+	s.SysContact = r.SysContact
+	s.SwVersion = r.SwVersion
+	s.ExtModel = r.ExtModel
+	s.Notes = r.Notes
 
 	return s
 }
@@ -219,19 +219,19 @@ func (h *Handler) GetDevices(w http.ResponseWriter, r *http.Request) {
 	// Software filter
 	v = r.FormValue("sw_version_f")
 	if v != "" {
-		p.SwVersionF = strToNullString(&v)
+		p.SwVersionF = &v
 	}
 
 	// Notes filter
 	v = r.FormValue("notes_f")
 	if v != "" {
-		p.NotesF = strToNullString(&v)
+		p.NotesF = &v
 	}
 
 	// Name filter
 	v = r.FormValue("name_f")
 	if v != "" {
-		p.NameF = strToNullString(&v)
+		p.NameF = &v
 	}
 
 	// Host IPv4 filter

@@ -4,73 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type connection struct {
-	UpdatedOn  time.Time `json:"updated_on"`
-	CreatedOn  time.Time `json:"created_on"`
-	Hint       *string   `json:"hint"`
-	Notes      *string   `json:"notes"`
-	ConID      int64     `json:"con_id"`
-	SiteID     int64     `json:"site_id"`
-	ConProvID  int64     `json:"con_prov_id"`
-	ConTypeID  int64     `json:"con_type_id"`
-	ConCapID   int64     `json:"con_cap_id"`
-	ConClassID int64     `json:"con_class_id"`
-	InUse      bool      `json:"in_use"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *connection) getValues(s godevmandb.Connection) {
-	r.ConID = s.ConID
-	r.SiteID = s.SiteID
-	r.ConProvID = s.ConProvID
-	r.ConTypeID = s.ConTypeID
-	r.ConCapID = s.ConCapID
-	r.ConClassID = s.ConClassID
-	r.InUse = s.InUse
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-	r.Hint = nullStringToPtr(s.Hint)
-	r.Notes = nullStringToPtr(s.Notes)
-}
-
-// Return corresponding godevmandb create parameters
-func (r *connection) createParams() godevmandb.CreateConnectionParams {
-	s := godevmandb.CreateConnectionParams{}
-
-	s.SiteID = r.SiteID
-	s.ConProvID = r.ConProvID
-	s.ConTypeID = r.ConTypeID
-	s.ConCapID = r.ConCapID
-	s.ConClassID = r.ConClassID
-	s.InUse = r.InUse
-	s.Hint = strToNullString(r.Hint)
-	s.Notes = strToNullString(r.Notes)
-
-	return s
-}
-
-// Return corresponding godevmandb update parameters
-func (r *connection) updateParams() godevmandb.UpdateConnectionParams {
-	s := godevmandb.UpdateConnectionParams{}
-
-	s.SiteID = r.SiteID
-	s.ConProvID = r.ConProvID
-	s.ConTypeID = r.ConTypeID
-	s.ConCapID = r.ConCapID
-	s.ConClassID = r.ConClassID
-	s.InUse = r.InUse
-	s.Hint = strToNullString(r.Hint)
-	s.Notes = strToNullString(r.Notes)
-
-	return s
-}
 
 // Count Connections
 // @Summary Count connections
@@ -105,7 +42,7 @@ func (h *Handler) CountConnections(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} connection
+// @Success 200 {array} godevmandb.Connection
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -148,14 +85,7 @@ func (h *Handler) GetConnections(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []connection{}
-	for _, s := range res {
-		r := connection{}
-		r.getValues(s)
-		out = append(out, r)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get Connection
@@ -164,7 +94,7 @@ func (h *Handler) GetConnections(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID get-connection
 // @Param con_id path string true "con_id"
-// @Success 200 {object} connection
+// @Success 200 {object} godevmandb.Connection
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Connection not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -188,10 +118,7 @@ func (h *Handler) GetConnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := connection{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create Connection
@@ -199,24 +126,21 @@ func (h *Handler) GetConnection(w http.ResponseWriter, r *http.Request) {
 // @Description Create connection
 // @Tags connections
 // @ID create-connection
-// @Param Body body connection true "JSON object of connection.<br />Ignored fields:<ul><li>con_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} connection
+// @Param Body body godevmandb.CreateConnectionParams true "JSON object of godevmandb.CreateConnectionParams"
+// @Success 201 {object} godevmandb.Connection
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /connections [POST]
 func (h *Handler) CreateConnection(w http.ResponseWriter, r *http.Request) {
-	var pIn connection
+	var p godevmandb.CreateConnectionParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-
-	// Create parameters for new db record
-	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateConnection(h.ctx, p)
@@ -226,10 +150,7 @@ func (h *Handler) CreateConnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := connection{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusCreated, out)
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update Connection
@@ -238,8 +159,8 @@ func (h *Handler) CreateConnection(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID update-connection
 // @Param con_id path string true "con_id"
-// @Param Body body connection true "JSON object of connection.<br />Ignored fields:<ul><li>con_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} connection
+// @Param Body body godevmandb.UpdateConnectionParams true "JSON object of godevmandb.UpdateConnectionParams.<br />Ignored fields:<ul><li>con_id</li></ul>"
+// @Success 200 {object} godevmandb.Connection
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -252,16 +173,15 @@ func (h *Handler) UpdateConnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var pIn connection
+	var p godevmandb.UpdateConnectionParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
 	// Update parameters for new db record
-	p := pIn.updateParams()
 	p.ConID = id
 
 	q := godevmandb.New(h.db)
@@ -272,10 +192,7 @@ func (h *Handler) UpdateConnection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := connection{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete Connection
@@ -314,7 +231,7 @@ func (h *Handler) DeleteConnection(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID get-connection-capacity
 // @Param con_id path string true "con_id"
-// @Success 200 {object} conCapacity
+// @Success 200 {object} godevmandb.ConCapacity
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -334,10 +251,7 @@ func (h *Handler) GetConnectionConCapacitiy(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
-	out := conCapacity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Foreign key
@@ -347,7 +261,7 @@ func (h *Handler) GetConnectionConCapacitiy(w http.ResponseWriter, r *http.Reque
 // @Tags connections
 // @ID get-connection-class
 // @Param con_id path string true "con_id"
-// @Success 200 {object} conClass
+// @Success 200 {object} godevmandb.ConClass
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -367,10 +281,7 @@ func (h *Handler) GetConnectionConClass(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	out := conClass{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Foreign key
@@ -380,7 +291,7 @@ func (h *Handler) GetConnectionConClass(w http.ResponseWriter, r *http.Request) 
 // @Tags connections
 // @ID get-connection-provider
 // @Param con_id path string true "con_id"
-// @Success 200 {object} conProvider
+// @Success 200 {object} godevmandb.ConProvider
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -400,10 +311,37 @@ func (h *Handler) GetConnectionConProvider(w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	out := conProvider{}
-	out.getValues(res)
+	RespondJSON(w, r, http.StatusOK, res)
+}
 
-	RespondJSON(w, r, http.StatusOK, out)
+// Foreign key
+// Get Connection Type
+// @Summary Get connection type
+// @Description Get connection type info
+// @Tags connections
+// @ID get-connection-type
+// @Param con_id path string true "con_id"
+// @Success 200 {object} godevmandb.ConType
+// @Failure 400 {object} StatusResponse "Invalid con_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /connections/{con_id}/type [GET]
+func (h *Handler) GetConnectionConType(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid connection ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetConnectionConType(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Foreign key
@@ -413,7 +351,7 @@ func (h *Handler) GetConnectionConProvider(w http.ResponseWriter, r *http.Reques
 // @Tags connections
 // @ID get-connection-site
 // @Param con_id path string true "con_id"
-// @Success 200 {object} site
+// @Success 200 {object} godevmandb.Site
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -438,39 +376,6 @@ func (h *Handler) GetConnectionConProvider(w http.ResponseWriter, r *http.Reques
 
 // 	RespondJSON(w, r, http.StatusOK, out)
 // }
-
-// Foreign key
-// Get Connection Type
-// @Summary Get connection type
-// @Description Get connection type info
-// @Tags connections
-// @ID get-connection-type
-// @Param con_id path string true "con_id"
-// @Success 200 {object} conType
-// @Failure 400 {object} StatusResponse "Invalid con_id"
-// @Failure 404 {object} StatusResponse "Invalid route error"
-// @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /connections/{con_id}/type [GET]
-func (h *Handler) GetConnectionConType(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
-	if err != nil {
-		RespondError(w, r, http.StatusBadRequest, "Invalid connection ID")
-		return
-	}
-
-	q := godevmandb.New(h.db)
-	res, err := q.GetConnectionConType(h.ctx, id)
-	if err != nil {
-		RespondError(w, r, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	out := conType{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
-}
 
 // Relations
 // List Connection Interfaces

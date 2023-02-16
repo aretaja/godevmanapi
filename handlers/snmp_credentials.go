@@ -37,8 +37,8 @@ func (r *snmpCredential) getValues(s godevmandb.SnmpCredential) error {
 	r.UpdatedOn = s.UpdatedOn
 	r.CreatedOn = s.CreatedOn
 
-	if s.AuthPass.Valid {
-		enc := s.AuthPass.String
+	if s.AuthPass != nil {
+		enc := *s.AuthPass
 		val, err := godevmandb.DecryptStrAes(enc, salt)
 		if err != nil {
 			return err
@@ -47,8 +47,8 @@ func (r *snmpCredential) getValues(s godevmandb.SnmpCredential) error {
 		r.AuthPass = &val
 	}
 
-	if s.PrivPass.Valid {
-		enc := s.PrivPass.String
+	if s.PrivPass != nil {
+		enc := *s.PrivPass
 		val, err := godevmandb.DecryptStrAes(enc, salt)
 		if err != nil {
 			return err
@@ -77,8 +77,7 @@ func (r *snmpCredential) createParams() (godevmandb.CreateSnmpCredentialParams, 
 			return s, err
 		}
 
-		s.AuthPass.String = val
-		s.AuthPass.Valid = true
+		*s.AuthPass = val
 	}
 
 	if r.PrivPass != nil {
@@ -87,8 +86,7 @@ func (r *snmpCredential) createParams() (godevmandb.CreateSnmpCredentialParams, 
 			return s, err
 		}
 
-		s.PrivPass.String = val
-		s.PrivPass.Valid = true
+		*s.PrivPass = val
 	}
 
 	return s, nil
@@ -111,8 +109,7 @@ func (r *snmpCredential) updateParams() (godevmandb.UpdateSnmpCredentialParams, 
 			return s, err
 		}
 
-		s.AuthPass.String = val
-		s.AuthPass.Valid = true
+		*s.AuthPass = val
 	}
 
 	if r.PrivPass != nil {
@@ -121,8 +118,7 @@ func (r *snmpCredential) updateParams() (godevmandb.UpdateSnmpCredentialParams, 
 			return s, err
 		}
 
-		s.PrivPass.String = val
-		s.PrivPass.Valid = true
+		*s.PrivPass = val
 	}
 
 	return s, nil

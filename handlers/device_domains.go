@@ -4,41 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type deviceDomain struct {
-	UpdatedOn time.Time `json:"updated_on"`
-	CreatedOn time.Time `json:"created_on"`
-	Descr     string    `json:"descr"`
-	DomID     int64     `json:"dom_id"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *deviceDomain) getValues(s godevmandb.DeviceDomain) {
-	r.DomID = s.DomID
-	r.Descr = s.Descr
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-}
-
-// Return corresponding godevmandb create parameters
-func (r *deviceDomain) createParams() string {
-	return r.Descr
-}
-
-// Return corresponding godevmandb update parameters
-func (r *deviceDomain) updateParams() godevmandb.UpdateDeviceDomainParams {
-	s := godevmandb.UpdateDeviceDomainParams{}
-
-	s.Descr = r.Descr
-
-	return s
-}
 
 // Count DeviceDomains
 // @Summary Count device_domains
@@ -73,7 +42,7 @@ func (h *Handler) CountDeviceDomains(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} deviceDomain
+// @Success 200 {array} godevmandb.DeviceDomain
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -116,14 +85,7 @@ func (h *Handler) GetDeviceDomains(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []deviceDomain{}
-	for _, s := range res {
-		r := deviceDomain{}
-		r.getValues(s)
-		out = append(out, r)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get DeviceDomain
@@ -132,7 +94,7 @@ func (h *Handler) GetDeviceDomains(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID get-device_domain
 // @Param dom_id path string true "dom_id"
-// @Success 200 {object} deviceDomain
+// @Success 200 {object} godevmandb.DeviceDomain
 // @Failure 400 {object} StatusResponse "Invalid dom_id"
 // @Failure 404 {object} StatusResponse "Domain not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -156,10 +118,7 @@ func (h *Handler) GetDeviceDomain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceDomain{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create DeviceDomain
@@ -167,24 +126,21 @@ func (h *Handler) GetDeviceDomain(w http.ResponseWriter, r *http.Request) {
 // @Description Create device domain
 // @Tags devices
 // @ID create-device_domain
-// @Param Body body deviceDomain true "JSON object of deviceDomain<br />Ignored fields:<ul><li>dom_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} deviceDomain
+// @Param Body body string true "Device domain &quot;string&quot;"
+// @Success 201 {object} godevmandb.DeviceDomain
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /devices/domains [POST]
 func (h *Handler) CreateDeviceDomain(w http.ResponseWriter, r *http.Request) {
-	var pIn deviceDomain
+	var p string
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-
-	// Create parameters for new db record
-	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateDeviceDomain(h.ctx, p)
@@ -194,10 +150,7 @@ func (h *Handler) CreateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceDomain{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusCreated, out)
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update DeviceDomain
@@ -206,8 +159,8 @@ func (h *Handler) CreateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID update-device_domain
 // @Param dom_id path string true "dom_id"
-// @Param Body body deviceDomain true "JSON object of deviceDomain.<br />Ignored fields:<ul><li>dom_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} deviceDomain
+// @Param Body body godevmandb.UpdateDeviceDomainParams true "JSON object of godevmandb.UpdateDeviceDomainParams.<br />Ignored fields:<ul><li>dom_id</li></ul>"
+// @Success 200 {object} godevmandb.DeviceDomain
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -220,16 +173,14 @@ func (h *Handler) UpdateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var pIn deviceDomain
+	var p godevmandb.UpdateDeviceDomainParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Update parameters for new db record
-	p := pIn.updateParams()
 	p.DomID = id
 
 	q := godevmandb.New(h.db)
@@ -240,10 +191,7 @@ func (h *Handler) UpdateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceDomain{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete DeviceDomain

@@ -4,73 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type deviceCredential struct {
-	UpdatedOn time.Time `json:"updated_on"`
-	CreatedOn time.Time `json:"created_on"`
-	Username  string    `json:"username"`
-	EncSecret string    `json:"enc_secret"`
-	CredID    int64     `json:"cred_id"`
-	DevID     int64     `json:"dev_id"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *deviceCredential) getValues(s godevmandb.DeviceCredential) error {
-	r.CredID = s.CredID
-	r.DevID = s.DevID
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-	r.Username = s.Username
-
-	val, err := godevmandb.DecryptStrAes(s.EncSecret, salt)
-	if err != nil {
-		return err
-	}
-
-	r.EncSecret = val
-
-	return nil
-}
-
-// Return corresponding godevmandb create parameters
-func (r *deviceCredential) createParams() (godevmandb.CreateDeviceCredentialParams, error) {
-	s := godevmandb.CreateDeviceCredentialParams{}
-
-	s.DevID = r.DevID
-	s.Username = r.Username
-
-	val, err := godevmandb.EncryptStrAes(r.EncSecret, salt)
-	if err != nil {
-		return s, err
-	}
-
-	s.EncSecret = val
-
-	return s, nil
-}
-
-// Return corresponding godevmandb update parameters
-func (r *deviceCredential) updateParams() (godevmandb.UpdateDeviceCredentialParams, error) {
-	s := godevmandb.UpdateDeviceCredentialParams{}
-
-	s.DevID = r.DevID
-	s.Username = r.Username
-
-	val, err := godevmandb.EncryptStrAes(r.EncSecret, salt)
-	if err != nil {
-		return s, err
-	}
-
-	s.EncSecret = val
-
-	return s, nil
-}
 
 // Count DeviceCredentials
 // @Summary Count credentials
@@ -105,7 +42,7 @@ func (h *Handler) CountDeviceCredentials(w http.ResponseWriter, r *http.Request)
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} deviceCredential
+// @Success 200 {array} godevmandb.DeviceCredential
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -148,14 +85,20 @@ func (h *Handler) GetDeviceCredentials(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []deviceCredential{}
-	for _, s := range res {
-		r := deviceCredential{}
-		r.getValues(s)
-		out = append(out, r)
+	// Decrypt secret
+	for i, s := range res {
+		if s.EncSecret != "" {
+			val, err := godevmandb.DecryptStrAes(s.EncSecret, salt)
+			if err != nil {
+				RespondError(w, r, http.StatusInternalServerError, err.Error())
+				return
+			}
+
+			res[i].EncSecret = val
+		}
 	}
 
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get DeviceCredential
@@ -164,7 +107,7 @@ func (h *Handler) GetDeviceCredentials(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID get-device_credential
 // @Param cred_id path string true "cred_id"
-// @Success 200 {object} deviceCredential
+// @Success 200 {object} godevmandb.DeviceCredential
 // @Failure 400 {object} StatusResponse "Invalid cred_id"
 // @Failure 404 {object} StatusResponse "Credential not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -188,10 +131,18 @@ func (h *Handler) GetDeviceCredential(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceCredential{}
-	out.getValues(res)
+	// Decrypt secret
+	if res.EncSecret != "" {
+		val, err := godevmandb.DecryptStrAes(res.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
 
-	RespondJSON(w, r, http.StatusOK, out)
+		res.EncSecret = val
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create DeviceCredential
@@ -199,27 +150,31 @@ func (h *Handler) GetDeviceCredential(w http.ResponseWriter, r *http.Request) {
 // @Description Create device credential
 // @Tags devices
 // @ID create-device_credential
-// @Param Body body deviceCredential true "JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} deviceCredential
+// @Param Body body godevmandb.CreateDeviceCredentialParams true "JSON object of godevmandb.CreateDeviceCredentialParams"
+// @Success 201 {object} godevmandb.DeviceCredential
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /devices/credentials [POST]
 func (h *Handler) CreateDeviceCredential(w http.ResponseWriter, r *http.Request) {
-	var pIn deviceCredential
+	var p godevmandb.CreateDeviceCredentialParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Create parameters for new db record
-	p, err := pIn.createParams()
-	if err != nil {
-		RespondError(w, r, http.StatusInternalServerError, err.Error())
-		return
+	// Encrypt secret
+	if p.EncSecret != "" {
+		val, err := godevmandb.EncryptStrAes(p.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		p.EncSecret = val
 	}
 
 	q := godevmandb.New(h.db)
@@ -229,10 +184,18 @@ func (h *Handler) CreateDeviceCredential(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	out := deviceCredential{}
-	out.getValues(res)
+	// Decrypt secret
+	if res.EncSecret != "" {
+		val, err := godevmandb.DecryptStrAes(res.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
 
-	RespondJSON(w, r, http.StatusCreated, out)
+		res.EncSecret = val
+	}
+
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update DeviceCredential
@@ -241,8 +204,8 @@ func (h *Handler) CreateDeviceCredential(w http.ResponseWriter, r *http.Request)
 // @Tags devices
 // @ID update-device_credential
 // @Param cred_id path string true "cred_id"
-// @Param Body body deviceCredential true "JSON object of credential.<br />Ignored fields:<ul><li>cred_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} deviceCredential
+// @Param Body body godevmandb.UpdateDeviceCredentialParams true "JSON object of godevmandb.UpdateDeviceCredentialParams.<br />Ignored fields:<ul><li>cred_id</li></ul>"
+// @Success 200 {object} godevmandb.DeviceCredential
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -255,22 +218,26 @@ func (h *Handler) UpdateDeviceCredential(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	var pIn deviceCredential
+	var p godevmandb.UpdateDeviceCredentialParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Update parameters for new db record
-	p, err := pIn.updateParams()
-	if err != nil {
-		RespondError(w, r, http.StatusInternalServerError, err.Error())
-		return
-	}
-
 	p.CredID = id
+
+	// Encrypt secret
+	if p.EncSecret != "" {
+		val, err := godevmandb.EncryptStrAes(p.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
+
+		p.EncSecret = val
+	}
 
 	q := godevmandb.New(h.db)
 	res, err := q.UpdateDeviceCredential(h.ctx, p)
@@ -280,10 +247,18 @@ func (h *Handler) UpdateDeviceCredential(w http.ResponseWriter, r *http.Request)
 		return
 	}
 
-	out := deviceCredential{}
-	out.getValues(res)
+	// Decrypt secret
+	if res.EncSecret != "" {
+		val, err := godevmandb.DecryptStrAes(res.EncSecret, salt)
+		if err != nil {
+			RespondError(w, r, http.StatusInternalServerError, err.Error())
+			return
+		}
 
-	RespondJSON(w, r, http.StatusOK, out)
+		res.EncSecret = val
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete DeviceCredential

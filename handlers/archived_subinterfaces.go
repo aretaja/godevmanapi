@@ -33,12 +33,12 @@ func (r *archivedSubinterface) getValues(s godevmandb.ArchivedSubinterface) {
 	r.Descr = s.Descr
 	r.UpdatedOn = s.UpdatedOn
 	r.CreatedOn = s.CreatedOn
-	r.Ifindex = nullInt64ToPtr(s.Ifindex)
+	r.Ifindex = s.Ifindex
 	r.HostIp4 = pgInetToPtr(s.HostIp4)
 	r.HostIp6 = pgInetToPtr(s.HostIp6)
-	r.Alias = nullStringToPtr(s.Alias)
-	r.Notes = nullStringToPtr(s.Notes)
-	r.Type = nullStringToPtr(s.Type)
+	r.Alias = s.Alias
+	r.Notes = s.Notes
+	r.Type = s.Type
 	r.Mac = pgMacaddrToPtr(s.Mac)
 }
 
@@ -48,12 +48,12 @@ func (r *archivedSubinterface) createParams() godevmandb.CreateArchivedSubinterf
 
 	s.Hostname = r.Hostname
 	s.Descr = r.Descr
-	s.Ifindex = int64ToNullInt64(r.Ifindex)
+	s.Ifindex = r.Ifindex
 	s.HostIp4 = strToPgInet(r.HostIp4)
 	s.HostIp6 = strToPgInet(r.HostIp6)
-	s.Alias = strToNullString(r.Alias)
-	s.Notes = strToNullString(r.Notes)
-	s.Type = strToNullString(r.Type)
+	s.Alias = r.Alias
+	s.Notes = r.Notes
+	s.Type = r.Type
 	s.Mac = strToPgMacaddr(r.Mac)
 
 	return s
@@ -65,12 +65,12 @@ func (r *archivedSubinterface) updateParams() godevmandb.UpdateArchivedSubinterf
 
 	s.Hostname = r.Hostname
 	s.Descr = r.Descr
-	s.Ifindex = int64ToNullInt64(r.Ifindex)
+	s.Ifindex = r.Ifindex
 	s.HostIp4 = strToPgInet(r.HostIp4)
 	s.HostIp6 = strToPgInet(r.HostIp6)
-	s.Alias = strToNullString(r.Alias)
-	s.Notes = strToNullString(r.Notes)
-	s.Type = strToNullString(r.Type)
+	s.Alias = r.Alias
+	s.Notes = r.Notes
+	s.Type = r.Type
 	s.Mac = strToPgMacaddr(r.Mac)
 
 	return s
@@ -147,13 +147,13 @@ func (h *Handler) GetArchivedSubinterfaces(w http.ResponseWriter, r *http.Reques
 	// Ifindex filter
 	v := r.FormValue("ifindex_f")
 	if v != "" {
-		p.IfindexF = strToNullString(&v)
+		p.IfindexF = &v
 	}
 
 	// Alias filter
 	v = r.FormValue("alias_f")
 	if v != "" {
-		p.AliasF = strToNullString(&v)
+		p.AliasF = &v
 	}
 
 	// Host IPv4 filter

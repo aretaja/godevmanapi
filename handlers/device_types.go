@@ -4,62 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"regexp"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type deviceType struct {
-	UpdatedOn    time.Time `json:"updated_on"`
-	CreatedOn    time.Time `json:"created_on"`
-	SysID        string    `json:"sys_id"`
-	Manufacturer string    `json:"manufacturer"`
-	Model        string    `json:"model"`
-	ClassID      int64     `json:"class_id"`
-	SnmpVer      int16     `json:"snmp_ver"`
-	Hc           bool      `json:"hc"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *deviceType) getValues(s godevmandb.DeviceType) {
-	r.SysID = s.SysID
-	r.ClassID = s.ClassID
-	r.Manufacturer = s.Manufacturer
-	r.Model = s.Model
-	r.Hc = s.Hc
-	r.SnmpVer = s.SnmpVer
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-}
-
-// Return corresponding godevmandb create parameters
-func (r *deviceType) createParams() godevmandb.CreateDeviceTypeParams {
-	s := godevmandb.CreateDeviceTypeParams{}
-
-	s.SysID = r.SysID
-	s.ClassID = r.ClassID
-	s.Manufacturer = r.Manufacturer
-	s.Model = r.Model
-	s.Hc = r.Hc
-	s.SnmpVer = r.SnmpVer
-
-	return s
-}
-
-// Return corresponding godevmandb update parameters
-func (r *deviceType) updateParams() godevmandb.UpdateDeviceTypeParams {
-	s := godevmandb.UpdateDeviceTypeParams{}
-
-	s.ClassID = r.ClassID
-	s.Manufacturer = r.Manufacturer
-	s.Model = r.Model
-	s.Hc = r.Hc
-	s.SnmpVer = r.SnmpVer
-
-	return s
-}
 
 // Count DeviceTypes
 // @Summary Count device_types
@@ -96,7 +44,7 @@ func (h *Handler) CountDeviceTypes(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} deviceType
+// @Success 200 {array} godevmandb.DeviceType
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -151,14 +99,7 @@ func (h *Handler) GetDeviceTypes(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []deviceType{}
-	for _, s := range res {
-		r := deviceType{}
-		r.getValues(s)
-		out = append(out, r)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get DeviceType
@@ -167,7 +108,7 @@ func (h *Handler) GetDeviceTypes(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID get-device_type
 // @Param sys_id path string true "sys_id"
-// @Success 200 {object} deviceType
+// @Success 200 {object} godevmandb.DeviceType
 // @Failure 400 {object} StatusResponse "Invalid sys_id"
 // @Failure 404 {object} StatusResponse "Domain not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -187,10 +128,7 @@ func (h *Handler) GetDeviceType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceType{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create DeviceType
@@ -198,17 +136,17 @@ func (h *Handler) GetDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Description Create device type
 // @Tags devices
 // @ID create-device_type
-// @Param Body body deviceType true "JSON object of deviceType<br />Ignored fields:<ul><li>updated_on</li><li>created_on</li></ul>sys_id must match ^[\w-\.]+$ regex"
-// @Success 201 {object} deviceType
+// @Param Body body godevmandb.CreateDeviceTypeParams true "JSON object of godevmandb.CreateDeviceTypeParams<br />sys_id must match ^[\w-\.]+$ regex"
+// @Success 201 {object} godevmandb.DeviceType
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /devices/types [POST]
 func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
-	var pIn deviceType
+	var p godevmandb.CreateDeviceTypeParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
@@ -216,13 +154,10 @@ func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
 
 	// Validate sys_id
 	pattern := regexp.MustCompile(`^[\w-\.]+$`)
-	if !pattern.MatchString(pIn.SysID) {
+	if !pattern.MatchString(p.SysID) {
 		RespondError(w, r, http.StatusBadRequest, "Invalid sys_id")
 		return
 	}
-
-	// Create parameters for new db record
-	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateDeviceType(h.ctx, p)
@@ -232,10 +167,7 @@ func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceType{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusCreated, out)
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update DeviceType
@@ -244,8 +176,8 @@ func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID update-device_type
 // @Param sys_id path string true "sys_id"
-// @Param Body body deviceType true "JSON object of deviceType.<br />Ignored fields:<ul><li>sys_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} deviceType
+// @Param Body body godevmandb.UpdateDeviceTypeParams true "JSON object of godevmandb.UpdateDeviceTypeParams.<br />Ignored fields:<ul><li>sys_id</li></ul>"
+// @Success 200 {object} godevmandb.DeviceType
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -254,16 +186,14 @@ func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) UpdateDeviceType(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "sys_id")
 
-	var pIn deviceType
+	var p godevmandb.UpdateDeviceTypeParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
 
-	// Update parameters for new db record
-	p := pIn.updateParams()
 	p.SysID = id
 
 	q := godevmandb.New(h.db)
@@ -274,10 +204,7 @@ func (h *Handler) UpdateDeviceType(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceType{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete DeviceType
@@ -312,7 +239,7 @@ func (h *Handler) DeleteDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID get-device-type-class
 // @Param sys_id path string true "sys_id"
-// @Success 200 {object} deviceClass
+// @Success 200 {object} godevmandb.DeviceClass
 // @Failure 400 {object} StatusResponse "Invalid sys_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -328,10 +255,7 @@ func (h *Handler) GetDeviceTypeClass(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := deviceClass{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Relations

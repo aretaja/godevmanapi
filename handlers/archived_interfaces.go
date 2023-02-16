@@ -18,7 +18,7 @@ type archivedInterface struct {
 	CiscoOptPowerIndex *string   `json:"cisco_opt_power_index"`
 	HostIp4            *string   `json:"host_ip4"`
 	Alias              *string   `json:"alias"`
-	TypeEnum           *int64    `json:"type_enum"`
+	TypeEnum           *int16    `json:"type_enum"`
 	Mac                *string   `json:"mac"`
 	OtnIfID            *int64    `json:"otn_if_id"`
 	Ifindex            *int64    `json:"ifindex"`
@@ -38,13 +38,13 @@ func (r *archivedInterface) getValues(s godevmandb.ArchivedInterface) {
 	r.Descr = s.Descr
 	r.UpdatedOn = s.UpdatedOn
 	r.CreatedOn = s.CreatedOn
-	r.Ifindex = nullInt64ToPtr(s.Ifindex)
-	r.OtnIfID = nullInt64ToPtr(s.OtnIfID)
-	r.CiscoOptPowerIndex = nullStringToPtr(s.CiscoOptPowerIndex)
+	r.Ifindex = s.Ifindex
+	r.OtnIfID = s.OtnIfID
+	r.CiscoOptPowerIndex = s.CiscoOptPowerIndex
 	r.HostIp4 = pgInetToPtr(s.HostIp4)
 	r.HostIp6 = pgInetToPtr(s.HostIp6)
-	r.Alias = nullStringToPtr(s.Alias)
-	r.TypeEnum = nullInt16ToPtr(s.TypeEnum)
+	r.Alias = s.Alias
+	r.TypeEnum = s.TypeEnum
 	r.Mac = pgMacaddrToPtr(s.Mac)
 }
 
@@ -56,13 +56,13 @@ func (r *archivedInterface) createParams() godevmandb.CreateArchivedInterfacePar
 	s.Manufacturer = r.Manufacturer
 	s.Model = r.Model
 	s.Descr = r.Descr
-	s.Ifindex = int64ToNullInt64(r.Ifindex)
-	s.OtnIfID = int64ToNullInt64(r.OtnIfID)
-	s.CiscoOptPowerIndex = strToNullString(r.CiscoOptPowerIndex)
+	s.Ifindex = r.Ifindex
+	s.OtnIfID = r.OtnIfID
+	s.CiscoOptPowerIndex = r.CiscoOptPowerIndex
 	s.HostIp4 = strToPgInet(r.HostIp4)
 	s.HostIp6 = strToPgInet(r.HostIp6)
-	s.Alias = strToNullString(r.Alias)
-	s.TypeEnum = int64ToNullInt16(r.TypeEnum)
+	s.Alias = r.Alias
+	s.TypeEnum = r.TypeEnum
 	s.Mac = strToPgMacaddr(r.Mac)
 
 	return s
@@ -76,13 +76,13 @@ func (r *archivedInterface) updateParams() godevmandb.UpdateArchivedInterfacePar
 	s.Manufacturer = r.Manufacturer
 	s.Model = r.Model
 	s.Descr = r.Descr
-	s.Ifindex = int64ToNullInt64(r.Ifindex)
-	s.OtnIfID = int64ToNullInt64(r.OtnIfID)
-	s.CiscoOptPowerIndex = strToNullString(r.CiscoOptPowerIndex)
+	s.Ifindex = r.Ifindex
+	s.OtnIfID = r.OtnIfID
+	s.CiscoOptPowerIndex = r.CiscoOptPowerIndex
 	s.HostIp4 = strToPgInet(r.HostIp4)
 	s.HostIp6 = strToPgInet(r.HostIp6)
-	s.Alias = strToNullString(r.Alias)
-	s.TypeEnum = int64ToNullInt16(r.TypeEnum)
+	s.Alias = r.Alias
+	s.TypeEnum = r.TypeEnum
 	s.Mac = strToPgMacaddr(r.Mac)
 
 	return s
@@ -159,13 +159,13 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 	// Ifindex filter
 	v := r.FormValue("ifindex_f")
 	if v != "" {
-		p.IfindexF = strToNullString(&v)
+		p.IfindexF = &v
 	}
 
 	// Alias filter
 	v = r.FormValue("alias_f")
 	if v != "" {
-		p.AliasF = strToNullString(&v)
+		p.AliasF = &v
 	}
 
 	// Host IPv4 filter

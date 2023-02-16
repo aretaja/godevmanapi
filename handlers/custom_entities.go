@@ -4,57 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/aretaja/godevmandb"
 	"github.com/go-chi/chi/v5"
 )
-
-// JSON friendly local type to use in web api. Replaces sql.Null*/pgtype fields
-type customEntity struct {
-	UpdatedOn    time.Time `json:"updated_on"`
-	CreatedOn    time.Time `json:"created_on"`
-	Part         *string   `json:"part"`
-	Descr        *string   `json:"descr"`
-	Manufacturer string    `json:"manufacturer"`
-	SerialNr     string    `json:"serial_nr"`
-	CentID       int64     `json:"cent_id"`
-}
-
-// Import values from corresponding godevmandb struct
-func (r *customEntity) getValues(s godevmandb.CustomEntity) {
-	r.CentID = s.CentID
-	r.Manufacturer = s.Manufacturer
-	r.SerialNr = s.SerialNr
-	r.Part = nullStringToPtr(s.Part)
-	r.Descr = nullStringToPtr(s.Descr)
-	r.UpdatedOn = s.UpdatedOn
-	r.CreatedOn = s.CreatedOn
-}
-
-// Return corresponding godevmandb create parameters
-func (r *customEntity) createParams() godevmandb.CreateCustomEntityParams {
-	s := godevmandb.CreateCustomEntityParams{}
-
-	s.Manufacturer = r.Manufacturer
-	s.SerialNr = r.SerialNr
-	s.Part = strToNullString(r.Part)
-	s.Descr = strToNullString(r.Descr)
-
-	return s
-}
-
-// Return corresponding godevmandb update parameters
-func (r *customEntity) updateParams() godevmandb.UpdateCustomEntityParams {
-	s := godevmandb.UpdateCustomEntityParams{}
-
-	s.Manufacturer = r.Manufacturer
-	s.SerialNr = r.SerialNr
-	s.Part = strToNullString(r.Part)
-	s.Descr = strToNullString(r.Descr)
-
-	return s
-}
 
 // Count CustomEntities
 // @Summary Count custom_entities
@@ -89,7 +42,7 @@ func (h *Handler) CountCustomEntities(w http.ResponseWriter, r *http.Request) {
 // @Param updated_le query int false "record update time <= (unix timestamp in milliseconds)"
 // @Param created_ge query int false "record creation time >= (unix timestamp in milliseconds)"
 // @Param created_le query int false "record creation time <= (unix timestamp in milliseconds)"
-// @Success 200 {array} customEntity
+// @Success 200 {array} godevmandb.CustomEntity
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
@@ -132,14 +85,7 @@ func (h *Handler) GetCustomEntities(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := []customEntity{}
-	for _, s := range res {
-		r := customEntity{}
-		r.getValues(s)
-		out = append(out, r)
-	}
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Get CustomEntity
@@ -148,7 +94,7 @@ func (h *Handler) GetCustomEntities(w http.ResponseWriter, r *http.Request) {
 // @Tags data
 // @ID get-customEntity
 // @Param cent_id path string true "cent_id"
-// @Success 200 {object} customEntity
+// @Success 200 {object} godevmandb.CustomEntity
 // @Failure 400 {object} StatusResponse "Invalid cent_id"
 // @Failure 404 {object} StatusResponse "CustomEntity not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -172,10 +118,7 @@ func (h *Handler) GetCustomEntity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := customEntity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Create CustomEntity
@@ -183,24 +126,21 @@ func (h *Handler) GetCustomEntity(w http.ResponseWriter, r *http.Request) {
 // @Description Create customEntity
 // @Tags data
 // @ID create-customEntity
-// @Param Body body customEntity true "JSON object of customEntity.<br />Ignored fields:<ul><li>cent_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 201 {object} customEntity
+// @Param Body body godevmandb.CreateCustomEntityParams true "JSON object of godevmandb.CreateCustomEntityParams"
+// @Success 201 {object} godevmandb.CustomEntity
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /data/custom_entities [POST]
 func (h *Handler) CreateCustomEntity(w http.ResponseWriter, r *http.Request) {
-	var pIn customEntity
+	var p godevmandb.CreateCustomEntityParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-
-	// Create parameters for new db record
-	p := pIn.createParams()
 
 	q := godevmandb.New(h.db)
 	res, err := q.CreateCustomEntity(h.ctx, p)
@@ -209,10 +149,7 @@ func (h *Handler) CreateCustomEntity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := customEntity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusCreated, out)
+	RespondJSON(w, r, http.StatusCreated, res)
 }
 
 // Update CustomEntity
@@ -221,8 +158,8 @@ func (h *Handler) CreateCustomEntity(w http.ResponseWriter, r *http.Request) {
 // @Tags data
 // @ID update-customEntity
 // @Param cent_id path string true "cent_id"
-// @Param Body body customEntity true "JSON object of customEntity.<br />Ignored fields:<ul><li>cent_id</li><li>updated_on</li><li>created_on</li></ul>"
-// @Success 200 {object} customEntity
+// @Param Body body godevmandb.UpdateCustomEntityParams true "JSON object of godevmandb.UpdateCustomEntityParams.<br />Ignored fields:<ul><li>cent_id</li></ul>"
+// @Success 200 {object} godevmandb.CustomEntity
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -235,16 +172,13 @@ func (h *Handler) UpdateCustomEntity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var pIn customEntity
+	var p godevmandb.UpdateCustomEntityParams
 	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&pIn); err != nil {
+	if err := decoder.Decode(&p); err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid request payload")
 		return
 	}
 	defer r.Body.Close()
-
-	// Update parameters for new db record
-	p := pIn.updateParams()
 
 	p.CentID = id
 
@@ -255,10 +189,7 @@ func (h *Handler) UpdateCustomEntity(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	out := customEntity{}
-	out.getValues(res)
-
-	RespondJSON(w, r, http.StatusOK, out)
+	RespondJSON(w, r, http.StatusOK, res)
 }
 
 // Delete CustomEntity
