@@ -258,6 +258,61 @@ definitions:
       updated_on:
         type: string
     type: object
+  godevmandb.DeviceExtension:
+    properties:
+      content:
+        type: string
+      created_on:
+        type: string
+      dev_id:
+        type: integer
+      ext_id:
+        type: integer
+      field:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.DeviceLicense:
+    properties:
+      condition:
+        type: string
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      installed:
+        type: integer
+      lic_id:
+        type: integer
+      product:
+        type: string
+      tot_inst:
+        type: integer
+      unlocked:
+        type: integer
+      updated_on:
+        type: string
+      used:
+        type: integer
+    type: object
+  godevmandb.DeviceState:
+    properties:
+      created_on:
+        type: string
+      dev_id:
+        type: integer
+      down_time:
+        type: string
+      method:
+        type: string
+      up_time:
+        type: string
+      updated_on:
+        type: string
+    type: object
   godevmandb.DeviceType:
     properties:
       class_id:
@@ -278,6 +333,135 @@ definitions:
         type: string
       updated_on:
         type: string
+    type: object
+  godevmandb.Entity:
+    properties:
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      ent_id:
+        type: integer
+      hw_product:
+        type: string
+      hw_revision:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      parent_ent_id:
+        type: integer
+      physical:
+        type: boolean
+      serial_nr:
+        type: string
+      slot:
+        type: string
+      snmp_ent_id:
+        type: integer
+      sw_product:
+        type: string
+      sw_revision:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.NullSnmpAuthProto:
+    properties:
+      snmpAuthProto:
+        type: string
+      valid:
+        description: Valid is true if SnmpAuthProto is not NULL
+        type: boolean
+    type: object
+  godevmandb.NullSnmpPrivProto:
+    properties:
+      snmpPrivProto:
+        type: string
+      valid:
+        description: Valid is true if SnmpPrivProto is not NULL
+        type: boolean
+    type: object
+  godevmandb.NullSnmpSecLevel:
+    properties:
+      snmpSecLevel:
+        type: string
+      valid:
+        description: Valid is true if SnmpSecLevel is not NULL
+        type: boolean
+    type: object
+  godevmandb.RlNbr:
+    properties:
+      created_on:
+        type: string
+      dev_id:
+        type: integer
+      nbr_ent_id:
+        type: integer
+      nbr_id:
+        type: integer
+      nbr_sysname:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.Site:
+    properties:
+      addr:
+        type: string
+      area:
+        type: string
+      country_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      ext_id:
+        type: integer
+      ext_name:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      notes:
+        type: string
+      site_id:
+        type: integer
+      uident:
+        type: string
+      updated_on:
+        type: string
+    type: object
+  godevmandb.SnmpCredential:
+    properties:
+      auth_name:
+        description: Community or SecName
+        type: string
+      auth_pass:
+        type: string
+      auth_proto:
+        $ref: '#/definitions/godevmandb.NullSnmpAuthProto'
+      created_on:
+        type: string
+      label:
+        type: string
+      priv_pass:
+        type: string
+      priv_proto:
+        $ref: '#/definitions/godevmandb.NullSnmpPrivProto'
+      sec_level:
+        $ref: '#/definitions/godevmandb.NullSnmpSecLevel'
+      snmp_cred_id:
+        type: integer
+      updated_on:
+        type: string
+      variant:
+        type: integer
     type: object
   godevmandb.UpdateConCapacityParams:
     properties:
@@ -409,6 +593,21 @@ definitions:
       sys_id:
         type: string
     type: object
+  godevmandb.Vlan:
+    properties:
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      updated_on:
+        type: string
+      v_id:
+        type: integer
+      vlan:
+        type: integer
+    type: object
   handlers.CountResponse:
     properties:
       count:
@@ -538,6 +737,85 @@ definitions:
       validation_failed:
         type: boolean
     type: object
+  handlers.iface:
+    properties:
+      adm:
+        type: integer
+      alias:
+        type: string
+      con_id:
+        type: integer
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      ent_id:
+        type: integer
+      if_id:
+        type: integer
+      ifindex:
+        type: integer
+      mac:
+        type: string
+      minspeed:
+        type: integer
+      monerrors:
+        type: integer
+      monload:
+        type: integer
+      monstatus:
+        type: integer
+      montraffic:
+        type: integer
+      oper:
+        type: integer
+      otn_if_id:
+        type: integer
+      parent:
+        type: integer
+      speed:
+        type: integer
+      type_enum:
+        type: integer
+      updated_on:
+        type: string
+    type: object
+  handlers.ipInterface:
+    properties:
+      alias:
+        type: string
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      ifindex:
+        type: integer
+      ip_addr:
+        type: string
+      ip_id:
+        type: integer
+      updated_on:
+        type: string
+    type: object
+  handlers.ospfNbr:
+    properties:
+      condition:
+        type: string
+      created_on:
+        type: string
+      dev_id:
+        type: integer
+      nbr_id:
+        type: integer
+      nbr_ip:
+        type: string
+      updated_on:
+        type: string
+    type: object
   handlers.snmpCredential:
     properties:
       auth_name:
@@ -562,6 +840,39 @@ definitions:
         type: string
       variant:
         type: integer
+    type: object
+  handlers.xconnect:
+    properties:
+      created_on:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      if_id:
+        type: integer
+      op_stat:
+        type: string
+      op_stat_in:
+        type: string
+      op_stat_out:
+        type: string
+      peer_dev_id:
+        type: integer
+      peer_ifalias:
+        type: string
+      peer_ip:
+        type: string
+      updated_on:
+        type: string
+      vc_id:
+        type: integer
+      vc_idx:
+        type: integer
+      xc_id:
+        type: integer
+      xname:
+        type: string
     type: object
 info:
   contact:
@@ -3096,6 +3407,678 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update device
+      tags:
+      - devices
+  /devices/{dev_id}/childs:
+    get:
+      description: List device childs info
+      operationId: list-device-childs
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.device'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device childs
+      tags:
+      - devices
+  /devices/{dev_id}/credentials:
+    get:
+      description: List device credentials info
+      operationId: list-device-credentials
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.DeviceCredential'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device credentials
+      tags:
+      - devices
+  /devices/{dev_id}/domain:
+    get:
+      description: Get device device_domain info
+      operationId: get-device-device-domain
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.DeviceDomain'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device device_domain
+      tags:
+      - devices
+  /devices/{dev_id}/entities:
+    get:
+      description: List device entities info
+      operationId: list-device-entities
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Entity'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device entities
+      tags:
+      - devices
+  /devices/{dev_id}/extensions:
+    get:
+      description: List device extensions info
+      operationId: list-device-extensions
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.DeviceExtension'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device extensions
+      tags:
+      - devices
+  /devices/{dev_id}/interfaces:
+    get:
+      description: List device interfaces info
+      operationId: list-device-interfaces
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.iface'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device interfaces
+      tags:
+      - devices
+  /devices/{dev_id}/ip_interfaces:
+    get:
+      description: List device ip interfaces info
+      operationId: list-device-ip-interfaces
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.ipInterface'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device ip interfaces
+      tags:
+      - devices
+  /devices/{dev_id}/licenses:
+    get:
+      description: List device licenses info
+      operationId: list-device-licenses
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.DeviceLicense'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device licenses
+      tags:
+      - devices
+  /devices/{dev_id}/ospf_nbrs:
+    get:
+      description: List device ospf nbrs info
+      operationId: list-device-ospf-nbrs
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.ospfNbr'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device ospf nbrs
+      tags:
+      - devices
+  /devices/{dev_id}/parent:
+    get:
+      description: Get device parent info
+      operationId: get-device-parent
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device parent
+      tags:
+      - devices
+  /devices/{dev_id}/peer_xconnects:
+    get:
+      description: List device peer xconnects info
+      operationId: list-device-peer-xconnects
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.xconnect'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device peer xconnects
+      tags:
+      - devices
+  /devices/{dev_id}/rl_nbrs:
+    get:
+      description: List device rl nbrs info
+      operationId: list-device-rl-nbrs
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.RlNbr'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device rl nbrs
+      tags:
+      - devices
+  /devices/{dev_id}/site:
+    get:
+      description: Get device site info
+      operationId: get-device-site
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Site'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device site
+      tags:
+      - devices
+  /devices/{dev_id}/snmp_credentials_main:
+    get:
+      description: Get device snmp_credentials_main info
+      operationId: get-device-snmp-credentials-main
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.SnmpCredential'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device snmp_credentials_main
+      tags:
+      - devices
+  /devices/{dev_id}/snmp_credentials_ro:
+    get:
+      description: Get device snmp_credentials_ro info
+      operationId: get-device-snmp-credentials-ro
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.SnmpCredential'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device snmp_credentials_ro
+      tags:
+      - devices
+  /devices/{dev_id}/state:
+    get:
+      description: List device state info
+      operationId: list-device-state
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.DeviceState'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device state
+      tags:
+      - devices
+  /devices/{dev_id}/type:
+    get:
+      description: Get device device_type info
+      operationId: get-device-device-type
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.DeviceType'
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device device_type
+      tags:
+      - devices
+  /devices/{dev_id}/vlans:
+    get:
+      description: List device vlans info
+      operationId: list-device-vlans
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Vlan'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device vlans
+      tags:
+      - devices
+  /devices/{dev_id}/xconnects:
+    get:
+      description: List device xconnects info
+      operationId: list-device-xconnects
+      parameters:
+      - description: dev_id
+        in: path
+        name: dev_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.xconnect'
+            type: array
+        "400":
+          description: Invalid dev_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device xconnects
       tags:
       - devices
   /devices/classes:
