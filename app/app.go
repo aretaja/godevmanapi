@@ -382,7 +382,7 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetDeviceDomain)
 			r.Put("/", a.Handler.UpdateDeviceDomain)
 			r.Delete("/", a.Handler.DeleteDeviceDomain)
-			// r.Get("/devices", a.Handler.GetDeviceDomainDevices)
+			r.Get("/devices", a.Handler.GetDeviceDomainDevices)
 		})
 	})
 
@@ -403,6 +403,8 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetSnmpCredential)
 			r.Put("/", a.Handler.UpdateSnmpCredential)
 			r.Delete("/", a.Handler.DeleteSnmpCredential)
+			r.Get("/main_devices", a.Handler.GetSnmpCredentialsMainDevices)
+			r.Get("/ro_devices", a.Handler.GetSnmpCredentialsRoDevices)
 		})
 	})
 
@@ -424,7 +426,7 @@ func (a *App) initializeRoutes() {
 			r.Put("/", a.Handler.UpdateDeviceType)
 			r.Delete("/", a.Handler.DeleteDeviceType)
 			r.Get("/class", a.Handler.GetDeviceTypeClass)
-			// r.Get("/devices", a.Handler.GetDeviceTypeDevices)
+			r.Get("/devices", a.Handler.GetDeviceTypeDevices)
 		})
 	})
 

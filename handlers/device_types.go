@@ -271,26 +271,22 @@ func (h *Handler) GetDeviceTypeClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /devices/types/{sys_id}/devices [GET]
-// func (h *Handler) GetDeviceTypeDevices(w http.ResponseWriter, r *http.Request) {
-// 	id, err := strconv.ParseInt(chi.URLParam(r, "sys_id"), 10, 64)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusBadRequest, "Invalid type ID")
-// 		return
-// 	}
+func (h *Handler) GetDeviceTypeDevices(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "sys_id")
 
-// 	q := godevmandb.New(h.db)
-// 	res, err := q.GetDeviceTypeDevices(h.ctx, id)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	q := godevmandb.New(h.db)
+	res, err := q.GetDeviceTypeDevices(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	out := []device{}
-// 	for _, s := range res {
-// 		a := device{}
-// 		a.getValues(s)
-// 		out = append(out, a)
-// 	}
+	out := []device{}
+	for _, s := range res {
+		a := device{}
+		a.getValues(s)
+		out = append(out, a)
+	}
 
-// 	RespondJSON(w, r, http.StatusOK, out)
-// }
+	RespondJSON(w, r, http.StatusOK, out)
+}

@@ -545,7 +545,7 @@ func (h *Handler) GetDeviceSite(w http.ResponseWriter, r *http.Request) {
 // @Tags devices
 // @ID get-device-snmp-credentials-main
 // @Param dev_id path string true "dev_id"
-// @Success 200 {object} godevmandb.SnmpCredential
+// @Success 200 {object} snmpCredential
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -565,7 +565,10 @@ func (h *Handler) GetDeviceSnmpCredentialsMain(w http.ResponseWriter, r *http.Re
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := snmpCredential{}
+	out.getValues(res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Foreign key
@@ -575,7 +578,7 @@ func (h *Handler) GetDeviceSnmpCredentialsMain(w http.ResponseWriter, r *http.Re
 // @Tags devices
 // @ID get-device-snmp-credentials-ro
 // @Param dev_id path string true "dev_id"
-// @Success 200 {object} godevmandb.SnmpCredential
+// @Success 200 {object} snmpCredential
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
@@ -595,7 +598,10 @@ func (h *Handler) GetDeviceSnmpCredentialsRo(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	RespondJSON(w, r, http.StatusOK, res)
+	out := snmpCredential{}
+	out.getValues(res)
+
+	RespondJSON(w, r, http.StatusOK, out)
 }
 
 // Relations
@@ -660,6 +666,19 @@ func (h *Handler) GetDeviceDeviceCredentials(w http.ResponseWriter, r *http.Requ
 	if err != nil {
 		RespondError(w, r, http.StatusInternalServerError, err.Error())
 		return
+	}
+
+	// Decrypt secret
+	for i, s := range res {
+		if s.EncSecret != "" {
+			val, err := godevmandb.DecryptStrAes(s.EncSecret, salt)
+			if err != nil {
+				RespondError(w, r, http.StatusInternalServerError, err.Error())
+				return
+			}
+
+			res[i].EncSecret = val
+		}
 	}
 
 	RespondJSON(w, r, http.StatusOK, res)

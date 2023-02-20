@@ -366,3 +366,77 @@ func (h *Handler) DeleteSnmpCredential(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusNoContent)
 }
+
+// Relations
+// List SnmpCredential Main Devices
+// @Summary List snmp_credential main devices
+// @Description List snmp credential main devices info
+// @Tags devices
+// @ID list-snmp-credential-devices
+// @Param snmp_cred_id path string true "snmp_cred_id"
+// @Success 200 {array} device
+// @Failure 400 {object} StatusResponse "Invalid snmp_cred_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /devices/snmp_credentials/{snmp_cred_id}/main_devices [GET]
+func (h *Handler) GetSnmpCredentialsMainDevices(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid credential ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetSnmpCredentialsMainDevices(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := []device{}
+	for _, s := range res {
+		a := device{}
+		a.getValues(s)
+		out = append(out, a)
+	}
+
+	RespondJSON(w, r, http.StatusOK, out)
+}
+
+// Relations
+// List SnmpCredential Read Only Devices
+// @Summary List snmp_credential ro devices
+// @Description List snmp credential read only devices info
+// @Tags devices
+// @ID list-snmp-credential-ro-devices
+// @Param snmp_cred_id path string true "snmp_cred_id"
+// @Success 200 {array} device
+// @Failure 400 {object} StatusResponse "Invalid snmp_cred_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /devices/snmp_credentials/{snmp_cred_id}/ro_devices [GET]
+func (h *Handler) GetSnmpCredentialsRoDevices(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid credential ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetSnmpCredentialsRoDevices(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := []device{}
+	for _, s := range res {
+		a := device{}
+		a.getValues(s)
+		out = append(out, a)
+	}
+
+	RespondJSON(w, r, http.StatusOK, out)
+}

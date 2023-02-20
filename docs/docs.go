@@ -4705,6 +4705,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/devices/domains/{dom_id}/devices": {
+            "get": {
+                "description": "List device domain devices info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List device_domain devices",
+                "operationId": "list-device_domain-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid dom_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/devices/snmp_credentials": {
             "get": {
                 "description": "List snmp credentials info",
@@ -5002,6 +5056,114 @@ const docTemplate = `{
                 "responses": {
                     "204": {
                         "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/snmp_credentials/{snmp_cred_id}/main_devices": {
+            "get": {
+                "description": "List snmp credential main devices info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List snmp_credential main devices",
+                "operationId": "list-snmp-credential-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/snmp_credentials/{snmp_cred_id}/ro_devices": {
+            "get": {
+                "description": "List snmp credential read only devices info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List snmp_credential ro devices",
+                "operationId": "list-snmp-credential-ro-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
                     },
                     "400": {
                         "description": "Invalid snmp_cred_id",
@@ -5389,6 +5551,60 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/godevmandb.DeviceClass"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid sys_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/types/{sys_id}/devices": {
+            "get": {
+                "description": "List device type devices info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List device_type devices",
+                "operationId": "list-device_type-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sys_id",
+                        "name": "sys_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
                         }
                     },
                     "400": {
@@ -6287,7 +6503,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.SnmpCredential"
+                            "$ref": "#/definitions/handlers.snmpCredential"
                         }
                     },
                     "400": {
@@ -6338,7 +6554,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/godevmandb.SnmpCredential"
+                            "$ref": "#/definitions/handlers.snmpCredential"
                         }
                     },
                     "400": {
@@ -7509,42 +7725,6 @@ const docTemplate = `{
                 }
             }
         },
-        "godevmandb.NullSnmpAuthProto": {
-            "type": "object",
-            "properties": {
-                "snmpAuthProto": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if SnmpAuthProto is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "godevmandb.NullSnmpPrivProto": {
-            "type": "object",
-            "properties": {
-                "snmpPrivProto": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if SnmpPrivProto is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "godevmandb.NullSnmpSecLevel": {
-            "type": "object",
-            "properties": {
-                "snmpSecLevel": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if SnmpSecLevel is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
         "godevmandb.RlNbr": {
             "type": "object",
             "properties": {
@@ -7609,45 +7789,6 @@ const docTemplate = `{
                 },
                 "updated_on": {
                     "type": "string"
-                }
-            }
-        },
-        "godevmandb.SnmpCredential": {
-            "type": "object",
-            "properties": {
-                "auth_name": {
-                    "description": "Community or SecName",
-                    "type": "string"
-                },
-                "auth_pass": {
-                    "type": "string"
-                },
-                "auth_proto": {
-                    "$ref": "#/definitions/godevmandb.NullSnmpAuthProto"
-                },
-                "created_on": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                },
-                "priv_pass": {
-                    "type": "string"
-                },
-                "priv_proto": {
-                    "$ref": "#/definitions/godevmandb.NullSnmpPrivProto"
-                },
-                "sec_level": {
-                    "$ref": "#/definitions/godevmandb.NullSnmpSecLevel"
-                },
-                "snmp_cred_id": {
-                    "type": "integer"
-                },
-                "updated_on": {
-                    "type": "string"
-                },
-                "variant": {
-                    "type": "integer"
                 }
             }
         },
