@@ -189,6 +189,35 @@ definitions:
       sys_id:
         type: string
     type: object
+  godevmandb.CreateEntityParams:
+    properties:
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      hw_product:
+        type: string
+      hw_revision:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      parent_ent_id:
+        type: integer
+      physical:
+        type: boolean
+      serial_nr:
+        type: string
+      slot:
+        type: string
+      snmp_ent_id:
+        type: integer
+      sw_product:
+        type: string
+      sw_revision:
+        type: string
+    type: object
   godevmandb.Credential:
     properties:
       created_on:
@@ -369,6 +398,21 @@ definitions:
       updated_on:
         type: string
     type: object
+  godevmandb.EntityPhyIndex:
+    properties:
+      created_on:
+        type: string
+      descr:
+        type: string
+      ei_id:
+        type: integer
+      ent_id:
+        type: integer
+      phy_index:
+        type: integer
+      updated_on:
+        type: string
+    type: object
   godevmandb.RlNbr:
     properties:
       created_on:
@@ -541,6 +585,37 @@ definitions:
       snmp_ver:
         type: integer
       sys_id:
+        type: string
+    type: object
+  godevmandb.UpdateEntityParams:
+    properties:
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      ent_id:
+        type: integer
+      hw_product:
+        type: string
+      hw_revision:
+        type: string
+      manufacturer:
+        type: string
+      model:
+        type: string
+      parent_ent_id:
+        type: integer
+      physical:
+        type: boolean
+      serial_nr:
+        type: string
+      slot:
+        type: string
+      snmp_ent_id:
+        type: integer
+      sw_product:
+        type: string
+      sw_revision:
         type: string
     type: object
   godevmandb.Vlan:
@@ -5367,6 +5442,467 @@ paths:
       summary: Count device_types
       tags:
       - devices
+  /entities:
+    get:
+      description: List entities info
+      operationId: list-entities
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: slot_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: model_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: w_product_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: hw_revision_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: serial_nr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: sw_product_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: sw_revision_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: manufacturer_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Entity'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List entities
+      tags:
+      - entities
+    post:
+      description: Create Entity
+      operationId: create-Entity
+      parameters:
+      - description: JSON object of godevmandb.CreateEntityParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateEntityParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.Entity'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create Entity
+      tags:
+      - entities
+  /entities/{ent_id}:
+    delete:
+      description: Delete Entity
+      operationId: delete-Entity
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete Entity
+      tags:
+      - entities
+    get:
+      description: Get Entity info
+      operationId: get-Entity
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Entity'
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Entity not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get Entity
+      tags:
+      - entities
+    put:
+      description: Update Entity
+      operationId: update-Entity
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateEntityParams.<br />Ignored fields:<ul><li>ent_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateEntityParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Entity'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update Entity
+      tags:
+      - entities
+  /entities/{ent_id}/childs:
+    get:
+      description: List connection entity childs info
+      operationId: list-entity-childs
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Entity'
+            type: array
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List entity childs
+      tags:
+      - entities
+  /entities/{ent_id}/device:
+    get:
+      description: Get entity device info
+      operationId: get-entity-device
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get entity device
+      tags:
+      - entities
+  /entities/{ent_id}/entity_phy_indexes:
+    get:
+      description: List connection entity phy indexes info
+      operationId: list-entity-phy-indexes
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.EntityPhyIndex'
+            type: array
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List entity phy indexes
+      tags:
+      - entities
+  /entities/{ent_id}/interfaces:
+    get:
+      description: List connection entity interfaces info
+      operationId: list-entity-interfaces
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.iface'
+            type: array
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List entity interfaces
+      tags:
+      - entities
+  /entities/{ent_id}/parent:
+    get:
+      description: Get entity parent info
+      operationId: get-entity-parent
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Entity'
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get entity parent
+      tags:
+      - entities
+  /entities/{ent_id}/rl_nbrs:
+    get:
+      description: List connection entity rl_nbrs info
+      operationId: list-rl_nbrs
+      parameters:
+      - description: ent_id
+        in: path
+        name: ent_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.RlNbr'
+            type: array
+        "400":
+          description: Invalid ent_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List entity rl_nbrs
+      tags:
+      - entities
+  /entities/count:
+    get:
+      description: Count number of entities
+      operationId: count-entities
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count entities
+      tags:
+      - entities
   /sites/countries:
     get:
       description: List countries info

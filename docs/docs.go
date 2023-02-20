@@ -6797,6 +6797,697 @@ const docTemplate = `{
                 }
             }
         },
+        "/entities": {
+            "get": {
+                "description": "List entities info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "List entities",
+                "operationId": "list-entities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "slot_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "model_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "w_product_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "hw_revision_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "serial_nr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "sw_product_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "sw_revision_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "manufacturer_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Entity"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create Entity",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Create Entity",
+                "operationId": "create-Entity",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateEntityParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateEntityParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/count": {
+            "get": {
+                "description": "Count number of entities",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Count entities",
+                "operationId": "count-entities",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}": {
+            "get": {
+                "description": "Get Entity info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Get Entity",
+                "operationId": "get-Entity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Entity not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update Entity",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Update Entity",
+                "operationId": "update-Entity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateEntityParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eent_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateEntityParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete Entity",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Delete Entity",
+                "operationId": "delete-Entity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}/childs": {
+            "get": {
+                "description": "List connection entity childs info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "List entity childs",
+                "operationId": "list-entity-childs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Entity"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}/device": {
+            "get": {
+                "description": "Get entity device info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Get entity device",
+                "operationId": "get-entity-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}/entity_phy_indexes": {
+            "get": {
+                "description": "List connection entity phy indexes info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "List entity phy indexes",
+                "operationId": "list-entity-phy-indexes",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.EntityPhyIndex"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}/interfaces": {
+            "get": {
+                "description": "List connection entity interfaces info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "List entity interfaces",
+                "operationId": "list-entity-interfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.iface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}/parent": {
+            "get": {
+                "description": "Get entity parent info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Get entity parent",
+                "operationId": "get-entity-parent",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/{ent_id}/rl_nbrs": {
+            "get": {
+                "description": "List connection entity rl_nbrs info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "List entity rl_nbrs",
+                "operationId": "list-rl_nbrs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ent_id",
+                        "name": "ent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.RlNbr"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/sites/countries": {
             "get": {
                 "description": "List countries info",
@@ -7451,6 +8142,50 @@ const docTemplate = `{
                 }
             }
         },
+        "godevmandb.CreateEntityParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "hw_product": {
+                    "type": "string"
+                },
+                "hw_revision": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "parent_ent_id": {
+                    "type": "integer"
+                },
+                "physical": {
+                    "type": "boolean"
+                },
+                "serial_nr": {
+                    "type": "string"
+                },
+                "slot": {
+                    "type": "string"
+                },
+                "snmp_ent_id": {
+                    "type": "integer"
+                },
+                "sw_product": {
+                    "type": "string"
+                },
+                "sw_revision": {
+                    "type": "string"
+                }
+            }
+        },
         "godevmandb.Credential": {
             "type": "object",
             "properties": {
@@ -7725,6 +8460,29 @@ const docTemplate = `{
                 }
             }
         },
+        "godevmandb.EntityPhyIndex": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "ei_id": {
+                    "type": "integer"
+                },
+                "ent_id": {
+                    "type": "integer"
+                },
+                "phy_index": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
         "godevmandb.RlNbr": {
             "type": "object",
             "properties": {
@@ -7989,6 +8747,53 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "sys_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateEntityParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "ent_id": {
+                    "type": "integer"
+                },
+                "hw_product": {
+                    "type": "string"
+                },
+                "hw_revision": {
+                    "type": "string"
+                },
+                "manufacturer": {
+                    "type": "string"
+                },
+                "model": {
+                    "type": "string"
+                },
+                "parent_ent_id": {
+                    "type": "integer"
+                },
+                "physical": {
+                    "type": "boolean"
+                },
+                "serial_nr": {
+                    "type": "string"
+                },
+                "slot": {
+                    "type": "string"
+                },
+                "snmp_ent_id": {
+                    "type": "integer"
+                },
+                "sw_product": {
+                    "type": "string"
+                },
+                "sw_revision": {
                     "type": "string"
                 }
             }

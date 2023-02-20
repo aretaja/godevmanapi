@@ -430,6 +430,32 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/entities" resource
+	r.Route("/entities", func(r chi.Router) {
+		// Filter parameters:
+		//   slot_f, descr_f, model_f, hw_product_f, hw_revision_f, serial_nr_f, sw_product_f, sw_revision_f, manufacturer_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetEntities)
+		r.Get("/count", a.Handler.CountEntities)
+		r.Post("/", a.Handler.CreateEntity)
+
+		// Subroutes
+		r.Route("/{ent_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetEntity)
+			r.Put("/", a.Handler.UpdateEntity)
+			r.Delete("/", a.Handler.DeleteEntity)
+			r.Get("/childs", a.Handler.GetEntityChilds)
+			r.Get("/device", a.Handler.GetEntityDevice)
+			r.Get("/parent", a.Handler.GetEntityParent)
+			r.Get("/entity_phy_indexes", a.Handler.GetEntityEntityPhyIndexes)
+			r.Get("/interfaces", a.Handler.GetEntityInterfaces)
+			r.Get("/rl_nbrs", a.Handler.GetEntityRlfNbrs)
+		})
+	})
+
 	// Routes for "/sites" resource
 
 	// Routes for "/sites/countries" resource
