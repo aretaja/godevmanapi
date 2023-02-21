@@ -459,7 +459,7 @@ func (a *App) initializeRoutes() {
 	// Routes for "/interfaces" resource
 
 	// Routes for "/interfaces/bw_stat" resource
-	r.Route("/interfaces/bw_stat", func(r chi.Router) {
+	r.Route("/interfaces/bw_stats", func(r chi.Router) {
 		// Filter parameters:
 		//   if_group_f,
 		//   updated_ge, updated_le, created_ge, created_le
