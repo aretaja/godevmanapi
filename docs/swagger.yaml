@@ -5980,6 +5980,231 @@ paths:
       summary: Count custom_entities
       tags:
       - entities
+  /interfaces:
+    get:
+      description: List interfaces info
+      operationId: list-interfaces
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: ifindex_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: alias_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: oper_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: adm_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: speed_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: minspeed_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: type_enum_f
+        type: string
+      - description: SQL '=' operator value (MAC address)
+        in: query
+        name: mac_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.iface'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List interfaces
+      tags:
+      - interfaces
+    post:
+      description: Create interface
+      operationId: create-interface
+      parameters:
+      - description: JSON object of iface.<br />Ignored fields:<ul><li>if_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.iface'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.iface'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create interface
+      tags:
+      - interfaces
+  /interfaces/{if_id}:
+    delete:
+      description: Delete interface
+      operationId: delete-interface
+      parameters:
+      - description: if_id
+        in: path
+        name: if_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid if_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete interface
+      tags:
+      - interfaces
+    get:
+      description: Get interface info
+      operationId: get-interface
+      parameters:
+      - description: if_id
+        in: path
+        name: if_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.iface'
+        "400":
+          description: Invalid if_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Interface not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get interface
+      tags:
+      - interfaces
+    put:
+      description: Update interface
+      operationId: update-interface
+      parameters:
+      - description: if_id
+        in: path
+        name: if_id
+        required: true
+        type: string
+      - description: JSON object of iface.<br />Ignored fields:<ul><li>if_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.iface'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.iface'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update interface
+      tags:
+      - interfaces
   /interfaces/bw_stats:
     get:
       description: List int bw stats info
@@ -6230,6 +6455,30 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count int bw stats
+      tags:
+      - interfaces
+  /interfaces/count:
+    get:
+      description: Count number of interfaces
+      operationId: count-interfaces
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count interfaces
       tags:
       - interfaces
   /sites/countries:
