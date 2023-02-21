@@ -7480,6 +7480,382 @@
                 }
             }
         },
+        "/interfaces/bw_stats": {
+            "get": {
+                "description": "List int bw stats info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List int bw stats",
+                "operationId": "list-bw_stats",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "if_group_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.IntBwStat"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create IntBwStat",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Create IntBwStat",
+                "operationId": "create-int_bw_stat",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateIntBwStatParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateIntBwStatParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.IntBwStat"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/bw_stats/count": {
+            "get": {
+                "description": "Count number of int bw stats",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Count int bw stats",
+                "operationId": "count-bw_stats",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/bw_stats/{bw_id}": {
+            "get": {
+                "description": "Get IntBwStat info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get IntBwStat",
+                "operationId": "get-int_bw_stat",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bw_id",
+                        "name": "bw_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.IntBwStat"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid bw_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Stat not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update IntBwStat",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Update IntBwStat",
+                "operationId": "update-int_bw_stat",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bw_id",
+                        "name": "bw_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateIntBwStatParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ebw_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateIntBwStatParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.IntBwStat"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete IntBwStat",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Delete IntBwStat",
+                "operationId": "delete-int_bw_stat",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bw_id",
+                        "name": "bw_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid bw_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/bw_stats/{bw_id}/interface": {
+            "get": {
+                "description": "Get bw_stats interface info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get bw_stats interface",
+                "operationId": "get-bw_stats-interface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "bw_id",
+                        "name": "bw_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.iface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid bw_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/sites/countries": {
             "get": {
                 "description": "List countries info",
@@ -8178,6 +8554,41 @@
                 }
             }
         },
+        "godevmandb.CreateIntBwStatParams": {
+            "type": "object",
+            "properties": {
+                "if_group": {
+                    "type": "string"
+                },
+                "if_id": {
+                    "type": "integer"
+                },
+                "to100in": {
+                    "type": "integer"
+                },
+                "to100out": {
+                    "type": "integer"
+                },
+                "to50in": {
+                    "type": "integer"
+                },
+                "to50out": {
+                    "type": "integer"
+                },
+                "to75in": {
+                    "type": "integer"
+                },
+                "to75out": {
+                    "type": "integer"
+                },
+                "to90in": {
+                    "type": "integer"
+                },
+                "to90out": {
+                    "type": "integer"
+                }
+            }
+        },
         "godevmandb.Credential": {
             "type": "object",
             "properties": {
@@ -8468,6 +8879,50 @@
                     "type": "integer"
                 },
                 "phy_index": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.IntBwStat": {
+            "type": "object",
+            "properties": {
+                "bw_id": {
+                    "type": "integer"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "if_group": {
+                    "type": "string"
+                },
+                "if_id": {
+                    "type": "integer"
+                },
+                "to100in": {
+                    "type": "integer"
+                },
+                "to100out": {
+                    "type": "integer"
+                },
+                "to50in": {
+                    "type": "integer"
+                },
+                "to50out": {
+                    "type": "integer"
+                },
+                "to75in": {
+                    "type": "integer"
+                },
+                "to75out": {
+                    "type": "integer"
+                },
+                "to90in": {
+                    "type": "integer"
+                },
+                "to90out": {
                     "type": "integer"
                 },
                 "updated_on": {
@@ -8787,6 +9242,44 @@
                 },
                 "sw_revision": {
                     "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateIntBwStatParams": {
+            "type": "object",
+            "properties": {
+                "bw_id": {
+                    "type": "integer"
+                },
+                "if_group": {
+                    "type": "string"
+                },
+                "if_id": {
+                    "type": "integer"
+                },
+                "to100in": {
+                    "type": "integer"
+                },
+                "to100out": {
+                    "type": "integer"
+                },
+                "to50in": {
+                    "type": "integer"
+                },
+                "to50out": {
+                    "type": "integer"
+                },
+                "to75in": {
+                    "type": "integer"
+                },
+                "to75out": {
+                    "type": "integer"
+                },
+                "to90in": {
+                    "type": "integer"
+                },
+                "to90out": {
+                    "type": "integer"
                 }
             }
         },

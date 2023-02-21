@@ -456,6 +456,29 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/interfaces" resource
+
+	// Routes for "/interfaces/bw_stat" resource
+	r.Route("/interfaces/bw_stat", func(r chi.Router) {
+		// Filter parameters:
+		//   if_group_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetIntBwStats)
+		r.Get("/count", a.Handler.CountIntBwStats)
+		r.Post("/", a.Handler.CreateIntBwStat)
+
+		// Subroutes
+		r.Route("/{bw_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetIntBwStat)
+			r.Put("/", a.Handler.UpdateIntBwStat)
+			r.Delete("/", a.Handler.DeleteIntBwStat)
+			r.Get("/interfaces", a.Handler.GetIntBwStatInterface)
+		})
+	})
+
 	// Routes for "/sites" resource
 
 	// Routes for "/sites/countries" resource

@@ -218,6 +218,29 @@ definitions:
       sw_revision:
         type: string
     type: object
+  godevmandb.CreateIntBwStatParams:
+    properties:
+      if_group:
+        type: string
+      if_id:
+        type: integer
+      to50in:
+        type: integer
+      to50out:
+        type: integer
+      to75in:
+        type: integer
+      to75out:
+        type: integer
+      to90in:
+        type: integer
+      to90out:
+        type: integer
+      to100in:
+        type: integer
+      to100out:
+        type: integer
+    type: object
   godevmandb.Credential:
     properties:
       created_on:
@@ -409,6 +432,35 @@ definitions:
       ent_id:
         type: integer
       phy_index:
+        type: integer
+      updated_on:
+        type: string
+    type: object
+  godevmandb.IntBwStat:
+    properties:
+      bw_id:
+        type: integer
+      created_on:
+        type: string
+      if_group:
+        type: string
+      if_id:
+        type: integer
+      to50in:
+        type: integer
+      to50out:
+        type: integer
+      to75in:
+        type: integer
+      to75out:
+        type: integer
+      to90in:
+        type: integer
+      to90out:
+        type: integer
+      to100in:
+        type: integer
+      to100out:
         type: integer
       updated_on:
         type: string
@@ -617,6 +669,31 @@ definitions:
         type: string
       sw_revision:
         type: string
+    type: object
+  godevmandb.UpdateIntBwStatParams:
+    properties:
+      bw_id:
+        type: integer
+      if_group:
+        type: string
+      if_id:
+        type: integer
+      to50in:
+        type: integer
+      to50out:
+        type: integer
+      to75in:
+        type: integer
+      to75out:
+        type: integer
+      to90in:
+        type: integer
+      to90out:
+        type: integer
+      to100in:
+        type: integer
+      to100out:
+        type: integer
     type: object
   godevmandb.Vlan:
     properties:
@@ -5903,6 +5980,258 @@ paths:
       summary: Count custom_entities
       tags:
       - entities
+  /interfaces/bw_stats:
+    get:
+      description: List int bw stats info
+      operationId: list-bw_stats
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: if_group_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.IntBwStat'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List int bw stats
+      tags:
+      - interfaces
+    post:
+      description: Create IntBwStat
+      operationId: create-int_bw_stat
+      parameters:
+      - description: JSON object of godevmandb.CreateIntBwStatParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateIntBwStatParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.IntBwStat'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create IntBwStat
+      tags:
+      - interfaces
+  /interfaces/bw_stats/{bw_id}:
+    delete:
+      description: Delete IntBwStat
+      operationId: delete-int_bw_stat
+      parameters:
+      - description: bw_id
+        in: path
+        name: bw_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid bw_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete IntBwStat
+      tags:
+      - interfaces
+    get:
+      description: Get IntBwStat info
+      operationId: get-int_bw_stat
+      parameters:
+      - description: bw_id
+        in: path
+        name: bw_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.IntBwStat'
+        "400":
+          description: Invalid bw_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Stat not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get IntBwStat
+      tags:
+      - interfaces
+    put:
+      description: Update IntBwStat
+      operationId: update-int_bw_stat
+      parameters:
+      - description: bw_id
+        in: path
+        name: bw_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateIntBwStatParams.<br />Ignored
+          fields:<ul><li>bw_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateIntBwStatParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.IntBwStat'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update IntBwStat
+      tags:
+      - interfaces
+  /interfaces/bw_stats/{bw_id}/interface:
+    get:
+      description: Get bw_stats interface info
+      operationId: get-bw_stats-interface
+      parameters:
+      - description: bw_id
+        in: path
+        name: bw_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.iface'
+        "400":
+          description: Invalid bw_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get bw_stats interface
+      tags:
+      - interfaces
+  /interfaces/bw_stats/count:
+    get:
+      description: Count number of int bw stats
+      operationId: count-bw_stats
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count int bw stats
+      tags:
+      - interfaces
   /sites/countries:
     get:
       description: List countries info
