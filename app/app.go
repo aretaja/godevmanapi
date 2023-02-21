@@ -134,6 +134,26 @@ func (a *App) initializeRoutes() {
 			r.Delete("/", a.Handler.DeleteArchivedSubinterface)
 		})
 	})
+	// Routes for "/config" resource
+	// Routes for "/config/credentials" resource
+	r.Route("/config/credentials", func(r chi.Router) {
+		// Filter parameters:
+		//   label_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetCredentials)
+		r.Get("/count", a.Handler.CountCredentials)
+		r.Post("/", a.Handler.CreateCredential)
+
+		// Subroutes
+		r.Route("/{cred_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetCredential)
+			r.Put("/", a.Handler.UpdateCredential)
+			r.Delete("/", a.Handler.DeleteCredential)
+		})
+	})
 
 	// Routes for "/connections" resource
 	r.Route("/connections", func(r chi.Router) {
@@ -242,46 +262,6 @@ func (a *App) initializeRoutes() {
 			r.Put("/", a.Handler.UpdateConType)
 			r.Delete("/", a.Handler.DeleteConType)
 			r.Get("/connections", a.Handler.GetConTypeConnections)
-		})
-	})
-
-	// Routes for "/data/credentials" resource
-	r.Route("/data/credentials", func(r chi.Router) {
-		// Filter parameters:
-		//   label_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
-		r.Get("/", a.Handler.GetCredentials)
-		r.Get("/count", a.Handler.CountCredentials)
-		r.Post("/", a.Handler.CreateCredential)
-
-		// Subroutes
-		r.Route("/{cred_id:[0-9]+}", func(r chi.Router) {
-			r.Get("/", a.Handler.GetCredential)
-			r.Put("/", a.Handler.UpdateCredential)
-			r.Delete("/", a.Handler.DeleteCredential)
-		})
-	})
-
-	// Routes for "/data/custom_entities" resource
-	r.Route("/data/custom_entities", func(r chi.Router) {
-		// Filter parameters:
-		//   serial_nr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
-		r.Get("/", a.Handler.GetCustomEntities)
-		r.Get("/count", a.Handler.CountCustomEntities)
-		r.Post("/", a.Handler.CreateCustomEntity)
-
-		// Subroutes
-		r.Route("/{cent_id:[0-9]+}", func(r chi.Router) {
-			r.Get("/", a.Handler.GetCustomEntity)
-			r.Put("/", a.Handler.UpdateCustomEntity)
-			r.Delete("/", a.Handler.DeleteCustomEntity)
 		})
 	})
 
@@ -453,6 +433,26 @@ func (a *App) initializeRoutes() {
 			r.Get("/entity_phy_indexes", a.Handler.GetEntityEntityPhyIndexes)
 			r.Get("/interfaces", a.Handler.GetEntityInterfaces)
 			r.Get("/rl_nbrs", a.Handler.GetEntityRlfNbrs)
+		})
+	})
+
+	// Routes for "/entities/custom_entities" resource
+	r.Route("/entities/custom_entities", func(r chi.Router) {
+		// Filter parameters:
+		//   serial_nr_f,
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetCustomEntities)
+		r.Get("/count", a.Handler.CountCustomEntities)
+		r.Post("/", a.Handler.CreateCustomEntity)
+
+		// Subroutes
+		r.Route("/{cent_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetCustomEntity)
+			r.Put("/", a.Handler.UpdateCustomEntity)
+			r.Delete("/", a.Handler.DeleteCustomEntity)
 		})
 	})
 

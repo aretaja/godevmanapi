@@ -775,6 +775,764 @@ const docTemplate = `{
                 }
             }
         },
+        "/config/credentials": {
+            "get": {
+                "description": "List credentials info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "List credentials",
+                "operationId": "list-credentials",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "label_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Credential"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create credential",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Create credential",
+                "operationId": "create-credential",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateCredentialParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateCredentialParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Credential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/credentials/count": {
+            "get": {
+                "description": "Count number of credentials",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Count credentials",
+                "operationId": "count-credentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/credentials/{cred_id}": {
+            "get": {
+                "description": "Get credential info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Get credential",
+                "operationId": "get-credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cred_id",
+                        "name": "cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Credential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update credential",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Update credential",
+                "operationId": "update-credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cred_id",
+                        "name": "cred_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateCredentialParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateCredentialParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Credential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete credential",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Delete credential",
+                "operationId": "delete-credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cred_id",
+                        "name": "cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/snmp_credentials": {
+            "get": {
+                "description": "List snmp credentials info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "List snmp_credentials",
+                "operationId": "list-snmp_credentials",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "label_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.snmpCredential"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create snmp credential",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Create snmp_credential",
+                "operationId": "create-snmp_credential",
+                "parameters": [
+                    {
+                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esnmp_cred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/snmp_credentials/count": {
+            "get": {
+                "description": "Count number of snmp credentials",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Count snmp_credentials",
+                "operationId": "count-snmp_credentials",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/snmp_credentials/{snmp_cred_id}": {
+            "get": {
+                "description": "Get snmp credential info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Get snmp_credential",
+                "operationId": "get-snmp_credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Credential not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update snmp credential",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Update snmp_credential",
+                "operationId": "update-snmp_credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esnmp_cred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.snmpCredential"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete snmp credential",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Delete snmp_credential",
+                "operationId": "delete-snmp_credential",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/snmp_credentials/{snmp_cred_id}/main_devices": {
+            "get": {
+                "description": "List snmp credential main devices info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "List snmp_credential main devices",
+                "operationId": "list-snmp-credential-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/snmp_credentials/{snmp_cred_id}/ro_devices": {
+            "get": {
+                "description": "List snmp credential read only devices info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "List snmp_credential ro devices",
+                "operationId": "list-snmp-credential-ro-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "snmp_cred_id",
+                        "name": "snmp_cred_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid snmp_cred_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/connections": {
             "get": {
                 "description": "List connection info",
@@ -2820,656 +3578,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/data/credentials": {
-            "get": {
-                "description": "List credentials info",
-                "tags": [
-                    "data"
-                ],
-                "summary": "List credentials",
-                "operationId": "list-credentials",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
-                        "name": "label_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "min: 1; max: 1000; default: 100",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "default: 0",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
-                        "name": "updated_ge",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
-                        "name": "updated_le",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
-                        "name": "created_ge",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
-                        "name": "created_le",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/godevmandb.Credential"
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create credential",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Create credential",
-                "operationId": "create-credential",
-                "parameters": [
-                    {
-                        "description": "JSON object of godevmandb.CreateCredentialParams",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateCredentialParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.Credential"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request payload",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/data/credentials/count": {
-            "get": {
-                "description": "Count number of credentials",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Count credentials",
-                "operationId": "count-credentials",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.CountResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/data/credentials/{cred_id}": {
-            "get": {
-                "description": "Get credential info",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Get credential",
-                "operationId": "get-credential",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "cred_id",
-                        "name": "cred_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.Credential"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid cred_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Credential not found",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update credential",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Update credential",
-                "operationId": "update-credential",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "cred_id",
-                        "name": "cred_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "JSON object of godevmandb.UpdateCredentialParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecred_id\u003c/li\u003e\u003c/ul\u003e",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateCredentialParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.Credential"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete credential",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Delete credential",
-                "operationId": "delete-credential",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "cred_id",
-                        "name": "cred_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "400": {
-                        "description": "Invalid cred_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/data/custom_entities": {
-            "get": {
-                "description": "List custom_entities info",
-                "tags": [
-                    "data"
-                ],
-                "summary": "List custom_entities",
-                "operationId": "list-custom_entities",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
-                        "name": "serial_nr_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "min: 1; max: 1000; default: 100",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "default: 0",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
-                        "name": "updated_ge",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
-                        "name": "updated_le",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
-                        "name": "created_ge",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
-                        "name": "created_le",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/godevmandb.CustomEntity"
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create customEntity",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Create customEntity",
-                "operationId": "create-customEntity",
-                "parameters": [
-                    {
-                        "description": "JSON object of godevmandb.CreateCustomEntityParams",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.CreateCustomEntityParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.CustomEntity"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request payload",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/data/custom_entities/count": {
-            "get": {
-                "description": "Count number of custom_entities",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Count custom_entities",
-                "operationId": "count-custom_entities",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.CountResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/data/custom_entities/{cent_id}": {
-            "get": {
-                "description": "Get customEntity info",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Get customEntity",
-                "operationId": "get-customEntity",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "cent_id",
-                        "name": "cent_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.CustomEntity"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid cent_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "CustomEntity not found",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update customEntity",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Update customEntity",
-                "operationId": "update-customEntity",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "cent_id",
-                        "name": "cent_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "JSON object of godevmandb.UpdateCustomEntityParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecent_id\u003c/li\u003e\u003c/ul\u003e",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.UpdateCustomEntityParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/godevmandb.CustomEntity"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete customEntity",
-                "tags": [
-                    "data"
-                ],
-                "summary": "Delete customEntity",
-                "operationId": "delete-customEntity",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "cent_id",
-                        "name": "cent_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "400": {
-                        "description": "Invalid cent_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/devices": {
             "get": {
                 "description": "List devices info",
@@ -4734,439 +4842,6 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Invalid dom_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/devices/snmp_credentials": {
-            "get": {
-                "description": "List snmp credentials info",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "List snmp_credentials",
-                "operationId": "list-snmp_credentials",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
-                        "name": "label_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "min: 1; max: 1000; default: 100",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "default: 0",
-                        "name": "offset",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
-                        "name": "updated_ge",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
-                        "name": "updated_le",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
-                        "name": "created_ge",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
-                        "name": "created_le",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/handlers.snmpCredential"
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create snmp credential",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "Create snmp_credential",
-                "operationId": "create-snmp_credential",
-                "parameters": [
-                    {
-                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esnmp_cred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/handlers.snmpCredential"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.snmpCredential"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request payload",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/devices/snmp_credentials/count": {
-            "get": {
-                "description": "Count number of snmp credentials",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "Count snmp_credentials",
-                "operationId": "count-snmp_credentials",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.CountResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/devices/snmp_credentials/{snmp_cred_id}": {
-            "get": {
-                "description": "Get snmp credential info",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "Get snmp_credential",
-                "operationId": "get-snmp_credential",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "snmp_cred_id",
-                        "name": "snmp_cred_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.snmpCredential"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid snmp_cred_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Credential not found",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Update snmp credential",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "Update snmp_credential",
-                "operationId": "update-snmp_credential",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "snmp_cred_id",
-                        "name": "snmp_cred_id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "JSON object of credential.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esnmp_cred_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/handlers.snmpCredential"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.snmpCredential"
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid request",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete snmp credential",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "Delete snmp_credential",
-                "operationId": "delete-snmp_credential",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "snmp_cred_id",
-                        "name": "snmp_cred_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content"
-                    },
-                    "400": {
-                        "description": "Invalid snmp_cred_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/devices/snmp_credentials/{snmp_cred_id}/main_devices": {
-            "get": {
-                "description": "List snmp credential main devices info",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "List snmp_credential main devices",
-                "operationId": "list-snmp-credential-devices",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "snmp_cred_id",
-                        "name": "snmp_cred_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/handlers.device"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid snmp_cred_id",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Invalid route error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "405": {
-                        "description": "Invalid method error",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Failde DB transaction",
-                        "schema": {
-                            "$ref": "#/definitions/handlers.StatusResponse"
-                        }
-                    }
-                }
-            }
-        },
-        "/devices/snmp_credentials/{snmp_cred_id}/ro_devices": {
-            "get": {
-                "description": "List snmp credential read only devices info",
-                "tags": [
-                    "devices"
-                ],
-                "summary": "List snmp_credential ro devices",
-                "operationId": "list-snmp-credential-ro-devices",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "snmp_cred_id",
-                        "name": "snmp_cred_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/handlers.device"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid snmp_cred_id",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6992,6 +6667,331 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/custom_entities": {
+            "get": {
+                "description": "List custom_entities info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "List custom_entities",
+                "operationId": "list-custom_entities",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "serial_nr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.CustomEntity"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create customEntity",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Create customEntity",
+                "operationId": "create-customEntity",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateCustomEntityParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateCustomEntityParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CustomEntity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/custom_entities/count": {
+            "get": {
+                "description": "Count number of custom_entities",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Count custom_entities",
+                "operationId": "count-custom_entities",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/entities/custom_entities/{cent_id}": {
+            "get": {
+                "description": "Get customEntity info",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Get customEntity",
+                "operationId": "get-customEntity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cent_id",
+                        "name": "cent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CustomEntity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid cent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "CustomEntity not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update customEntity",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Update customEntity",
+                "operationId": "update-customEntity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cent_id",
+                        "name": "cent_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateCustomEntityParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ecent_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateCustomEntityParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CustomEntity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete customEntity",
+                "tags": [
+                    "entities"
+                ],
+                "summary": "Delete customEntity",
+                "operationId": "delete-customEntity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "cent_id",
+                        "name": "cent_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid cent_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
                         }
                     },
                     "404": {

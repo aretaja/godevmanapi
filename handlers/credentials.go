@@ -12,13 +12,13 @@ import (
 // Count Credentials
 // @Summary Count credentials
 // @Description Count number of credentials
-// @Tags data
+// @Tags config
 // @ID count-credentials
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /data/credentials/count [GET]
+// @Router /config/credentials/count [GET]
 func (h *Handler) CountCredentials(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
 	res, err := q.CountCredentials(h.ctx)
@@ -33,7 +33,7 @@ func (h *Handler) CountCredentials(w http.ResponseWriter, r *http.Request) {
 // List credentials
 // @Summary List credentials
 // @Description List credentials info
-// @Tags data
+// @Tags config
 // @ID list-credentials
 // @Param label_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
@@ -46,7 +46,7 @@ func (h *Handler) CountCredentials(w http.ResponseWriter, r *http.Request) {
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /data/credentials [GET]
+// @Router /config/credentials [GET]
 func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 	// Pagination
 	var p = godevmandb.GetCredentialsParams{
@@ -104,7 +104,7 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 // Get Credential
 // @Summary Get credential
 // @Description Get credential info
-// @Tags data
+// @Tags config
 // @ID get-credential
 // @Param cred_id path string true "cred_id"
 // @Success 200 {object} godevmandb.Credential
@@ -112,7 +112,7 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 // @Failure 404 {object} StatusResponse "Credential not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /data/credentials/{cred_id} [GET]
+// @Router /config/credentials/{cred_id} [GET]
 func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cred_id"), 10, 64)
 	if err != nil {
@@ -148,7 +148,7 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 // Create Credential
 // @Summary Create credential
 // @Description Create credential
-// @Tags data
+// @Tags config
 // @ID create-credential
 // @Param Body body godevmandb.CreateCredentialParams true "JSON object of godevmandb.CreateCredentialParams"
 // @Success 201 {object} godevmandb.Credential
@@ -156,7 +156,7 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /data/credentials [POST]
+// @Router /config/credentials [POST]
 func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateCredentialParams
 	decoder := json.NewDecoder(r.Body)
@@ -201,7 +201,7 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 // Update Credential
 // @Summary Update credential
 // @Description Update credential
-// @Tags data
+// @Tags config
 // @ID update-credential
 // @Param cred_id path string true "cred_id"
 // @Param Body body godevmandb.UpdateCredentialParams true "JSON object of godevmandb.UpdateCredentialParams.<br />Ignored fields:<ul><li>cred_id</li></ul>"
@@ -210,7 +210,7 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /data/credentials/{cred_id} [PUT]
+// @Router /config/credentials/{cred_id} [PUT]
 func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cred_id"), 10, 64)
 	if err != nil {
@@ -264,7 +264,7 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 // Delete Credential
 // @Summary Delete credential
 // @Description Delete credential
-// @Tags data
+// @Tags config
 // @ID delete-credential
 // @Param cred_id path string true "cred_id"
 // @Success 204
@@ -272,7 +272,7 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
-// @Router /data/credentials/{cred_id} [DELETE]
+// @Router /config/credentials/{cred_id} [DELETE]
 func (h *Handler) DeleteCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cred_id"), 10, 64)
 	if err != nil {
