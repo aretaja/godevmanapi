@@ -5985,7 +5985,8 @@ paths:
       description: List interfaces info
       operationId: list-interfaces
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: ifindex_f
         type: string
@@ -5993,27 +5994,33 @@ paths:
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: alias_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: oper_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: adm_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: speed_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: minspeed_f
         type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: type_enum_f
         type: string

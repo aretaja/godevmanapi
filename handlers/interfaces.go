@@ -28,7 +28,7 @@ type iface struct {
 	TypeEnum   *int16    `json:"type_enum"`
 	Descr      string    `json:"descr"`
 	IfID       int64     `json:"if_id"`
-	DevID      int64     `json:"dev_id"`
+	DevID      int64     `json:"if_id"`
 	Monstatus  int16     `json:"monstatus"`
 	Monerrors  int16     `json:"monerrors"`
 	Monload    int16     `json:"monload"`
@@ -135,14 +135,14 @@ func (h *Handler) CountInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Description List interfaces info
 // @Tags interfaces
 // @ID list-interfaces
-// @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param oper_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param adm_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param speed_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param minspeed_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param type_enum_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param oper_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param adm_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param speed_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param minspeed_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param type_enum_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param mac_f query string false "SQL '=' operator value (MAC address)"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
@@ -390,4 +390,408 @@ func (h *Handler) DeleteInterface(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusNoContent)
+}
+
+// Foreign key
+// Get Interface Connection
+// @Summary Get interface connection
+// @Description Get interface connection info
+// @Tags interfaces
+// @ID get-interface-connection
+// @Param if_id path string true "if_id"
+// @Success 200 {object} godevmandb.Connection
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/connection [GET]
+func (h *Handler) GetInterfaceConnection(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceConnection(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
+}
+
+// Foreign key
+// Get Interface Parent
+// @Summary Get interface parent
+// @Description Get interface parent info
+// @Tags interfaces
+// @ID get-interface-parent
+// @Param if_id path string true "if_id"
+// @Success 200 {object} iface
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/parent [GET]
+func (h *Handler) GetInterfaceParent(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceParent(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := iface{}
+	out.getValues(res)
+
+	RespondJSON(w, r, http.StatusOK, out)
+}
+
+// Foreign key
+// Get Interface Otn Interface
+// @Summary Get interface related otn interface
+// @Description Get interface otn_if info
+// @Tags interfaces
+// @ID get-interface-otn_if
+// @Param if_id path string true "if_id"
+// @Success 200 {object} iface
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/otn_if [GET]
+func (h *Handler) GetInterfaceOtnIf(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceOtnIf(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := iface{}
+	out.getValues(res)
+
+	RespondJSON(w, r, http.StatusOK, out)
+}
+
+// Foreign key
+// Get Interface Device
+// @Summary Get interface device
+// @Description Get interface device info
+// @Tags interfaces
+// @ID get-interface-device
+// @Param if_id path string true "if_id"
+// @Success 200 {object} device
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/device [GET]
+func (h *Handler) GetInterfaceDevice(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceDevice(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := device{}
+	out.getValues(res)
+
+	RespondJSON(w, r, http.StatusOK, out)
+}
+
+// Foreign key
+// Get Interface Entity
+// @Summary Get interface entity
+// @Description Get interface entity info
+// @Tags interfaces
+// @ID get-interface-entity
+// @Param if_id path string true "if_id"
+// @Success 200 {object} godevmandb.Entity
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/entity [GET]
+func (h *Handler) GetInterfaceEntity(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceEntity(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
+}
+
+// Relations
+// List Interface Childs
+// @Summary List interface childs
+// @Description List interface childs info
+// @Tags interfaces
+// @ID list-interface-childs
+// @Param if_id path string true "if_id"
+// @Success 200 {array} iface
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/childs [GET]
+func (h *Handler) GetInterfaceChilds(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceChilds(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := []iface{}
+	for _, s := range res {
+		a := iface{}
+		a.getValues(s)
+		out = append(out, a)
+	}
+
+	RespondJSON(w, r, http.StatusOK, out)
+}
+
+// Relations
+// List Interface BwStats
+// @Summary List interface bw_stats
+// @Description List interface int_bw_stats info
+// @Tags interfaces
+// @ID list-interface-int_bw_stats
+// @Param if_id path string true "if_id"
+// @Success 200 {array} godevmandb.IntBwStat
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/bw_stats [GET]
+func (h *Handler) GetInterfaceIntBwStats(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceIntBwStats(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
+}
+
+// Relations
+// List Lower Related Interfaces
+// @Summary List lower related interfaces
+// @Description List lower related interfaces info
+// @Tags interfaces
+// @ID list-interface-lower-related
+// @Param if_id path string true "if_id"
+// @Success 200 {array} iface
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/related_lower [GET]
+// func (h *Handler) GetInterfaceInterfaceRelationsHigherFor(w http.ResponseWriter, r *http.Request) {
+// 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+// 	if err != nil {
+// 		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+// 		return
+// 	}
+
+// 	q := godevmandb.New(h.db)
+// 	res, err := q.GetInterfaceInterfaceRelationsHigherFor(h.ctx, id)
+// 	if err != nil {
+// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
+
+// 	out := []iface{}
+// 	for _, s := range res {
+// 		a := iface{}
+// 		a.getValues(s)
+// 		out = append(out, a)
+// 	}
+
+// 	RespondJSON(w, r, http.StatusOK, out)
+// }
+
+// Relations
+// List Higher Related Interfaces
+// @Summary List higher related interfaces
+// @Description List higher related interfaces info
+// @Tags interfaces
+// @ID list-interface-higher-related
+// @Param if_id path string true "if_id"
+// @Success 200 {array} iface
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/related_higher [GET]
+// func (h *Handler) GetInterfaceInterfaceRelationsLowerFor(w http.ResponseWriter, r *http.Request) {
+// 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+// 	if err != nil {
+// 		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+// 		return
+// 	}
+
+// 	q := godevmandb.New(h.db)
+// 	res, err := q.GetInterfaceInterfaceRelationsLowerFor(h.ctx, id)
+// 	if err != nil {
+// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
+// 		return
+// 	}
+
+// 	out := []iface{}
+// 	for _, s := range res {
+// 		a := iface{}
+// 		a.getValues(s)
+// 		out = append(out, a)
+// 	}
+
+// 	RespondJSON(w, r, http.StatusOK, out)
+// }
+
+// Relations
+// List Interface Vlans
+// @Summary List interface vlans
+// @Description List interface vlans info
+// @Tags interfaces
+// @ID list-interface-vlans
+// @Param if_id path string true "if_id"
+// @Success 200 {array} godevmandb.Vlan
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/vlans [GET]
+func (h *Handler) GetInterfaceVlans(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceVlans(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	RespondJSON(w, r, http.StatusOK, res)
+}
+
+// Relations
+// List Interface Subinterfaces
+// @Summary List interface subinterfaces
+// @Description List interface subinterfaces info
+// @Tags interfaces
+// @ID list-interface-subinterfaces
+// @Param if_id path string true "if_id"
+// @Success 200 {array} subinterface
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/subinterfaces [GET]
+func (h *Handler) GetInterfaceSubinterfaces(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceSubinterfaces(h.ctx, &id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := []subinterface{}
+	for _, s := range res {
+		a := subinterface{}
+		a.getValues(s)
+		out = append(out, a)
+	}
+
+	RespondJSON(w, r, http.StatusOK, out)
+}
+
+// Relations
+// List Interface Xconnects
+// @Summary List interface xconnects
+// @Description List interface xconnects info
+// @Tags interfaces
+// @ID list-interface-xconnects
+// @Param if_id path string true "if_id"
+// @Success 200 {array} xconnect
+// @Failure 400 {object} StatusResponse "Invalid if_id"
+// @Failure 404 {object} StatusResponse "Invalid route error"
+// @Failure 405 {object} StatusResponse "Invalid method error"
+// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Router /interfaces/{if_id}/xconnects [GET]
+func (h *Handler) GetInterfaceXconnects(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid interface ID")
+		return
+	}
+
+	q := godevmandb.New(h.db)
+	res, err := q.GetInterfaceXconnects(h.ctx, &id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	out := []xconnect{}
+	for _, s := range res {
+		a := xconnect{}
+		a.getValues(s)
+		out = append(out, a)
+	}
+
+	RespondJSON(w, r, http.StatusOK, out)
 }

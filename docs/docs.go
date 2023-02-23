@@ -7499,7 +7499,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "ifindex_f",
                         "in": "query"
                     },
@@ -7511,37 +7511,37 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "alias_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "oper_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "adm_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "speed_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "minspeed_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "type_enum_f",
                         "in": "query"
                     },

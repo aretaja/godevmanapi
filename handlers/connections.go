@@ -357,25 +357,22 @@ func (h *Handler) GetConnectionConType(w http.ResponseWriter, r *http.Request) {
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /connections/{con_id}/site [GET]
-// func (h *Handler) GetConnectionSite(w http.ResponseWriter, r *http.Request) {
-// 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusBadRequest, "Invalid connection ID")
-// 		return
-// 	}
+func (h *Handler) GetConnectionSite(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid connection ID")
+		return
+	}
 
-// 	q := godevmandb.New(h.db)
-// 	res, err := q.GetConnectionSite(h.ctx, id)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	q := godevmandb.New(h.db)
+	res, err := q.GetConnectionSite(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	out := site{}
-//  out.getValues(res)
-
-// 	RespondJSON(w, r, http.StatusOK, out)
-// }
+	RespondJSON(w, r, http.StatusOK, res)
+}
 
 // Relations
 // List Connection Interfaces
@@ -384,32 +381,32 @@ func (h *Handler) GetConnectionConType(w http.ResponseWriter, r *http.Request) {
 // @Tags connections
 // @ID list-connection-interfaces
 // @Param con_id path string true "con_id"
-// @Success 200 {array} interface
+// @Success 200 {array} iface
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /connections/{con_id}/interfaces [GET]
-// func (h *Handler) GetConnectionInterfaces(w http.ResponseWriter, r *http.Request) {
-// 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusBadRequest, "Invalid connection ID")
-// 		return
-// 	}
+func (h *Handler) GetConnectionInterfaces(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid connection ID")
+		return
+	}
 
-// 	q := godevmandb.New(h.db)
-// 	res, err := q.GetConnectionInterfaces(h.ctx, sql.NullInt64{Int64: id, Valid: true})
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	q := godevmandb.New(h.db)
+	res, err := q.GetConnectionInterfaces(h.ctx, &id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	out := []interface{}
-//  for _, s := range res {
-//  	r := interface{}
-//  	r.getValues(s)
-//  	out = append(out, r)
-//  }
+	out := []iface{}
+	for _, s := range res {
+		r := iface{}
+		r.getValues(s)
+		out = append(out, r)
+	}
 
-// 	RespondJSON(w, r, http.StatusOK, out)
-// }
+	RespondJSON(w, r, http.StatusOK, out)
+}
