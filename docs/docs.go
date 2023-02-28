@@ -3476,6 +3476,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/connections/{con_id}/interfaces": {
+            "get": {
+                "description": "List connection interfaces info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "List connection interfaces",
+                "operationId": "list-connection-interfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.iface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/connections/{con_id}/provider": {
             "get": {
                 "description": "Get connection provider info",
@@ -3498,6 +3552,57 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/godevmandb.ConProvider"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid con_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/connections/{con_id}/site": {
+            "get": {
+                "description": "Get connection site info",
+                "tags": [
+                    "connections"
+                ],
+                "summary": "Get connection site",
+                "operationId": "get-connection-site",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "con_id",
+                        "name": "con_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Site"
                         }
                     },
                     "400": {
@@ -8237,6 +8342,639 @@ const docTemplate = `{
                 }
             }
         },
+        "/interfaces/{if_id}/bw_stats": {
+            "get": {
+                "description": "List interface int_bw_stats info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List interface bw_stats",
+                "operationId": "list-interface-int_bw_stats",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.IntBwStat"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/childs": {
+            "get": {
+                "description": "List interface childs info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List interface childs",
+                "operationId": "list-interface-childs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.iface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/connection": {
+            "get": {
+                "description": "Get interface connection info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get interface connection",
+                "operationId": "get-interface-connection",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Connection"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/device": {
+            "get": {
+                "description": "Get interface device info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get interface device",
+                "operationId": "get-interface-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/entity": {
+            "get": {
+                "description": "Get interface entity info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get interface entity",
+                "operationId": "get-interface-entity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/otn_if": {
+            "get": {
+                "description": "Get interface otn_if info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get interface related otn interface",
+                "operationId": "get-interface-otn_if",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.iface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/parent": {
+            "get": {
+                "description": "Get interface parent info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get interface parent",
+                "operationId": "get-interface-parent",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.iface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/related_higher": {
+            "get": {
+                "description": "List higher related interfaces info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List higher related interfaces",
+                "operationId": "list-interface-higher-related",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.iface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/related_lower": {
+            "get": {
+                "description": "List lower related interfaces info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List lower related interfaces",
+                "operationId": "list-interface-lower-related",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.iface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/subinterfaces": {
+            "get": {
+                "description": "List interface subinterfaces info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List interface subinterfaces",
+                "operationId": "list-interface-subinterfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.subinterface"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/vlans": {
+            "get": {
+                "description": "List interface vlans info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List interface vlans",
+                "operationId": "list-interface-vlans",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Vlan"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/{if_id}/xconnects": {
+            "get": {
+                "description": "List interface xconnects info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List interface xconnects",
+                "operationId": "list-interface-xconnects",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "if_id",
+                        "name": "if_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.xconnect"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid if_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/sites/countries": {
             "get": {
                 "description": "List countries info",
@@ -9901,9 +10639,6 @@ const docTemplate = `{
                 "descr": {
                     "type": "string"
                 },
-                "dev_id": {
-                    "type": "integer"
-                },
                 "ent_id": {
                     "type": "integer"
                 },
@@ -10038,6 +10773,50 @@ const docTemplate = `{
                 },
                 "variant": {
                     "type": "integer"
+                }
+            }
+        },
+        "handlers.subinterface": {
+            "type": "object",
+            "properties": {
+                "adm": {
+                    "type": "integer"
+                },
+                "alias": {
+                    "type": "string"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "if_id": {
+                    "type": "integer"
+                },
+                "ifindex": {
+                    "type": "integer"
+                },
+                "mac": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "oper": {
+                    "type": "integer"
+                },
+                "sif_id": {
+                    "type": "integer"
+                },
+                "speed": {
+                    "type": "integer"
+                },
+                "type_enum": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
                 }
             }
         },
