@@ -7007,6 +7007,273 @@ paths:
       summary: Count interfaces
       tags:
       - interfaces
+  /ip_interfaces:
+    get:
+      description: List ip_interfaces info
+      operationId: list-ip_interfaces
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: dev_id_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: ifindex_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: alias_f
+        type: string
+      - description: ip or containing net in CIDR notation
+        in: query
+        name: ip_addr_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.ipInterface'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List ip_interfaces
+      tags:
+      - ip_interfaces
+    post:
+      description: Create ip_interface
+      operationId: create-ip_interface
+      parameters:
+      - description: JSON object of ipInterface.<br />Ignored fields:<ul><li>ip_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ipInterface'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.ipInterface'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create ip_interface
+      tags:
+      - ip_interfaces
+  /ip_interfaces/{ip_id}:
+    delete:
+      description: Delete ip_interface
+      operationId: delete-ip_interface
+      parameters:
+      - description: ip_id
+        in: path
+        name: ip_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid ip_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete ip_interface
+      tags:
+      - ip_interfaces
+    get:
+      description: Get ip_interface info
+      operationId: get-ip_interface
+      parameters:
+      - description: ip_id
+        in: path
+        name: ip_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ipInterface'
+        "400":
+          description: Invalid ip_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: IpInterface not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get ip_interface
+      tags:
+      - ip_interfaces
+    put:
+      description: Update ip_interface
+      operationId: update-ip_interface
+      parameters:
+      - description: ip_id
+        in: path
+        name: ip_id
+        required: true
+        type: string
+      - description: JSON object of ipInterface.<br />Ignored fields:<ul><li>ip_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.ipInterface'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ipInterface'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update ip_interface
+      tags:
+      - ip_interfaces
+  /ip_interfaces/{ip_id}/device:
+    get:
+      description: Get ip_interface device info
+      operationId: get-ip_interface-device
+      parameters:
+      - description: ip_id
+        in: path
+        name: ip_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid ip_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get ip_interface device
+      tags:
+      - ip_interfaces
+  /ip_interfaces/count:
+    get:
+      description: Count number of ip_interfaces
+      operationId: count-ip_interfaces
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count ip_interfaces
+      tags:
+      - ip_interfaces
   /sites/countries:
     get:
       description: List countries info

@@ -473,17 +473,17 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetInterface)
 			r.Put("/", a.Handler.UpdateInterface)
 			r.Delete("/", a.Handler.DeleteInterface)
+			r.Get("/bw_stats", a.Handler.GetInterfaceIntBwStats)
+			r.Get("/childs", a.Handler.GetInterfaceChilds)
 			r.Get("/connection", a.Handler.GetInterfaceConnection)
-			r.Get("/parent", a.Handler.GetInterfaceParent)
-			r.Get("/otn_if", a.Handler.GetInterfaceOtnIf)
 			r.Get("/device", a.Handler.GetInterfaceDevice)
 			r.Get("/entity", a.Handler.GetInterfaceEntity)
-			r.Get("/childs", a.Handler.GetInterfaceChilds)
-			r.Get("/bw_stats", a.Handler.GetInterfaceIntBwStats)
-			r.Get("/related_lower", a.Handler.GetInterfaceInterfaceRelationsHigherFor)
+			r.Get("/otn_if", a.Handler.GetInterfaceOtnIf)
+			r.Get("/parent", a.Handler.GetInterfaceParent)
 			r.Get("/related_higher", a.Handler.GetInterfaceInterfaceRelationsLowerFor)
-			r.Get("/vlans", a.Handler.GetInterfaceVlans)
+			r.Get("/related_lower", a.Handler.GetInterfaceInterfaceRelationsHigherFor)
 			r.Get("/subinterfaces", a.Handler.GetInterfaceSubinterfaces)
+			r.Get("/vlans", a.Handler.GetInterfaceVlans)
 			r.Get("/xconnects", a.Handler.GetInterfaceXconnects)
 		})
 	})
@@ -506,6 +506,27 @@ func (a *App) initializeRoutes() {
 			r.Put("/", a.Handler.UpdateIntBwStat)
 			r.Delete("/", a.Handler.DeleteIntBwStat)
 			r.Get("/interfaces", a.Handler.GetIntBwStatInterface)
+		})
+	})
+
+	// Routes for "/ip_interfaces" resource
+	r.Route("/ip_interfaces", func(r chi.Router) {
+		// Filter parameters:
+		//   dev_id_f, ifindex_f, descr_f, alias_f, ip_addr_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetIpInterfaces)
+		r.Get("/count", a.Handler.CountIpInterfaces)
+		r.Post("/", a.Handler.CreateIpInterface)
+
+		// Subroutes
+		r.Route("/{ip_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetIpInterface)
+			r.Put("/", a.Handler.UpdateIpInterface)
+			r.Delete("/", a.Handler.DeleteIpInterface)
+			r.Get("/device", a.Handler.GetIpInterfaceDevice)
 		})
 	})
 
