@@ -366,6 +366,27 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/ospf_nbrs" resource
+	r.Route("/devices/ospf_nbrs", func(r chi.Router) {
+		// Filter parameters:
+		//   dev_id_f, condition_f, nbr_ip_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetOspfNbrs)
+		r.Get("/count", a.Handler.CountOspfNbrs)
+		r.Post("/", a.Handler.CreateOspfNbr)
+
+		// Subroutes
+		r.Route("/{nbr_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetOspfNbr)
+			r.Put("/", a.Handler.UpdateOspfNbr)
+			r.Delete("/", a.Handler.DeleteOspfNbr)
+			r.Get("/device", a.Handler.GetOspfNbrDevice)
+		})
+	})
+
 	// Routes for "/devices/snmp_credentials" resource
 	r.Route("/devices/snmp_credentials", func(r chi.Router) {
 		// Filter parameters:
