@@ -338,7 +338,7 @@ func (h *Handler) DeleteIpInterface(w http.ResponseWriter, r *http.Request) {
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /ip_interfaces/{ip_id}/device [GET]
 func (h *Handler) GetIpInterfaceDevice(w http.ResponseWriter, r *http.Request) {
-	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
+	id, err := strconv.ParseInt(chi.URLParam(r, "ip_id"), 10, 64)
 	if err != nil {
 		RespondError(w, r, http.StatusBadRequest, "Invalid ip_interface ID")
 		return
