@@ -387,6 +387,28 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/rl_nbrs" resource
+	r.Route("/devices/rl_nbrs", func(r chi.Router) {
+		// Filter parameters:
+		//   dev_id_f, nbr_ent_id_f, nbr_sysname_f
+		//   updated_ge, updated_le, created_ge, created_le
+		// Pagination parameters:
+		//   count(100), start(0).
+		//   Uses default if not set.
+		r.Get("/", a.Handler.GetRlNbrs)
+		r.Get("/count", a.Handler.CountRlNbrs)
+		r.Post("/", a.Handler.CreateRlNbr)
+
+		// Subroutes
+		r.Route("/{nbr_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetRlNbr)
+			r.Put("/", a.Handler.UpdateRlNbr)
+			r.Delete("/", a.Handler.DeleteRlNbr)
+			r.Get("/device", a.Handler.GetRlNbrDevice)
+			r.Get("/entity", a.Handler.GetRlNbrEntity)
+		})
+	})
+
 	// Routes for "/devices/snmp_credentials" resource
 	r.Route("/devices/snmp_credentials", func(r chi.Router) {
 		// Filter parameters:

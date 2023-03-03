@@ -241,6 +241,15 @@ definitions:
       to100out:
         type: integer
     type: object
+  godevmandb.CreateRlNbrParams:
+    properties:
+      dev_id:
+        type: integer
+      nbr_ent_id:
+        type: integer
+      nbr_sysname:
+        type: string
+    type: object
   godevmandb.Credential:
     properties:
       created_on:
@@ -694,6 +703,17 @@ definitions:
         type: integer
       to100out:
         type: integer
+    type: object
+  godevmandb.UpdateRlNbrParams:
+    properties:
+      dev_id:
+        type: integer
+      nbr_ent_id:
+        type: integer
+      nbr_id:
+        type: integer
+      nbr_sysname:
+        type: string
     type: object
   godevmandb.Vlan:
     properties:
@@ -5360,6 +5380,299 @@ paths:
       summary: Count ospf_nbrs
       tags:
       - devices
+  /devices/rl_nbrs:
+    get:
+      description: List radio link neighbors info
+      operationId: list-rl_nbrs
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: dev_id_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: nbr_ent_id_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: nbr_sysname_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.RlNbr'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List rl_nbrs
+      tags:
+      - devices
+    post:
+      description: Create radio link neighbor
+      operationId: create-rl_nbr
+      parameters:
+      - description: JSON object of godevmandb.RlNbrParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateRlNbrParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.RlNbr'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create rl_nbr
+      tags:
+      - devices
+  /devices/rl_nbrs/{nbr_id}:
+    delete:
+      description: Delete radio link neighbor
+      operationId: delete-rl_nbr
+      parameters:
+      - description: nbr_id
+        in: path
+        name: nbr_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid nbr_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete rl_nbr
+      tags:
+      - devices
+    get:
+      description: Get radio link neighbor info
+      operationId: get-rl_nbr
+      parameters:
+      - description: nbr_id
+        in: path
+        name: nbr_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.RlNbr'
+        "400":
+          description: Invalid nbr_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Domain not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get rl_nbr
+      tags:
+      - devices
+    put:
+      description: Update radio link neighbor
+      operationId: update-rl_nbr
+      parameters:
+      - description: nbr_id
+        in: path
+        name: nbr_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateRlNbrParams.<br />Ignored fields:<ul><li>nbr_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateRlNbrParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.RlNbr'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update rl_nbr
+      tags:
+      - devices
+  /devices/rl_nbrs/{nbr_id}/device:
+    get:
+      description: Get rl_nbr device info
+      operationId: get-rl_nbr-device
+      parameters:
+      - description: nbr_id
+        in: path
+        name: nbr_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid nbr_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get rl_nbr device
+      tags:
+      - devices
+  /devices/rl_nbrs/{nbr_id}/entity:
+    get:
+      description: Get rl_nbr entity info
+      operationId: get-rl_nbr-entity
+      parameters:
+      - description: nbr_id
+        in: path
+        name: nbr_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Entity'
+        "400":
+          description: Invalid nbr_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get rl_nbr entity
+      tags:
+      - devices
+  /devices/rl_nbrs/count:
+    get:
+      description: Count number of radio link neighbors
+      operationId: count-rl_nbrs
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count rl_nbrs
+      tags:
+      - devices
   /devices/types:
     get:
       description: List device types info
@@ -6061,7 +6374,7 @@ paths:
   /entities/{ent_id}/rl_nbrs:
     get:
       description: List connection entity rl_nbrs info
-      operationId: list-rl_nbrs
+      operationId: list-entity-rl_nbrs
       parameters:
       - description: ent_id
         in: path

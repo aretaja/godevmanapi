@@ -442,7 +442,7 @@ func (h *Handler) GetEntityInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Summary List entity rl_nbrs
 // @Description List connection entity rl_nbrs info
 // @Tags entities
-// @ID list-rl_nbrs
+// @ID list-entity-rl_nbrs
 // @Param ent_id path string true "ent_id"
 // @Success 200 {array} godevmandb.RlNbr
 // @Failure 400 {object} StatusResponse "Invalid ent_id"

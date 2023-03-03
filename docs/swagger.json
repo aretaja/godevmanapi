@@ -5352,6 +5352,445 @@
                 }
             }
         },
+        "/devices/rl_nbrs": {
+            "get": {
+                "description": "List radio link neighbors info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List rl_nbrs",
+                "operationId": "list-rl_nbrs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "dev_id_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "nbr_ent_id_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "nbr_sysname_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.RlNbr"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create radio link neighbor",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create rl_nbr",
+                "operationId": "create-rl_nbr",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.RlNbrParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateRlNbrParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.RlNbr"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/rl_nbrs/count": {
+            "get": {
+                "description": "Count number of radio link neighbors",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count rl_nbrs",
+                "operationId": "count-rl_nbrs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/rl_nbrs/{nbr_id}": {
+            "get": {
+                "description": "Get radio link neighbor info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get rl_nbr",
+                "operationId": "get-rl_nbr",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nbr_id",
+                        "name": "nbr_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.RlNbr"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid nbr_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Domain not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update radio link neighbor",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update rl_nbr",
+                "operationId": "update-rl_nbr",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nbr_id",
+                        "name": "nbr_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateRlNbrParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003enbr_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateRlNbrParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.RlNbr"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete radio link neighbor",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete rl_nbr",
+                "operationId": "delete-rl_nbr",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nbr_id",
+                        "name": "nbr_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid nbr_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/rl_nbrs/{nbr_id}/device": {
+            "get": {
+                "description": "Get rl_nbr device info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get rl_nbr device",
+                "operationId": "get-rl_nbr-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nbr_id",
+                        "name": "nbr_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid nbr_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/rl_nbrs/{nbr_id}/entity": {
+            "get": {
+                "description": "Get rl_nbr entity info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get rl_nbr entity",
+                "operationId": "get-rl_nbr-entity",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "nbr_id",
+                        "name": "nbr_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Entity"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid nbr_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/devices/types": {
             "get": {
                 "description": "List device types info",
@@ -7926,7 +8365,7 @@
                     "entities"
                 ],
                 "summary": "List entity rl_nbrs",
-                "operationId": "list-rl_nbrs",
+                "operationId": "list-entity-rl_nbrs",
                 "parameters": [
                     {
                         "type": "string",
@@ -10488,6 +10927,20 @@
                 }
             }
         },
+        "godevmandb.CreateRlNbrParams": {
+            "type": "object",
+            "properties": {
+                "dev_id": {
+                    "type": "integer"
+                },
+                "nbr_ent_id": {
+                    "type": "integer"
+                },
+                "nbr_sysname": {
+                    "type": "string"
+                }
+            }
+        },
         "godevmandb.Credential": {
             "type": "object",
             "properties": {
@@ -11179,6 +11632,23 @@
                 },
                 "to90out": {
                     "type": "integer"
+                }
+            }
+        },
+        "godevmandb.UpdateRlNbrParams": {
+            "type": "object",
+            "properties": {
+                "dev_id": {
+                    "type": "integer"
+                },
+                "nbr_ent_id": {
+                    "type": "integer"
+                },
+                "nbr_id": {
+                    "type": "integer"
+                },
+                "nbr_sysname": {
+                    "type": "string"
                 }
             }
         },
