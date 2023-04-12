@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes/count [GET]
 func (h *Handler) CountDeviceClasses(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -45,7 +45,7 @@ func (h *Handler) CountDeviceClasses(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.DeviceClass
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes [GET]
 func (h *Handler) GetDeviceClasses(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +71,10 @@ func (h *Handler) GetDeviceClasses(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("descr_f")
-	if d != "" {
-		p.DescrF = d
+	// Filters
+	v := r.FormValue("descr_f")
+	if v != "" {
+		p.DescrF = v
 	}
 
 	// Query DB
@@ -98,7 +98,7 @@ func (h *Handler) GetDeviceClasses(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid class_id"
 // @Failure 404 {object} StatusResponse "Class not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes/{class_id} [GET]
 func (h *Handler) GetDeviceClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "class_id"), 10, 64)
@@ -131,7 +131,7 @@ func (h *Handler) GetDeviceClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes [POST]
 func (h *Handler) CreateDeviceClass(w http.ResponseWriter, r *http.Request) {
 	var p string
@@ -164,7 +164,7 @@ func (h *Handler) CreateDeviceClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes/{class_id} [PUT]
 func (h *Handler) UpdateDeviceClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "class_id"), 10, 64)
@@ -204,7 +204,7 @@ func (h *Handler) UpdateDeviceClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid class_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes/{class_id} [DELETE]
 func (h *Handler) DeleteDeviceClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "class_id"), 10, 64)
@@ -234,7 +234,7 @@ func (h *Handler) DeleteDeviceClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid class_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/classes/{class_id}/types [GET]
 func (h *Handler) GetDeviceClassTypes(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "class_id"), 10, 64)

@@ -132,7 +132,7 @@ func (r *snmpCredential) updateParams() (godevmandb.UpdateSnmpCredentialParams, 
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials/count [GET]
 func (h *Handler) CountSnmpCredentials(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -151,6 +151,7 @@ func (h *Handler) CountSnmpCredentials(w http.ResponseWriter, r *http.Request) {
 // @Tags config
 // @ID list-snmp_credentials
 // @Param label_f query string false "url encoded SQL 'LIKE' operator pattern"
+// @Param variant_f query string false "SQL '=' operator value"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -160,7 +161,7 @@ func (h *Handler) CountSnmpCredentials(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} snmpCredential
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials [GET]
 func (h *Handler) GetSnmpCredentials(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -186,10 +187,13 @@ func (h *Handler) GetSnmpCredentials(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Label filter
-	d := r.FormValue("label_f")
-	if d != "" {
-		p.LabelF = d
+	// Filters
+	if v := r.FormValue("label_f"); v != "" {
+		p.LabelF = v
+	}
+
+	if v := r.FormValue("variant_f"); v != "" {
+		p.VariantF = v
 	}
 
 	// Query DB
@@ -220,7 +224,7 @@ func (h *Handler) GetSnmpCredentials(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid snmp_cred_id"
 // @Failure 404 {object} StatusResponse "Credential not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials/{snmp_cred_id} [GET]
 func (h *Handler) GetSnmpCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)
@@ -256,7 +260,7 @@ func (h *Handler) GetSnmpCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials [POST]
 func (h *Handler) CreateSnmpCredential(w http.ResponseWriter, r *http.Request) {
 	var pIn snmpCredential
@@ -298,7 +302,7 @@ func (h *Handler) CreateSnmpCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials/{snmp_cred_id} [PUT]
 func (h *Handler) UpdateSnmpCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)
@@ -348,7 +352,7 @@ func (h *Handler) UpdateSnmpCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid snmp_cred_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials/{snmp_cred_id} [DELETE]
 func (h *Handler) DeleteSnmpCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)
@@ -378,7 +382,7 @@ func (h *Handler) DeleteSnmpCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid snmp_cred_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials/{snmp_cred_id}/main_devices [GET]
 func (h *Handler) GetSnmpCredentialsMainDevices(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)
@@ -415,7 +419,7 @@ func (h *Handler) GetSnmpCredentialsMainDevices(w http.ResponseWriter, r *http.R
 // @Failure 400 {object} StatusResponse "Invalid snmp_cred_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/snmp_credentials/{snmp_cred_id}/ro_devices [GET]
 func (h *Handler) GetSnmpCredentialsRoDevices(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "snmp_cred_id"), 10, 64)

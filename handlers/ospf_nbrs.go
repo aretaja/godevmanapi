@@ -60,7 +60,7 @@ func (r *ospfNbr) updateParams() godevmandb.UpdateOspfNbrParams {
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs/count [GET]
 func (h *Handler) CountOspfNbrs(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -78,8 +78,7 @@ func (h *Handler) CountOspfNbrs(w http.ResponseWriter, r *http.Request) {
 // @Description List ospf_nbrs info
 // @Tags devices
 // @ID list-ospf_nbrs
-// @Param dev_id_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param condition_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param condition_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
 // @Param nbr_ip_f query string false "ip or containing net in CIDR notation"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
@@ -90,7 +89,7 @@ func (h *Handler) CountOspfNbrs(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} ospfNbr
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs [GET]
 func (h *Handler) GetOspfNbrs(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -116,22 +115,14 @@ func (h *Handler) GetOspfNbrs(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// SysID filter
-	v := r.FormValue("dev_id_f")
-	if v != "" {
-		p.DevIDF = v
-	}
+	// Filters
 
-	// Condition filter
-	v = r.FormValue("condition_f")
-	if v != "" {
+	if v := r.FormValue("condition_f"); v != "" {
 		p.ConditionF = &v
 	}
 
-	// Host IPv4 filter
 	p.NbrIpF = strToPgInet(nil)
-	v = r.FormValue("nbr_ip_f")
-	if v != "" {
+	if v := r.FormValue("nbr_ip_f"); v != "" {
 		p.NbrIpF = strToPgInet(&v)
 	}
 
@@ -163,7 +154,7 @@ func (h *Handler) GetOspfNbrs(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid nbr_id"
 // @Failure 404 {object} StatusResponse "OspfNbr not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs/{nbr_id} [GET]
 func (h *Handler) GetOspfNbr(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "nbr_id"), 10, 64)
@@ -199,7 +190,7 @@ func (h *Handler) GetOspfNbr(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs [POST]
 func (h *Handler) CreateOspfNbr(w http.ResponseWriter, r *http.Request) {
 	var pIn ospfNbr
@@ -238,7 +229,7 @@ func (h *Handler) CreateOspfNbr(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs/{nbr_id} [PUT]
 func (h *Handler) UpdateOspfNbr(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "nbr_id"), 10, 64)
@@ -283,7 +274,7 @@ func (h *Handler) UpdateOspfNbr(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid nbr_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs/{nbr_id} [DELETE]
 func (h *Handler) DeleteOspfNbr(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "nbr_id"), 10, 64)
@@ -313,7 +304,7 @@ func (h *Handler) DeleteOspfNbr(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid nbr_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/ospf_nbrs/{nbr_id}/device [GET]
 func (h *Handler) GetOspfNbrDevice(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "nbr_id"), 10, 64)

@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats/count [GET]
 func (h *Handler) CountIntBwStats(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -36,6 +36,22 @@ func (h *Handler) CountIntBwStats(w http.ResponseWriter, r *http.Request) {
 // @Tags interfaces
 // @ID list-bw_stats
 // @Param if_group_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param to50in_le query int false "SQL '<=' operator value"
+// @Param to50in_ge query int false "SQL '>=' operator value"
+// @Param to75in_le query int false "SQL '<=' operator value"
+// @Param to75in_ge query int false "SQL '>=' operator value"
+// @Param to90in_le query int false "SQL '<=' operator value"
+// @Param to90in_ge query int false "SQL '>=' operator value"
+// @Param to100in_le query int false "SQL '<=' operator value"
+// @Param to100in_ge query int false "SQL '>=' operator value"
+// @Param to50out_le query int false "SQL '<=' operator value"
+// @Param to50out_ge query int false "SQL '>=' operator value"
+// @Param to75out_le query int false "SQL '<=' operator value"
+// @Param to75out_ge query int false "SQL '>=' operator value"
+// @Param to90out_le query int false "SQL '<=' operator value"
+// @Param to90out_ge query int false "SQL '>=' operator value"
+// @Param to100out_le query int false "SQL '<=' operator value"
+// @Param to100out_ge query int false "SQL '>=' operator value"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -45,7 +61,7 @@ func (h *Handler) CountIntBwStats(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.IntBwStat
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats [GET]
 func (h *Handler) GetIntBwStats(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +87,73 @@ func (h *Handler) GetIntBwStats(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Interface group filter
-	d := r.FormValue("if_group_f")
-	if d != "" {
-		p.IfGroupF = d
+	// Filters
+	if v := r.FormValue("if_group_f"); v != "" {
+		p.IfGroupF = v
+	}
+
+	if v := r.FormValue("to50in_le"); v != "" {
+		p.To50inLe = &v
+	}
+
+	if v := r.FormValue("to50in_ge"); v != "" {
+		p.To50inGe = &v
+	}
+
+	if v := r.FormValue("to75in_le"); v != "" {
+		p.To75inLe = &v
+	}
+
+	if v := r.FormValue("to75in_ge"); v != "" {
+		p.To75inGe = &v
+	}
+
+	if v := r.FormValue("to90in_le"); v != "" {
+		p.To90inLe = &v
+	}
+
+	if v := r.FormValue("to90in_ge"); v != "" {
+		p.To90inGe = &v
+	}
+
+	if v := r.FormValue("to100in_le"); v != "" {
+		p.To100inLe = &v
+	}
+
+	if v := r.FormValue("to100in_ge"); v != "" {
+		p.To100inGe = &v
+	}
+
+	if v := r.FormValue("to50out_le"); v != "" {
+		p.To50outLe = &v
+	}
+
+	if v := r.FormValue("to50out_ge"); v != "" {
+		p.To50outGe = &v
+	}
+
+	if v := r.FormValue("to75out_le"); v != "" {
+		p.To75outLe = &v
+	}
+
+	if v := r.FormValue("to75out_ge"); v != "" {
+		p.To75outGe = &v
+	}
+
+	if v := r.FormValue("to90out_le"); v != "" {
+		p.To90outLe = &v
+	}
+
+	if v := r.FormValue("to90out_ge"); v != "" {
+		p.To90outGe = &v
+	}
+
+	if v := r.FormValue("to100out_le"); v != "" {
+		p.To100inLe = &v
+	}
+
+	if v := r.FormValue("to100out_ge"); v != "" {
+		p.To100inGe = &v
 	}
 
 	// Query DB
@@ -98,7 +177,7 @@ func (h *Handler) GetIntBwStats(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid bw_id"
 // @Failure 404 {object} StatusResponse "Stat not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats/{bw_id} [GET]
 func (h *Handler) GetIntBwStat(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "bw_id"), 10, 64)
@@ -131,7 +210,7 @@ func (h *Handler) GetIntBwStat(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats [POST]
 func (h *Handler) CreateIntBwStat(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateIntBwStatParams
@@ -163,7 +242,7 @@ func (h *Handler) CreateIntBwStat(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats/{bw_id} [PUT]
 func (h *Handler) UpdateIntBwStat(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "bw_id"), 10, 64)
@@ -202,7 +281,7 @@ func (h *Handler) UpdateIntBwStat(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid bw_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats/{bw_id} [DELETE]
 func (h *Handler) DeleteIntBwStat(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "bw_id"), 10, 64)
@@ -232,7 +311,7 @@ func (h *Handler) DeleteIntBwStat(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid bw_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/bw_stats/{bw_id}/interface [GET]
 func (h *Handler) GetIntBwStatInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "bw_id"), 10, 64)

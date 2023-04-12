@@ -144,7 +144,7 @@ func (r *device) updateParams() godevmandb.UpdateDeviceParams {
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/count [GET]
 func (h *Handler) CountDevices(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -164,11 +164,21 @@ func (h *Handler) CountDevices(w http.ResponseWriter, r *http.Request) {
 // @ID list-devices
 // @Param sys_id_f query string false "url encoded SQL 'LIKE' operator pattern"
 // @Param host_name_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param name_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param sw_version_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param notes_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param source_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param sys_name_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param sw_version_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param notes_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param ext_model_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
 // @Param ip4_addr_f query string false "ip or containing net in CIDR notation"
 // @Param ip6_addr_f query string false "ip or containing net in CIDR notation"
+// @Param installed_f query bool false "values 'true', 'false'"
+// @Param monitor_f query bool false "values 'true', 'false'"
+// @Param graph_f query bool false "values 'true', 'false'"
+// @Param backup_f query bool false "values 'true', 'false'"
+// @Param type_changed_f query bool false "values 'true', 'false'"
+// @Param backup_failed_f query bool false "values 'true', 'false'"
+// @Param validation_failed_f query bool false "values 'true', 'false'"
+// @Param unresponsive_f query bool false "values 'true', 'false'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -178,7 +188,7 @@ func (h *Handler) CountDevices(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} device
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices [GET]
 func (h *Handler) GetDevices(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -204,48 +214,75 @@ func (h *Handler) GetDevices(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// SysID filter
-	v := r.FormValue("sys_id_f")
-	if v != "" {
+	// Filters
+	if v := r.FormValue("sys_id_f"); v != "" {
 		p.SysIDF = v
 	}
 
-	// Hostname filter
-	v = r.FormValue("host_name_f")
-	if v != "" {
+	if v := r.FormValue("host_name_f"); v != "" {
 		p.HostNameF = v
 	}
 
-	// Software filter
-	v = r.FormValue("sw_version_f")
-	if v != "" {
+	if v := r.FormValue("source_f"); v != "" {
+		p.SourceF = v
+	}
+
+	if v := r.FormValue("sw_version_f"); v != "" {
 		p.SwVersionF = &v
 	}
 
-	// Notes filter
-	v = r.FormValue("notes_f")
-	if v != "" {
+	if v := r.FormValue("notes_f"); v != "" {
 		p.NotesF = &v
 	}
 
-	// Name filter
-	v = r.FormValue("name_f")
-	if v != "" {
-		p.NameF = &v
+	if v := r.FormValue("sys_name_f"); v != "" {
+		p.SysNameF = &v
 	}
 
-	// Host IPv4 filter
+	if v := r.FormValue("ext_model_f"); v != "" {
+		p.ExtModelF = &v
+	}
+
 	p.Ip4AddrF = strToPgInet(nil)
-	v = r.FormValue("ip4_addr_f")
-	if v != "" {
+	if v := r.FormValue("ip4_addr_f"); v != "" {
 		p.Ip4AddrF = strToPgInet(&v)
 	}
 
-	// Host IPv6 filter
 	p.Ip6AddrF = strToPgInet(nil)
-	v = r.FormValue("ip6_addr_f")
-	if v != "" {
+	if v := r.FormValue("ip4_aip6_addr_fddr_f"); v != "" {
 		p.Ip6AddrF = strToPgInet(&v)
+	}
+
+	if v := r.FormValue("installed_f"); v != "" {
+		p.InstalledF = v
+	}
+
+	if v := r.FormValue("monitor_f"); v != "" {
+		p.MonitorF = v
+	}
+
+	if v := r.FormValue("graph_f"); v != "" {
+		p.GraphF = v
+	}
+
+	if v := r.FormValue("backup_f"); v != "" {
+		p.BackupF = v
+	}
+
+	if v := r.FormValue("type_changed_f"); v != "" {
+		p.TypeChangedF = v
+	}
+
+	if v := r.FormValue("backup_failed_f"); v != "" {
+		p.BackupFailedF = v
+	}
+
+	if v := r.FormValue("validation_failed_f"); v != "" {
+		p.ValidationFailedF = v
+	}
+
+	if v := r.FormValue("unresponsive_f"); v != "" {
+		p.UnresponsiveF = v
 	}
 
 	// Query DB
@@ -276,7 +313,7 @@ func (h *Handler) GetDevices(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Device not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id} [GET]
 func (h *Handler) GetDevice(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -312,7 +349,7 @@ func (h *Handler) GetDevice(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices [POST]
 func (h *Handler) CreateDevice(w http.ResponseWriter, r *http.Request) {
 	var pIn device
@@ -351,7 +388,7 @@ func (h *Handler) CreateDevice(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id} [PUT]
 func (h *Handler) UpdateDevice(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -396,7 +433,7 @@ func (h *Handler) UpdateDevice(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id} [DELETE]
 func (h *Handler) DeleteDevice(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -426,7 +463,7 @@ func (h *Handler) DeleteDevice(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/domain [GET]
 func (h *Handler) GetDeviceDeviceDomain(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -456,7 +493,7 @@ func (h *Handler) GetDeviceDeviceDomain(w http.ResponseWriter, r *http.Request) 
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/type [GET]
 func (h *Handler) GetDeviceDeviceType(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -486,7 +523,7 @@ func (h *Handler) GetDeviceDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/parent [GET]
 func (h *Handler) GetDeviceParent(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -519,7 +556,7 @@ func (h *Handler) GetDeviceParent(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/site [GET]
 func (h *Handler) GetDeviceSite(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -549,7 +586,7 @@ func (h *Handler) GetDeviceSite(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/snmp_credentials_main [GET]
 func (h *Handler) GetDeviceSnmpCredentialsMain(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -582,7 +619,7 @@ func (h *Handler) GetDeviceSnmpCredentialsMain(w http.ResponseWriter, r *http.Re
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/snmp_credentials_ro [GET]
 func (h *Handler) GetDeviceSnmpCredentialsRo(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -615,7 +652,7 @@ func (h *Handler) GetDeviceSnmpCredentialsRo(w http.ResponseWriter, r *http.Requ
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/childs [GET]
 func (h *Handler) GetDeviceChilds(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -652,7 +689,7 @@ func (h *Handler) GetDeviceChilds(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/credentials [GET]
 func (h *Handler) GetDeviceDeviceCredentials(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -695,7 +732,7 @@ func (h *Handler) GetDeviceDeviceCredentials(w http.ResponseWriter, r *http.Requ
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/extensions [GET]
 func (h *Handler) GetDeviceDeviceExtensions(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -725,7 +762,7 @@ func (h *Handler) GetDeviceDeviceExtensions(w http.ResponseWriter, r *http.Reque
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/licenses [GET]
 func (h *Handler) GetDeviceDeviceLicenses(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -755,7 +792,7 @@ func (h *Handler) GetDeviceDeviceLicenses(w http.ResponseWriter, r *http.Request
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/state [GET]
 func (h *Handler) GetDeviceDeviceState(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -785,7 +822,7 @@ func (h *Handler) GetDeviceDeviceState(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/entities [GET]
 func (h *Handler) GetDeviceEntities(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -815,7 +852,7 @@ func (h *Handler) GetDeviceEntities(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/interfaces [GET]
 func (h *Handler) GetDeviceInterfaces(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -852,7 +889,7 @@ func (h *Handler) GetDeviceInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/ip_interfaces [GET]
 func (h *Handler) GetDeviceIpInterfaces(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -889,7 +926,7 @@ func (h *Handler) GetDeviceIpInterfaces(w http.ResponseWriter, r *http.Request) 
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/ospf_nbrs [GET]
 func (h *Handler) GetDeviceOspfNbrs(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -926,7 +963,7 @@ func (h *Handler) GetDeviceOspfNbrs(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/peer_xconnects [GET]
 func (h *Handler) GetDevicePeerXconnects(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -963,7 +1000,7 @@ func (h *Handler) GetDevicePeerXconnects(w http.ResponseWriter, r *http.Request)
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/rl_nbrs [GET]
 func (h *Handler) GetDeviceRlNbrs(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -993,7 +1030,7 @@ func (h *Handler) GetDeviceRlNbrs(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/vlans [GET]
 func (h *Handler) GetDeviceVlans(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)
@@ -1023,7 +1060,7 @@ func (h *Handler) GetDeviceVlans(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dev_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/{dev_id}/xconnects [GET]
 func (h *Handler) GetDeviceXconnects(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dev_id"), 10, 64)

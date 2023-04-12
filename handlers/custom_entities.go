@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/custom_entities/count [GET]
 func (h *Handler) CountCustomEntities(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -35,7 +35,10 @@ func (h *Handler) CountCustomEntities(w http.ResponseWriter, r *http.Request) {
 // @Description List custom_entities info
 // @Tags entities
 // @ID list-custom_entities
-// @Param serial_nr_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param serial_nr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param manufacturer_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param part_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param descr_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -45,7 +48,7 @@ func (h *Handler) CountCustomEntities(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.CustomEntity
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/custom_entities [GET]
 func (h *Handler) GetCustomEntities(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +74,21 @@ func (h *Handler) GetCustomEntities(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Serial nr filter
-	d := r.FormValue("serial_nr_f")
-	if d != "" {
-		p.SerialNrF = d
+	// Filters
+	if v := r.FormValue("serial_nr_f"); v != "" {
+		p.SerialNrF = v
+	}
+
+	if v := r.FormValue("manufacturer_f"); v != "" {
+		p.ManufacturerF = v
+	}
+
+	if v := r.FormValue("part_f"); v != "" {
+		p.PartF = &v
+	}
+
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = &v
 	}
 
 	// Query DB
@@ -98,7 +112,7 @@ func (h *Handler) GetCustomEntities(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid cent_id"
 // @Failure 404 {object} StatusResponse "CustomEntity not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/custom_entities/{cent_id} [GET]
 func (h *Handler) GetCustomEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cent_id"), 10, 64)
@@ -131,7 +145,7 @@ func (h *Handler) GetCustomEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/custom_entities [POST]
 func (h *Handler) CreateCustomEntity(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateCustomEntityParams
@@ -163,7 +177,7 @@ func (h *Handler) CreateCustomEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/custom_entities/{cent_id} [PUT]
 func (h *Handler) UpdateCustomEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cent_id"), 10, 64)
@@ -202,7 +216,7 @@ func (h *Handler) UpdateCustomEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid cent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/custom_entities/{cent_id} [DELETE]
 func (h *Handler) DeleteCustomEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cent_id"), 10, 64)

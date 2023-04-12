@@ -64,26 +64,26 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "ifindex_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "otn_if_id_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "cisco_opt_power_index_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "hostname_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
-                        "name": "descr_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
-                        "name": "alias_f",
                         "in": "query"
                     },
                     {
@@ -96,6 +96,36 @@ const docTemplate = `{
                         "type": "string",
                         "description": "ip or containing net in CIDR notation",
                         "name": "host_ip6_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
+                        "name": "manufacturer_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
+                        "name": "model_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "alias_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "type_enum_f",
                         "in": "query"
                     },
                     {
@@ -164,7 +194,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -215,7 +245,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -251,7 +281,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -302,7 +332,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -360,7 +390,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -406,7 +436,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -425,26 +455,44 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "ifindex_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
-                        "name": "hostname_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "parent_descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
                         "name": "alias_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "type_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SQL '=' operator value (MAC address)",
+                        "name": "mac_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
+                        "name": "hostname_f",
                         "in": "query"
                     },
                     {
@@ -461,8 +509,8 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "SQL '=' operator value (MAC address)",
-                        "name": "mac_f",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
                         "in": "query"
                     },
                     {
@@ -525,7 +573,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -576,7 +624,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -612,7 +660,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -663,7 +711,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -721,7 +769,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -767,7 +815,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -850,7 +898,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -901,7 +949,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -937,7 +985,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -988,7 +1036,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1046,7 +1094,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1092,7 +1140,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1113,6 +1161,12 @@ const docTemplate = `{
                         "type": "string",
                         "description": "url encoded SQL 'LIKE' operator pattern",
                         "name": "label_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SQL '=' operator value",
+                        "name": "variant_f",
                         "in": "query"
                     },
                     {
@@ -1175,7 +1229,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1226,7 +1280,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1262,7 +1316,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1313,7 +1367,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1371,7 +1425,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1417,7 +1471,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1471,7 +1525,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1525,7 +1579,344 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/vars": {
+            "get": {
+                "description": "List vars info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "List vars",
+                "operationId": "list-vars",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "content_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Var"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create var",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Create var",
+                "operationId": "create-var",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateVarParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateVarParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Var"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/vars/count": {
+            "get": {
+                "description": "Count number of vars",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Count vars",
+                "operationId": "count-vars",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/config/vars/{descr}": {
+            "get": {
+                "description": "Get var info",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Get var",
+                "operationId": "get-var",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "descr",
+                        "name": "descr",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Var"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid descr",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Var not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update var",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Update var",
+                "operationId": "update-var",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "descr",
+                        "name": "descr",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateVarParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003edescr\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateVarParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Var"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete var",
+                "tags": [
+                    "config"
+                ],
+                "summary": "Delete var",
+                "operationId": "delete-var",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "descr",
+                        "name": "descr",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid descr",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1544,8 +1935,20 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "hint_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "in_use_f",
                         "in": "query"
                     },
                     {
@@ -1608,7 +2011,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1659,7 +2062,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1678,8 +2081,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
                         "in": "query"
                     },
                     {
@@ -1742,7 +2151,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1793,7 +2202,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1829,7 +2238,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1880,7 +2289,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1938,7 +2347,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -1984,7 +2393,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2038,7 +2447,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2057,8 +2466,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
                         "in": "query"
                     },
                     {
@@ -2121,7 +2536,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2172,7 +2587,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2208,7 +2623,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2259,7 +2674,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2317,7 +2732,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2363,7 +2778,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2417,7 +2832,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2453,7 +2868,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2472,8 +2887,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
                         "in": "query"
                     },
                     {
@@ -2536,7 +2957,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2587,7 +3008,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2623,7 +3044,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2674,7 +3095,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2732,7 +3153,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2778,7 +3199,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2832,7 +3253,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2851,8 +3272,14 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
                         "in": "query"
                     },
                     {
@@ -2915,7 +3342,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -2966,7 +3393,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3002,7 +3429,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3053,7 +3480,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3111,7 +3538,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3157,7 +3584,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3211,7 +3638,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3262,7 +3689,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3320,7 +3747,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3366,7 +3793,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3417,7 +3844,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3468,7 +3895,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3522,7 +3949,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3573,7 +4000,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3624,7 +4051,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3675,7 +4102,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3707,19 +4134,31 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "url encoded SQL 'ILIKE' operator pattern",
-                        "name": "name_f",
+                        "name": "source_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "sys_name_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "sw_version_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "ext_model_f",
                         "in": "query"
                     },
                     {
@@ -3732,6 +4171,54 @@ const docTemplate = `{
                         "type": "string",
                         "description": "ip or containing net in CIDR notation",
                         "name": "ip6_addr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "installed_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "monitor_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "graph_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "backup_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "type_changed_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "backup_failed_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "validation_failed_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "unresponsive_f",
                         "in": "query"
                     },
                     {
@@ -3794,7 +4281,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3845,7 +4332,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3928,7 +4415,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -3979,7 +4466,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4015,7 +4502,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4066,7 +4553,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4124,7 +4611,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4170,7 +4657,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4224,7 +4711,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4260,7 +4747,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4343,7 +4830,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4394,7 +4881,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4430,7 +4917,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4481,7 +4968,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4539,7 +5026,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4585,7 +5072,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4668,7 +5155,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4719,7 +5206,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4755,7 +5242,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4806,7 +5293,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4864,7 +5351,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4910,7 +5397,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -4964,6 +5451,442 @@ const docTemplate = `{
                         }
                     },
                     "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/licenses": {
+            "get": {
+                "description": "List device_licenses info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List device_licenses",
+                "operationId": "list-device_licenses",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "product_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "condition_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "installed_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "installed_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "unlocked_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "unlocked_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "tot_inst_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "tot_inst_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "used_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "used_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.DeviceLicense"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create device_license",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create device_license",
+                "operationId": "create-device_license",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.DeviceLicenseParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateDeviceLicenseParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.DeviceLicense"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/licenses/count": {
+            "get": {
+                "description": "Count number of device_licenses",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count device_licenses",
+                "operationId": "count-device_licenses",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/licenses/{lic_id}": {
+            "get": {
+                "description": "Get device_license info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get device_license",
+                "operationId": "get-device_license",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "lic_id",
+                        "name": "lic_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.DeviceLicense"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid lic_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "DeviceLicense not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update device_license",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update device_license",
+                "operationId": "update-device_license",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "lic_id",
+                        "name": "lic_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateDeviceLicenseParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003elic_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateDeviceLicenseParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.DeviceLicense"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete device_license",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete device_license",
+                "operationId": "delete-device_license",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "lic_id",
+                        "name": "lic_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid lic_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/licenses/{lic_id}/device": {
+            "get": {
+                "description": "Get device_license device info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get device_license device",
+                "operationId": "get-device_license-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "lic_id",
+                        "name": "lic_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid lic_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
                         "description": "Failde DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
@@ -4983,13 +5906,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
-                        "name": "dev_id_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "condition_f",
                         "in": "query"
                     },
@@ -5059,7 +5976,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5110,7 +6027,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5146,7 +6063,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5197,7 +6114,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5255,7 +6172,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5301,7 +6218,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5352,7 +6269,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5369,18 +6286,6 @@ const docTemplate = `{
                 "summary": "List rl_nbrs",
                 "operationId": "list-rl_nbrs",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
-                        "name": "dev_id_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
-                        "name": "nbr_ent_id_f",
-                        "in": "query"
-                    },
                     {
                         "type": "string",
                         "description": "url encoded SQL 'ILIKE' operator pattern",
@@ -5573,7 +6478,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Domain not found",
+                        "description": "Neighbor not found",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5827,6 +6732,18 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "hc_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "0|1|2|3",
+                        "name": "snmp_ver_f",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
@@ -5886,7 +6803,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5937,7 +6854,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -5973,7 +6890,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6024,7 +6941,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6082,7 +6999,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6128,7 +7045,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6179,7 +7096,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6233,7 +7150,915 @@ const docTemplate = `{
                         }
                     },
                     "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/vlans": {
+            "get": {
+                "description": "List vlans info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List vlans",
+                "operationId": "list-vlans",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "name": "vlan_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Vlan"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
                         "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create vlan",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create vlan",
+                "operationId": "create-vlan",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.VlanParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateVlanParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Vlan"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/vlans/count": {
+            "get": {
+                "description": "Count number of vlans",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count vlans",
+                "operationId": "count-vlans",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/vlans/{v_id}": {
+            "get": {
+                "description": "Get vlan info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get vlan",
+                "operationId": "get-vlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "v_id",
+                        "name": "v_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Vlan"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid v_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Vlan not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update vlan",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update vlan",
+                "operationId": "update-vlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "v_id",
+                        "name": "v_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateVlanParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003ev_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateVlanParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Vlan"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete vlan",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete vlan",
+                "operationId": "delete-vlan",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "v_id",
+                        "name": "v_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid v_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/vlans/{v_id}/device": {
+            "get": {
+                "description": "Get vlan device info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get vlan device",
+                "operationId": "get-vlan-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "v_id",
+                        "name": "v_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid v_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failde DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/xconnects": {
+            "get": {
+                "description": "List xconnects info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "List xconnects",
+                "operationId": "list-xconnects",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL '=' operator pattern",
+                        "name": "vc_idx_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL '=' operator pattern",
+                        "name": "vc_id_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "peer_ifalias_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "xname_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "op_stat_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "op_stat_in_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
+                        "name": "op_stat_out_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ip or containing net in CIDR notation",
+                        "name": "peer_ip_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.xconnect"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create xconnect",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Create xconnect",
+                "operationId": "create-xconnect",
+                "parameters": [
+                    {
+                        "description": "JSON object of xconnect.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003exc_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.xconnect"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.xconnect"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/xconnects/count": {
+            "get": {
+                "description": "Count number of xconnects",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Count xconnects",
+                "operationId": "count-xconnects",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/xconnects/{xc_id}": {
+            "get": {
+                "description": "Get xconnect info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get xconnect",
+                "operationId": "get-xconnect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "xc_id",
+                        "name": "xc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.xconnect"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid xc_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Xconnect not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update xconnect",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Update xconnect",
+                "operationId": "update-xconnect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "xc_id",
+                        "name": "xc_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of xconnect.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003exc_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.xconnect"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.xconnect"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete xconnect",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Delete xconnect",
+                "operationId": "delete-xconnect",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "xc_id",
+                        "name": "xc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid xc_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/xconnects/{xc_id}/device": {
+            "get": {
+                "description": "Get xconnect device info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get xconnect device",
+                "operationId": "get-xconnect-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "xc_id",
+                        "name": "xc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid xc_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/xconnects/{xc_id}/interface": {
+            "get": {
+                "description": "Get xconnect interface info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get xconnect interface",
+                "operationId": "get-xconnect-interface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "xc_id",
+                        "name": "xc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid xc_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/devices/xconnects/{xc_id}/peer_device": {
+            "get": {
+                "description": "Get xconnect peer device info",
+                "tags": [
+                    "devices"
+                ],
+                "summary": "Get xconnect peer device",
+                "operationId": "get-xconnect-peer-device",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "xc_id",
+                        "name": "xc_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.device"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid xc_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6284,7 +8109,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6342,7 +8167,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6388,7 +8213,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6442,7 +8267,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6496,7 +8321,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6547,7 +8372,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6601,7 +8426,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6655,7 +8480,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6709,7 +8534,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6763,7 +8588,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6817,7 +8642,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6871,7 +8696,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6922,7 +8747,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -6976,7 +8801,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7030,7 +8855,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7081,7 +8906,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7132,7 +8957,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7183,7 +9008,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7237,7 +9062,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7288,7 +9113,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7342,7 +9167,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7396,7 +9221,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7415,56 +9240,68 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull'",
+                        "name": "sys_name_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "slot_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "model_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "w_product_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "hw_revision_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "serial_nr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "sw_product_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "sw_revision_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "manufacturer_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "physical_f",
                         "in": "query"
                     },
                     {
@@ -7527,7 +9364,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7578,7 +9415,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7614,7 +9451,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7633,8 +9470,26 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
                         "name": "serial_nr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
+                        "name": "manufacturer_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "part_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "descr_f",
                         "in": "query"
                     },
                     {
@@ -7697,7 +9552,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7748,7 +9603,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7784,7 +9639,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7835,7 +9690,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7893,7 +9748,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7939,7 +9794,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -7990,7 +9845,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8048,7 +9903,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8094,7 +9949,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8148,7 +10003,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8199,7 +10054,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8253,7 +10108,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8307,7 +10162,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8358,7 +10213,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8412,7 +10267,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8484,6 +10339,24 @@ const docTemplate = `{
                         "in": "query"
                     },
                     {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "monstatus_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "monerrors_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "monload_f",
+                        "in": "query"
+                    },
+                    {
                         "type": "integer",
                         "description": "min: 1; max: 1000; default: 100",
                         "name": "limit",
@@ -8543,7 +10416,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8594,7 +10467,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8615,6 +10488,102 @@ const docTemplate = `{
                         "type": "string",
                         "description": "url encoded SQL 'ILIKE' operator pattern",
                         "name": "if_group_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to50in_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to50in_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to75in_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to75in_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to90in_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to90in_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to100in_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to100in_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to50out_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to50out_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to75out_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to75out_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to90out_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to90out_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "to100out_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "to100out_ge",
                         "in": "query"
                     },
                     {
@@ -8677,7 +10646,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8728,7 +10697,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8764,7 +10733,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8815,7 +10784,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8873,7 +10842,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8919,7 +10888,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -8970,7 +10939,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9006,7 +10975,431 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/subinterfaces": {
+            "get": {
+                "description": "List subinterfaces info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "List subinterfaces",
+                "operationId": "list-subinterfaces",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "ifindex_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "alias_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "oper_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "adm_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "speed_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "type_enum_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "SQL '=' operator value (MAC address)",
+                        "name": "mac_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.subinterface"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create subinterface",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Create subinterface",
+                "operationId": "create-subinterface",
+                "parameters": [
+                    {
+                        "description": "JSON object of subinterface.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esif_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.subinterface"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.subinterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/subinterfaces/count": {
+            "get": {
+                "description": "Count number of subinterfaces",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Count subinterfaces",
+                "operationId": "count-subinterfaces",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/subinterfaces/{sif_id}": {
+            "get": {
+                "description": "Get subinterface info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get interface",
+                "operationId": "get-subinterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sif_id",
+                        "name": "sif_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.subinterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid sif_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Subinterface not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update subinterface",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Update subinterface",
+                "operationId": "update-subinterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sif_id",
+                        "name": "sif_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of subinterface.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esif_id\u003c/li\u003e\u003cli\u003eupdated_on\u003c/li\u003e\u003cli\u003ecreated_on\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handlers.subinterface"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.subinterface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete subinterface",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Delete subinterface",
+                "operationId": "delete-subinterface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sif_id",
+                        "name": "sif_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid sif_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/interfaces/subinterfaces/{sif_id}/interface": {
+            "get": {
+                "description": "Get subinterface interface info",
+                "tags": [
+                    "interfaces"
+                ],
+                "summary": "Get subinterface interface",
+                "operationId": "get-subinterface-interface",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "sif_id",
+                        "name": "sif_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.iface"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid sif_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9057,7 +11450,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9115,7 +11508,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9161,7 +11554,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9215,7 +11608,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9269,7 +11662,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9320,7 +11713,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9371,7 +11764,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9422,7 +11815,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9473,7 +11866,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9524,7 +11917,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9578,7 +11971,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9632,7 +12025,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9686,7 +12079,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9740,7 +12133,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9794,7 +12187,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9813,25 +12206,19 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
-                        "name": "dev_id_f",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "url encoded SQL 'LIKE' operator pattern",
+                        "description": "url encoded SQL 'LIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "ifindex_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "descr_f",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'",
                         "name": "alias_f",
                         "in": "query"
                     },
@@ -9901,7 +12288,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9952,7 +12339,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -9988,7 +12375,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10039,7 +12426,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10097,7 +12484,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10143,7 +12530,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10194,7 +12581,213 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites": {
+            "get": {
+                "description": "List site info",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "List sites",
+                "operationId": "list-sites",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "uident_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "area_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "addr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "ext_name_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "ext_id_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Site"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create site",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Create site",
+                "operationId": "create-site",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateSiteParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateSiteParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Site"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/count": {
+            "get": {
+                "description": "Count number of sites",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Count sites",
+                "operationId": "count-sites",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10283,7 +12876,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10334,7 +12927,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10370,7 +12963,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10421,7 +13014,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10479,7 +13072,7 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10525,7 +13118,1579 @@ const docTemplate = `{
                         }
                     },
                     "500": {
-                        "description": "Failde DB transaction",
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/countries/{country_id}/sites": {
+            "get": {
+                "description": "List country sites info",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "List country sites",
+                "operationId": "list-country-sites",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "country_id",
+                        "name": "country_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Site"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid country_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}": {
+            "get": {
+                "description": "Get site info",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Get site",
+                "operationId": "get-site",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "site_id",
+                        "name": "site_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Site"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid site_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Site not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update site",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Update site",
+                "operationId": "update-site",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "site_id",
+                        "name": "site_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateSiteParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003esite_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateSiteParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Site"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete site",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Delete site",
+                "operationId": "delete-site",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "site_id",
+                        "name": "site_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid site_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/connections": {
+            "get": {
+                "description": "List site connections info",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "List site connections",
+                "operationId": "list-site-connections",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "site_id",
+                        "name": "site_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.Connection"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid site_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/country": {
+            "get": {
+                "description": "Get site country info",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "Get site country",
+                "operationId": "get-site-country",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "site_id",
+                        "name": "site_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.Country"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid site_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/sites/{site_id}/devices": {
+            "get": {
+                "description": "List site devices info",
+                "tags": [
+                    "sites"
+                ],
+                "summary": "List site devices",
+                "operationId": "list-site-devices",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "site_id",
+                        "name": "site_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handlers.device"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid site_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "List users info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "List users",
+                "operationId": "list-users",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "username_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'",
+                        "name": "notes_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "userlevel_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "userlevel_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.User"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create user",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create user",
+                "operationId": "create-user",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateUserParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/authzs": {
+            "get": {
+                "description": "List user_authzs info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "List user_authzs",
+                "operationId": "list-user_authzs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL 'ILIKE' operator pattern",
+                        "name": "username_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003c=' operator value",
+                        "name": "userlevel_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "SQL '\u003e=' operator value",
+                        "name": "userlevel_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.UserAuthz"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create user_authz",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create user_authz",
+                "operationId": "create-user_authz",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateUserAuthzParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateUserAuthzParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UserAuthz"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/authzs/count": {
+            "get": {
+                "description": "Count number of user_authzs",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Count user_authzs",
+                "operationId": "count-user_authzs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/authzs/{username}/{dom_id}": {
+            "get": {
+                "description": "Get user_authz info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user_authz",
+                "operationId": "get-user_authz",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UserAuthz"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username/dom_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "UserAuthz not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update user_authz",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update user_authz",
+                "operationId": "update-user_authz",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateUserAuthzParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eusername\u003c/li\u003e\u003cli\u003edom_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateUserAuthzParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UserAuthz"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete user_authz",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user_authz",
+                "operationId": "delete-user_authz",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid username/dom_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/authzs/{username}/{dom_id}/device_domain": {
+            "get": {
+                "description": "Get user_authz device_domain info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user_authz device_domain",
+                "operationId": "get-user_authz-device-domain",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "dom_id",
+                        "name": "dom_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.DeviceDomain"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username/dom_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/count": {
+            "get": {
+                "description": "Count number of users",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Count users",
+                "operationId": "count-users",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/graphs": {
+            "get": {
+                "description": "List user graphs info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "List user_graphs",
+                "operationId": "list-user_graphs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL '=' operator pattern",
+                        "name": "username_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "url encoded SQL '=' operator pattern",
+                        "name": "descr_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "boolean",
+                        "description": "values 'true', 'false'",
+                        "name": "shared_f",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "min: 1; max: 1000; default: 100",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "default: 0",
+                        "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003e= (unix timestamp in milliseconds)",
+                        "name": "updated_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record update time \u003c= (unix timestamp in milliseconds)",
+                        "name": "updated_le",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003e= (unix timestamp in milliseconds)",
+                        "name": "created_ge",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "record creation time \u003c= (unix timestamp in milliseconds)",
+                        "name": "created_le",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.UserGraph"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create user graph",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Create user_graph",
+                "operationId": "create-user_graph",
+                "parameters": [
+                    {
+                        "description": "JSON object of godevmandb.CreateUserGraphParams",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.CreateUserGraphParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UserGraph"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/graphs/count": {
+            "get": {
+                "description": "Count number of user graphs",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Count user_graphs",
+                "operationId": "count-user_graphs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.CountResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/graphs/{graph_id}": {
+            "get": {
+                "description": "Get user graph info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user_graph",
+                "operationId": "get-user_graph",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "graph_id",
+                        "name": "graph_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UserGraph"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid graph_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Graph not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update user graph",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update user_graph",
+                "operationId": "update-user_graph",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "graph_id",
+                        "name": "graph_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateUserGraphParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003egraph_id\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateUserGraphParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UserGraph"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete user graph",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user_graph",
+                "operationId": "delete-user_graph",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "graph_id",
+                        "name": "graph_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid graph_id",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{username}": {
+            "get": {
+                "description": "Get user info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user",
+                "operationId": "get-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update user",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Update user",
+                "operationId": "update-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "JSON object of godevmandb.UpdateUserParams.\u003cbr /\u003eIgnored fields:\u003cul\u003e\u003cli\u003eusername\u003c/li\u003e\u003c/ul\u003e",
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.UpdateUserParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/godevmandb.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete user",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user",
+                "operationId": "delete-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Invalid username",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{username}/authzs": {
+            "get": {
+                "description": "List user authzs info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "List user authzs",
+                "operationId": "list-user-authzs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.UserAuthz"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{username}/graphs": {
+            "get": {
+                "description": "List user graphs info",
+                "tags": [
+                    "users"
+                ],
+                "summary": "List user graphs",
+                "operationId": "list-user-graphs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/godevmandb.UserGraph"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid route error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Invalid method error",
+                        "schema": {
+                            "$ref": "#/definitions/handlers.StatusResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed DB transaction",
                         "schema": {
                             "$ref": "#/definitions/handlers.StatusResponse"
                         }
@@ -10833,6 +14998,35 @@ const docTemplate = `{
                 }
             }
         },
+        "godevmandb.CreateDeviceLicenseParams": {
+            "type": "object",
+            "properties": {
+                "condition": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "installed": {
+                    "type": "integer"
+                },
+                "product": {
+                    "type": "string"
+                },
+                "tot_inst": {
+                    "type": "integer"
+                },
+                "unlocked": {
+                    "type": "integer"
+                },
+                "used": {
+                    "type": "integer"
+                }
+            }
+        },
         "godevmandb.CreateDeviceTypeParams": {
             "type": "object",
             "properties": {
@@ -10946,6 +15140,114 @@ const docTemplate = `{
                 },
                 "nbr_sysname": {
                     "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateSiteParams": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "area": {
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "ext_id": {
+                    "type": "integer"
+                },
+                "ext_name": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "uident": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateUserAuthzParams": {
+            "type": "object",
+            "properties": {
+                "dom_id": {
+                    "type": "integer"
+                },
+                "userlevel": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateUserGraphParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "shared": {
+                    "type": "boolean"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateUserParams": {
+            "type": "object",
+            "properties": {
+                "notes": {
+                    "type": "string"
+                },
+                "userlevel": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateVarParams": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.CreateVlanParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "vlan": {
+                    "type": "integer"
                 }
             }
         },
@@ -11535,6 +15837,38 @@ const docTemplate = `{
                 }
             }
         },
+        "godevmandb.UpdateDeviceLicenseParams": {
+            "type": "object",
+            "properties": {
+                "condition": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "installed": {
+                    "type": "integer"
+                },
+                "lic_id": {
+                    "type": "integer"
+                },
+                "product": {
+                    "type": "string"
+                },
+                "tot_inst": {
+                    "type": "integer"
+                },
+                "unlocked": {
+                    "type": "integer"
+                },
+                "used": {
+                    "type": "integer"
+                }
+            }
+        },
         "godevmandb.UpdateDeviceTypeParams": {
             "type": "object",
             "properties": {
@@ -11656,6 +15990,209 @@ const docTemplate = `{
                     "type": "integer"
                 },
                 "nbr_sysname": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateSiteParams": {
+            "type": "object",
+            "properties": {
+                "addr": {
+                    "type": "string"
+                },
+                "area": {
+                    "type": "string"
+                },
+                "country_id": {
+                    "type": "integer"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "ext_id": {
+                    "type": "integer"
+                },
+                "ext_name": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "site_id": {
+                    "type": "integer"
+                },
+                "uident": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateUserAuthzParams": {
+            "type": "object",
+            "properties": {
+                "dom_id": {
+                    "type": "integer"
+                },
+                "userlevel": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateUserGraphParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "graph_id": {
+                    "type": "integer"
+                },
+                "shared": {
+                    "type": "boolean"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateUserParams": {
+            "type": "object",
+            "properties": {
+                "notes": {
+                    "type": "string"
+                },
+                "userlevel": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateVarParams": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UpdateVlanParams": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
+                },
+                "v_id": {
+                    "type": "integer"
+                },
+                "vlan": {
+                    "type": "integer"
+                }
+            }
+        },
+        "godevmandb.User": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "userlevel": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UserAuthz": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "dom_id": {
+                    "type": "integer"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "userlevel": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.UserGraph": {
+            "type": "object",
+            "properties": {
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "graph_id": {
+                    "type": "integer"
+                },
+                "shared": {
+                    "type": "boolean"
+                },
+                "updated_on": {
+                    "type": "string"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "godevmandb.Var": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "created_on": {
+                    "type": "string"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "updated_on": {
                     "type": "string"
                 }
             }
@@ -11896,6 +16433,9 @@ const docTemplate = `{
                 },
                 "descr": {
                     "type": "string"
+                },
+                "dev_id": {
+                    "type": "integer"
                 },
                 "ent_id": {
                     "type": "integer"

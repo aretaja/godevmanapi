@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries/count [GET]
 func (h *Handler) CountCountries(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -46,7 +46,7 @@ func (h *Handler) CountCountries(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.Country
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries [GET]
 func (h *Handler) GetCountries(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -72,16 +72,13 @@ func (h *Handler) GetCountries(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("descr_f")
-	if d != "" {
-		p.DescrF = d
+	// Filters
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = v
 	}
 
-	// Code filter
-	c := r.FormValue("code_f")
-	if c != "" {
-		p.CodeF = c
+	if v := r.FormValue("code_f"); v != "" {
+		p.CodeF = v
 	}
 
 	// Query DB
@@ -105,7 +102,7 @@ func (h *Handler) GetCountries(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid country_id"
 // @Failure 404 {object} StatusResponse "Country not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries/{country_id} [GET]
 func (h *Handler) GetCountry(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "country_id"), 10, 64)
@@ -138,7 +135,7 @@ func (h *Handler) GetCountry(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries [POST]
 func (h *Handler) CreateCountry(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateCountryParams
@@ -171,7 +168,7 @@ func (h *Handler) CreateCountry(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries/{country_id} [PUT]
 func (h *Handler) UpdateCountry(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "country_id"), 10, 64)
@@ -211,7 +208,7 @@ func (h *Handler) UpdateCountry(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid country_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries/{country_id} [DELETE]
 func (h *Handler) DeleteCountry(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "country_id"), 10, 64)
@@ -241,28 +238,21 @@ func (h *Handler) DeleteCountry(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid country_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /sites/countries/{country_id}/sites [GET]
-// func (h *Handler) GetCountrySites(w http.ResponseWriter, r *http.Request) {
-// 	id, err := strconv.ParseInt(chi.URLParam(r, "country_id"), 10, 64)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusBadRequest, "Invalid country ID")
-// 		return
-// 	}
+func (h *Handler) GetCountrySites(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.ParseInt(chi.URLParam(r, "country_id"), 10, 64)
+	if err != nil {
+		RespondError(w, r, http.StatusBadRequest, "Invalid country ID")
+		return
+	}
 
-// 	q := godevmandb.New(h.db)
-// 	res, err := q.GetCountrySites(h.ctx, id)
-// 	if err != nil {
-// 		RespondError(w, r, http.StatusInternalServerError, err.Error())
-// 		return
-// 	}
+	q := godevmandb.New(h.db)
+	res, err := q.GetCountrySites(h.ctx, id)
+	if err != nil {
+		RespondError(w, r, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-// 	out := []site{}
-// 	for _, s := range res {
-// 		a := site{}
-// 		a.getValues(s)
-// 		out = append(out, a)
-// 	}
-
-// 	RespondJSON(w, r, http.StatusOK, out)
-// }
+	RespondJSON(w, r, http.StatusOK, res)
+}

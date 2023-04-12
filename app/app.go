@@ -97,12 +97,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/archived/interfaces" resource
 	r.Route("/archived/interfaces", func(r chi.Router) {
-		// Filter parameters:
-		//   ifindex_f, hostname_f, host_ip4_f, host_ip6_f, descr_f, alias_f, mac_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetArchivedInterfaces)
 		r.Get("/count", a.Handler.CountArchivedInterfaces)
 		r.Post("/", a.Handler.CreateArchivedInterface)
@@ -117,12 +111,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/archived/subinterfaces" resource
 	r.Route("/archived/subinterfaces", func(r chi.Router) {
-		// Filter parameters:
-		//   ifindex_f, hostname_f, host_ip4_f, host_ip6_f, descr_f, alias_f, mac_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetArchivedSubinterfaces)
 		r.Get("/count", a.Handler.CountArchivedSubinterfaces)
 		r.Post("/", a.Handler.CreateArchivedSubinterface)
@@ -137,12 +125,6 @@ func (a *App) initializeRoutes() {
 	// Routes for "/config" resource
 	// Routes for "/config/credentials" resource
 	r.Route("/config/credentials", func(r chi.Router) {
-		// Filter parameters:
-		//   label_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetCredentials)
 		r.Get("/count", a.Handler.CountCredentials)
 		r.Post("/", a.Handler.CreateCredential)
@@ -155,14 +137,38 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/config/snmp_credentials" resource
+	r.Route("/config/snmp_credentials", func(r chi.Router) {
+		r.Get("/", a.Handler.GetSnmpCredentials)
+		r.Get("/count", a.Handler.CountSnmpCredentials)
+		r.Post("/", a.Handler.CreateSnmpCredential)
+
+		// Subroutes
+		r.Route("/{snmp_cred_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetSnmpCredential)
+			r.Put("/", a.Handler.UpdateSnmpCredential)
+			r.Delete("/", a.Handler.DeleteSnmpCredential)
+			r.Get("/main_devices", a.Handler.GetSnmpCredentialsMainDevices)
+			r.Get("/ro_devices", a.Handler.GetSnmpCredentialsRoDevices)
+		})
+	})
+
+	// Routes for "/config/vars" resource
+	r.Route("/config/vars", func(r chi.Router) {
+		r.Get("/", a.Handler.GetVars)
+		r.Get("/count", a.Handler.CountVars)
+		r.Post("/", a.Handler.CreateVar)
+
+		// Subroutes
+		r.Route("/{descr:\\w+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetVar)
+			r.Put("/", a.Handler.UpdateVar)
+			r.Delete("/", a.Handler.DeleteVar)
+		})
+	})
+
 	// Routes for "/connections" resource
 	r.Route("/connections", func(r chi.Router) {
-		// Filter parameters:
-		//   hint_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConnections)
 		r.Get("/count", a.Handler.CountConnections)
 		r.Post("/", a.Handler.CreateConnection)
@@ -175,20 +181,14 @@ func (a *App) initializeRoutes() {
 			r.Get("/capacity", a.Handler.GetConnectionConCapacitiy)
 			r.Get("/class", a.Handler.GetConnectionConClass)
 			r.Get("/provider", a.Handler.GetConnectionConProvider)
-			// r.Get("/site", a.Handler.GetConnectionSite)
+			r.Get("/site", a.Handler.GetConnectionSite)
 			r.Get("/type", a.Handler.GetConnectionConType)
-			// r.Get("/interfaces", a.Handler.GetConnectionInterfaces)
+			r.Get("/interfaces", a.Handler.GetConnectionInterfaces)
 		})
 	})
 
 	// Routes for "/connections/capacities" resource
 	r.Route("/connections/capacities", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConCapacities)
 		r.Get("/count", a.Handler.CountConCapacities)
 		r.Post("/", a.Handler.CreateConCapacity)
@@ -204,12 +204,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/classes" resource
 	r.Route("/connections/classes", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConClasses)
 		r.Get("/count", a.Handler.CountConClasses)
 		r.Post("/", a.Handler.CreateConClass)
@@ -225,12 +219,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/providers" resource
 	r.Route("/connections/providers", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConProviders)
 		r.Get("/count", a.Handler.CountConProviders)
 		r.Post("/", a.Handler.CreateConProvider)
@@ -246,12 +234,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/connections/types" resource
 	r.Route("/connections/types", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetConTypes)
 		r.Get("/count", a.Handler.CountConTypes)
 		r.Post("/", a.Handler.CreateConType)
@@ -267,12 +249,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices" resource
 	r.Route("/devices", func(r chi.Router) {
-		// Filter parameters:
-		//   sys_id_f, host_name_f, sw_version_f, notes_f, name_f, ip4_addr_f, ip6_addr_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetDevices)
 		r.Get("/count", a.Handler.CountDevices)
 		r.Post("/", a.Handler.CreateDevice)
@@ -306,12 +282,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices/classes" resource
 	r.Route("/devices/classes", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetDeviceClasses)
 		r.Get("/count", a.Handler.CountDeviceClasses)
 		r.Post("/", a.Handler.CreateDeviceClass)
@@ -327,12 +297,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices/credentials" resource
 	r.Route("/devices/credentials", func(r chi.Router) {
-		// Filter parameters:
-		//   username_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetDeviceCredentials)
 		r.Get("/count", a.Handler.CountDeviceCredentials)
 		r.Post("/", a.Handler.CreateDeviceCredential)
@@ -347,12 +311,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices/domains" resource
 	r.Route("/devices/domains", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetDeviceDomains)
 		r.Get("/count", a.Handler.CountDeviceDomains)
 		r.Post("/", a.Handler.CreateDeviceDomain)
@@ -366,14 +324,23 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/licenses" resource
+	r.Route("/devices/licenses", func(r chi.Router) {
+		r.Get("/", a.Handler.GetDeviceLicenses)
+		r.Get("/count", a.Handler.CountDeviceLicenses)
+		r.Post("/", a.Handler.CreateDeviceLicense)
+
+		// Subroutes
+		r.Route("/{lic_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetDeviceLicense)
+			r.Put("/", a.Handler.UpdateDeviceLicense)
+			r.Delete("/", a.Handler.DeleteDeviceLicense)
+			r.Get("/device", a.Handler.GetDeviceLicenseDevice)
+		})
+	})
+
 	// Routes for "/devices/ospf_nbrs" resource
 	r.Route("/devices/ospf_nbrs", func(r chi.Router) {
-		// Filter parameters:
-		//   dev_id_f, condition_f, nbr_ip_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetOspfNbrs)
 		r.Get("/count", a.Handler.CountOspfNbrs)
 		r.Post("/", a.Handler.CreateOspfNbr)
@@ -389,12 +356,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices/rl_nbrs" resource
 	r.Route("/devices/rl_nbrs", func(r chi.Router) {
-		// Filter parameters:
-		//   dev_id_f, nbr_ent_id_f, nbr_sysname_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetRlNbrs)
 		r.Get("/count", a.Handler.CountRlNbrs)
 		r.Post("/", a.Handler.CreateRlNbr)
@@ -411,12 +372,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices/snmp_credentials" resource
 	r.Route("/devices/snmp_credentials", func(r chi.Router) {
-		// Filter parameters:
-		//   label_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetSnmpCredentials)
 		r.Get("/count", a.Handler.CountSnmpCredentials)
 		r.Post("/", a.Handler.CreateSnmpCredential)
@@ -433,12 +388,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/devices/types" resource
 	r.Route("/devices/types", func(r chi.Router) {
-		// Filter parameters:
-		//   sys_id_f, manufacturer_f, model_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetDeviceTypes)
 		r.Get("/count", a.Handler.CountDeviceTypes)
 		r.Post("/", a.Handler.CreateDeviceType)
@@ -453,14 +402,40 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
+	// Routes for "/devices/vlans" resource
+	r.Route("/devices/vlans", func(r chi.Router) {
+		r.Get("/", a.Handler.GetVlans)
+		r.Get("/count", a.Handler.CountVlans)
+		r.Post("/", a.Handler.CreateVlan)
+
+		// Subroutes
+		r.Route("/{v_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetVlan)
+			r.Put("/", a.Handler.UpdateVlan)
+			r.Delete("/", a.Handler.DeleteVlan)
+			r.Get("/device", a.Handler.GetVlanDevice)
+		})
+	})
+
+	// Routes for "/devices/xconnects" resource
+	r.Route("/devices/xconnects", func(r chi.Router) {
+		r.Get("/", a.Handler.GetXconnects)
+		r.Get("/count", a.Handler.CountXconnects)
+		r.Post("/", a.Handler.CreateXconnect)
+
+		// Subroutes
+		r.Route("/{xc_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetXconnect)
+			r.Put("/", a.Handler.UpdateXconnect)
+			r.Delete("/", a.Handler.DeleteXconnect)
+			r.Get("/device", a.Handler.GetXconnectDevice)
+			r.Get("/peer_device", a.Handler.GetXconnectPeerDevice)
+			r.Get("/interface", a.Handler.GetXconnectInterface)
+		})
+	})
+
 	// Routes for "/entities" resource
 	r.Route("/entities", func(r chi.Router) {
-		// Filter parameters:
-		//   slot_f, descr_f, model_f, hw_product_f, hw_revision_f, serial_nr_f, sw_product_f, sw_revision_f, manufacturer_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetEntities)
 		r.Get("/count", a.Handler.CountEntities)
 		r.Post("/", a.Handler.CreateEntity)
@@ -481,12 +456,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/entities/custom_entities" resource
 	r.Route("/entities/custom_entities", func(r chi.Router) {
-		// Filter parameters:
-		//   serial_nr_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetCustomEntities)
 		r.Get("/count", a.Handler.CountCustomEntities)
 		r.Post("/", a.Handler.CreateCustomEntity)
@@ -501,12 +470,6 @@ func (a *App) initializeRoutes() {
 
 	// Routes for "/interfaces" resource
 	r.Route("/interfaces", func(r chi.Router) {
-		// Filter parameters:
-		//   ifindex_f, descr_f, alias_f, oper_f, adm_f, speed_f, minspeed_f, type_enum_f, mac_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetInterfaces)
 		r.Get("/count", a.Handler.CountInterfaces)
 		r.Post("/", a.Handler.CreateInterface)
@@ -531,14 +494,8 @@ func (a *App) initializeRoutes() {
 		})
 	})
 
-	// Routes for "/interfaces/bw_stat" resource
+	// Routes for "/interfaces/bw_stats" resource
 	r.Route("/interfaces/bw_stats", func(r chi.Router) {
-		// Filter parameters:
-		//   if_group_f,
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetIntBwStats)
 		r.Get("/count", a.Handler.CountIntBwStats)
 		r.Post("/", a.Handler.CreateIntBwStat)
@@ -548,18 +505,27 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetIntBwStat)
 			r.Put("/", a.Handler.UpdateIntBwStat)
 			r.Delete("/", a.Handler.DeleteIntBwStat)
-			r.Get("/interfaces", a.Handler.GetIntBwStatInterface)
+			r.Get("/interface", a.Handler.GetIntBwStatInterface)
+		})
+	})
+
+	// Routes for "/interfaces/subinterfaces" resource
+	r.Route("/interfaces/subinterfaces", func(r chi.Router) {
+		r.Get("/", a.Handler.GetSubinterfaces)
+		r.Get("/count", a.Handler.CountSubinterfaces)
+		r.Post("/", a.Handler.CreateSubinterface)
+
+		// Subroutes
+		r.Route("/{sif_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetSubinterface)
+			r.Put("/", a.Handler.UpdateSubinterface)
+			r.Delete("/", a.Handler.DeleteSubinterface)
+			r.Get("/interface", a.Handler.GetSubinterfaceInterface)
 		})
 	})
 
 	// Routes for "/ip_interfaces" resource
 	r.Route("/ip_interfaces", func(r chi.Router) {
-		// Filter parameters:
-		//   dev_id_f, ifindex_f, descr_f, alias_f, ip_addr_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetIpInterfaces)
 		r.Get("/count", a.Handler.CountIpInterfaces)
 		r.Post("/", a.Handler.CreateIpInterface)
@@ -574,15 +540,24 @@ func (a *App) initializeRoutes() {
 	})
 
 	// Routes for "/sites" resource
+	r.Route("/sites", func(r chi.Router) {
+		r.Get("/", a.Handler.GetSites)
+		r.Get("/count", a.Handler.CountSites)
+		r.Post("/", a.Handler.CreateSite)
+
+		// Subroutes
+		r.Route("/{site_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetSite)
+			r.Put("/", a.Handler.UpdateSite)
+			r.Delete("/", a.Handler.DeleteSite)
+			r.Get("/country", a.Handler.GetSiteConCountry)
+			r.Get("/connections", a.Handler.GetSiteConnections)
+			r.Get("/devices", a.Handler.GetSiteDevices)
+		})
+	})
 
 	// Routes for "/sites/countries" resource
 	r.Route("/sites/countries", func(r chi.Router) {
-		// Filter parameters:
-		//   descr_f, code_f
-		//   updated_ge, updated_le, created_ge, created_le
-		// Pagination parameters:
-		//   count(100), start(0).
-		//   Uses default if not set.
 		r.Get("/", a.Handler.GetCountries)
 		r.Get("/count", a.Handler.CountCountries)
 		r.Post("/", a.Handler.CreateCountry)
@@ -592,7 +567,52 @@ func (a *App) initializeRoutes() {
 			r.Get("/", a.Handler.GetCountry)
 			r.Put("/", a.Handler.UpdateCountry)
 			r.Delete("/", a.Handler.DeleteCountry)
-			// r.Get("/sites", a.Handler.GetCountrySites)
+			r.Get("/sites", a.Handler.GetCountrySites)
+		})
+	})
+
+	// Routes for "/users" resource
+	r.Route("/users", func(r chi.Router) {
+		r.Get("/", a.Handler.GetUsers)
+		r.Get("/count", a.Handler.CountUsers)
+		r.Post("/", a.Handler.CreateUser)
+
+		// Subroutes
+		r.Route("/{username:\\w+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetUser)
+			r.Put("/", a.Handler.UpdateUser)
+			r.Delete("/", a.Handler.DeleteUser)
+			r.Get("/authzs", a.Handler.GetUserUserAuthzs)
+			r.Get("/graphs", a.Handler.GetUserUserGraphs)
+		})
+	})
+
+	// Routes for "/users/authzs" resource
+	r.Route("/users/authzs", func(r chi.Router) {
+		r.Get("/", a.Handler.GetUserAuthzs)
+		r.Get("/count", a.Handler.CountUserAuthzs)
+		r.Post("/", a.Handler.CreateUserAuthz)
+
+		// Subroutes
+		r.Route("/{username:\\w+}/{dom_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetUserAuthz)
+			r.Put("/", a.Handler.UpdateUserAuthz)
+			r.Delete("/", a.Handler.DeleteUserAuthz)
+			r.Get("/device_domain", a.Handler.GetUserAuthzDeviceDomain)
+		})
+	})
+
+	// Routes for "/users/graphs" resource
+	r.Route("/users/graphs", func(r chi.Router) {
+		r.Get("/", a.Handler.GetUserGraphs)
+		r.Get("/count", a.Handler.CountUserGraphs)
+		r.Post("/", a.Handler.CreateUserGraph)
+
+		// Subroutes
+		r.Route("/{graph_id:[0-9]+}", func(r chi.Router) {
+			r.Get("/", a.Handler.GetUserGraph)
+			r.Put("/", a.Handler.UpdateUserGraph)
+			r.Delete("/", a.Handler.DeleteUserGraph)
 		})
 	})
 

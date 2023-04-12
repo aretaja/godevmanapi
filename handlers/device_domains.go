@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains/count [GET]
 func (h *Handler) CountDeviceDomains(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -45,7 +45,7 @@ func (h *Handler) CountDeviceDomains(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.DeviceDomain
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains [GET]
 func (h *Handler) GetDeviceDomains(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +71,9 @@ func (h *Handler) GetDeviceDomains(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("descr_f")
-	if d != "" {
-		p.DescrF = d
+	// Filters
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = v
 	}
 
 	// Query DB
@@ -98,7 +97,7 @@ func (h *Handler) GetDeviceDomains(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dom_id"
 // @Failure 404 {object} StatusResponse "Domain not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains/{dom_id} [GET]
 func (h *Handler) GetDeviceDomain(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dom_id"), 10, 64)
@@ -131,7 +130,7 @@ func (h *Handler) GetDeviceDomain(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains [POST]
 func (h *Handler) CreateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 	var p string
@@ -164,7 +163,7 @@ func (h *Handler) CreateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains/{dom_id} [PUT]
 func (h *Handler) UpdateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dom_id"), 10, 64)
@@ -204,7 +203,7 @@ func (h *Handler) UpdateDeviceDomain(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dom_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains/{dom_id} [DELETE]
 func (h *Handler) DeleteDeviceDomain(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dom_id"), 10, 64)
@@ -234,7 +233,7 @@ func (h *Handler) DeleteDeviceDomain(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid dom_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/domains/{dom_id}/devices [GET]
 func (h *Handler) GetDeviceDomainDevices(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "dom_id"), 10, 64)

@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types/count [GET]
 func (h *Handler) CountDeviceTypes(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -38,6 +38,8 @@ func (h *Handler) CountDeviceTypes(w http.ResponseWriter, r *http.Request) {
 // @Param sys_id_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param manufacturer_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param model_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param hc_f query bool false "values 'true', 'false'"
+// @Param snmp_ver_f query string false "0|1|2|3"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -47,7 +49,7 @@ func (h *Handler) CountDeviceTypes(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.DeviceType
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types [GET]
 func (h *Handler) GetDeviceTypes(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -73,22 +75,25 @@ func (h *Handler) GetDeviceTypes(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// SysID filter
-	str := r.FormValue("sys_id_f")
-	if str != "" {
-		p.SysIDF = str
+	// Filters
+	if v := r.FormValue("sys_id_f"); v != "" {
+		p.SysIDF = v
 	}
 
-	// Manufacturer filter
-	str = r.FormValue("manufacturer_f")
-	if str != "" {
-		p.ManufacturerF = str
+	if v := r.FormValue("manufacturer_f"); v != "" {
+		p.ManufacturerF = v
 	}
 
-	// Model filter
-	str = r.FormValue("model_f")
-	if str != "" {
-		p.ModelF = str
+	if v := r.FormValue("model_f"); v != "" {
+		p.ModelF = v
+	}
+
+	if v := r.FormValue("hc_f"); v != "" {
+		p.HcF = v
+	}
+
+	if v := r.FormValue("snmp_ver_f"); v != "" {
+		p.SnmpVerF = v
 	}
 
 	// Query DB
@@ -112,7 +117,7 @@ func (h *Handler) GetDeviceTypes(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid sys_id"
 // @Failure 404 {object} StatusResponse "Domain not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types/{sys_id} [GET]
 func (h *Handler) GetDeviceType(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "sys_id")
@@ -141,7 +146,7 @@ func (h *Handler) GetDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types [POST]
 func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateDeviceTypeParams
@@ -181,7 +186,7 @@ func (h *Handler) CreateDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types/{sys_id} [PUT]
 func (h *Handler) UpdateDeviceType(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "sys_id")
@@ -217,7 +222,7 @@ func (h *Handler) UpdateDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid sys_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types/{sys_id} [DELETE]
 func (h *Handler) DeleteDeviceType(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "sys_id")
@@ -243,7 +248,7 @@ func (h *Handler) DeleteDeviceType(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid sys_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types/{sys_id}/class [GET]
 func (h *Handler) GetDeviceTypeClass(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "sys_id")
@@ -269,7 +274,7 @@ func (h *Handler) GetDeviceTypeClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid sys_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /devices/types/{sys_id}/devices [GET]
 func (h *Handler) GetDeviceTypeDevices(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "sys_id")

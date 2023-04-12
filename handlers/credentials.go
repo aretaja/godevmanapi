@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/credentials/count [GET]
 func (h *Handler) CountCredentials(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -45,7 +45,7 @@ func (h *Handler) CountCredentials(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.Credential
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/credentials [GET]
 func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +71,10 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("label_f")
-	if d != "" {
-		p.LabelF = d
+	// Filters
+	v := r.FormValue("label_f")
+	if v != "" {
+		p.LabelF = v
 	}
 
 	// Query DB
@@ -111,7 +111,7 @@ func (h *Handler) GetCredentials(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid cred_id"
 // @Failure 404 {object} StatusResponse "Credential not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/credentials/{cred_id} [GET]
 func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cred_id"), 10, 64)
@@ -155,7 +155,7 @@ func (h *Handler) GetCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/credentials [POST]
 func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateCredentialParams
@@ -209,7 +209,7 @@ func (h *Handler) CreateCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/credentials/{cred_id} [PUT]
 func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cred_id"), 10, 64)
@@ -271,7 +271,7 @@ func (h *Handler) UpdateCredential(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid cred_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /config/credentials/{cred_id} [DELETE]
 func (h *Handler) DeleteCredential(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "cred_id"), 10, 64)

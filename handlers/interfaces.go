@@ -28,7 +28,7 @@ type iface struct {
 	TypeEnum   *int16    `json:"type_enum"`
 	Descr      string    `json:"descr"`
 	IfID       int64     `json:"if_id"`
-	DevID      int64     `json:"if_id"`
+	DevID      int64     `json:"dev_id"`
 	Monstatus  int16     `json:"monstatus"`
 	Monerrors  int16     `json:"monerrors"`
 	Monload    int16     `json:"monload"`
@@ -117,7 +117,7 @@ func (r *iface) updateParams() godevmandb.UpdateInterfaceParams {
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/count [GET]
 func (h *Handler) CountInterfaces(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -144,6 +144,9 @@ func (h *Handler) CountInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Param minspeed_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param type_enum_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param mac_f query string false "SQL '=' operator value (MAC address)"
+// @Param monstatus_f query bool false "values 'true', 'false'"
+// @Param monerrors_f query bool false "values 'true', 'false'"
+// @Param monload_f query bool false "values 'true', 'false'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -153,7 +156,7 @@ func (h *Handler) CountInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} iface
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces [GET]
 func (h *Handler) GetInterfaces(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -179,50 +182,54 @@ func (h *Handler) GetInterfaces(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Ifindex filter
+	// Filters
 	if v := r.FormValue("ifindex_f"); v != "" {
 		p.IfindexF = &v
 	}
 
-	// Descr filter
 	if v := r.FormValue("descr_f"); v != "" {
 		p.DescrF = v
 	}
 
-	// Alias filter
 	if v := r.FormValue("alias_f"); v != "" {
 		p.AliasF = &v
 	}
 
-	// Oper filter
 	if v := r.FormValue("oper_f"); v != "" {
 		p.OperF = &v
 	}
 
-	// Adm filter
 	if v := r.FormValue("adm_f"); v != "" {
 		p.AdmF = &v
 	}
 
-	// Speed filter
 	if v := r.FormValue("speed_f"); v != "" {
 		p.SpeedF = &v
 	}
 
-	// Minspeed filter
 	if v := r.FormValue("minspeed_f"); v != "" {
 		p.MinspeedF = &v
 	}
 
-	// Type filter
 	if v := r.FormValue("type_enum_f"); v != "" {
 		p.TypeEnumF = &v
 	}
 
-	// MAC filter
 	p.MacF = strToPgMacaddr(nil)
 	if v := r.FormValue("mac_f"); v != "" {
 		p.MacF = strToPgMacaddr(&v)
+	}
+
+	if v := r.FormValue("monstatus_f"); v != "" {
+		p.MonstatusF = v
+	}
+
+	if v := r.FormValue("monerrors_f"); v != "" {
+		p.MonerrorsF = v
+	}
+
+	if v := r.FormValue("monload_f"); v != "" {
+		p.MonloadF = v
 	}
 
 	// Query DB
@@ -253,7 +260,7 @@ func (h *Handler) GetInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Interface not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id} [GET]
 func (h *Handler) GetInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -289,7 +296,7 @@ func (h *Handler) GetInterface(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces [POST]
 func (h *Handler) CreateInterface(w http.ResponseWriter, r *http.Request) {
 	var pIn iface
@@ -328,7 +335,7 @@ func (h *Handler) CreateInterface(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id} [PUT]
 func (h *Handler) UpdateInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -373,7 +380,7 @@ func (h *Handler) UpdateInterface(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id} [DELETE]
 func (h *Handler) DeleteInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -403,7 +410,7 @@ func (h *Handler) DeleteInterface(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/connection [GET]
 func (h *Handler) GetInterfaceConnection(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -433,7 +440,7 @@ func (h *Handler) GetInterfaceConnection(w http.ResponseWriter, r *http.Request)
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/parent [GET]
 func (h *Handler) GetInterfaceParent(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -466,7 +473,7 @@ func (h *Handler) GetInterfaceParent(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/otn_if [GET]
 func (h *Handler) GetInterfaceOtnIf(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -499,7 +506,7 @@ func (h *Handler) GetInterfaceOtnIf(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/device [GET]
 func (h *Handler) GetInterfaceDevice(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -532,7 +539,7 @@ func (h *Handler) GetInterfaceDevice(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/entity [GET]
 func (h *Handler) GetInterfaceEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -562,7 +569,7 @@ func (h *Handler) GetInterfaceEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/childs [GET]
 func (h *Handler) GetInterfaceChilds(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -599,7 +606,7 @@ func (h *Handler) GetInterfaceChilds(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/bw_stats [GET]
 func (h *Handler) GetInterfaceIntBwStats(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -629,7 +636,7 @@ func (h *Handler) GetInterfaceIntBwStats(w http.ResponseWriter, r *http.Request)
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/related_lower [GET]
 func (h *Handler) GetInterfaceInterfaceRelationsHigherFor(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -666,7 +673,7 @@ func (h *Handler) GetInterfaceInterfaceRelationsHigherFor(w http.ResponseWriter,
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/related_higher [GET]
 func (h *Handler) GetInterfaceInterfaceRelationsLowerFor(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -703,7 +710,7 @@ func (h *Handler) GetInterfaceInterfaceRelationsLowerFor(w http.ResponseWriter, 
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/vlans [GET]
 func (h *Handler) GetInterfaceVlans(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -733,7 +740,7 @@ func (h *Handler) GetInterfaceVlans(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/subinterfaces [GET]
 func (h *Handler) GetInterfaceSubinterfaces(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)
@@ -770,7 +777,7 @@ func (h *Handler) GetInterfaceSubinterfaces(w http.ResponseWriter, r *http.Reque
 // @Failure 400 {object} StatusResponse "Invalid if_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /interfaces/{if_id}/xconnects [GET]
 func (h *Handler) GetInterfaceXconnects(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "if_id"), 10, 64)

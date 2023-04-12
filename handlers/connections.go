@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/count [GET]
 func (h *Handler) CountConnections(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -35,7 +35,9 @@ func (h *Handler) CountConnections(w http.ResponseWriter, r *http.Request) {
 // @Description List connection info
 // @Tags connections
 // @ID list-connections
-// @Param hint_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param hint_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param notes_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param in_use_f query bool false "values 'true', 'false'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -45,7 +47,7 @@ func (h *Handler) CountConnections(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.Connection
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections [GET]
 func (h *Handler) GetConnections(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +73,17 @@ func (h *Handler) GetConnections(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("hint_f")
-	if d != "" {
-		p.HintF = d
+	// Filters
+	if v := r.FormValue("hint_f"); v != "" {
+		p.HintF = &v
+	}
+
+	if v := r.FormValue("notes_f"); v != "" {
+		p.NotesF = &v
+	}
+
+	if v := r.FormValue("in_use_f"); v != "" {
+		p.InUseF = v
 	}
 
 	// Query DB
@@ -98,7 +107,7 @@ func (h *Handler) GetConnections(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Connection not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id} [GET]
 func (h *Handler) GetConnection(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -131,7 +140,7 @@ func (h *Handler) GetConnection(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections [POST]
 func (h *Handler) CreateConnection(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateConnectionParams
@@ -164,7 +173,7 @@ func (h *Handler) CreateConnection(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id} [PUT]
 func (h *Handler) UpdateConnection(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -205,7 +214,7 @@ func (h *Handler) UpdateConnection(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id} [DELETE]
 func (h *Handler) DeleteConnection(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -235,7 +244,7 @@ func (h *Handler) DeleteConnection(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id}/capacity [GET]
 func (h *Handler) GetConnectionConCapacitiy(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -265,7 +274,7 @@ func (h *Handler) GetConnectionConCapacitiy(w http.ResponseWriter, r *http.Reque
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id}/class [GET]
 func (h *Handler) GetConnectionConClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -295,7 +304,7 @@ func (h *Handler) GetConnectionConClass(w http.ResponseWriter, r *http.Request) 
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id}/provider [GET]
 func (h *Handler) GetConnectionConProvider(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -325,7 +334,7 @@ func (h *Handler) GetConnectionConProvider(w http.ResponseWriter, r *http.Reques
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id}/type [GET]
 func (h *Handler) GetConnectionConType(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -355,7 +364,7 @@ func (h *Handler) GetConnectionConType(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id}/site [GET]
 func (h *Handler) GetConnectionSite(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)
@@ -385,7 +394,7 @@ func (h *Handler) GetConnectionSite(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/{con_id}/interfaces [GET]
 func (h *Handler) GetConnectionInterfaces(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_id"), 10, 64)

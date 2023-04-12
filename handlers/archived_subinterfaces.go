@@ -84,7 +84,7 @@ func (r *archivedSubinterface) updateParams() godevmandb.UpdateArchivedSubinterf
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/subinterfaces/count [GET]
 func (h *Handler) CountArchivedSubinterfaces(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -102,13 +102,16 @@ func (h *Handler) CountArchivedSubinterfaces(w http.ResponseWriter, r *http.Requ
 // @Description List archived subinterfaces info
 // @Tags archived
 // @ID list-archived_subinterfaces
-// @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param hostname_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param parent_descr_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param type_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param mac_f query string false "SQL '=' operator value (MAC address)"
+// @Param hostname_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
 // @Param host_ip4_f query string false "ip or containing net in CIDR notation"
 // @Param host_ip6_f query string false "ip or containing net in CIDR notation"
-// @Param mac_f query string false "SQL '=' operator value (MAC address)"
+// @Param notes_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -118,7 +121,7 @@ func (h *Handler) CountArchivedSubinterfaces(w http.ResponseWriter, r *http.Requ
 // @Success 200 {array} archivedSubinterface
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/subinterfaces [GET]
 func (h *Handler) GetArchivedSubinterfaces(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -144,49 +147,48 @@ func (h *Handler) GetArchivedSubinterfaces(w http.ResponseWriter, r *http.Reques
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Ifindex filter
-	v := r.FormValue("ifindex_f")
-	if v != "" {
+	// Filters
+	if v := r.FormValue("ifindex_f"); v != "" {
 		p.IfindexF = &v
 	}
 
-	// Alias filter
-	v = r.FormValue("alias_f")
-	if v != "" {
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = v
+	}
+
+	if v := r.FormValue("parent_descr_f"); v != "" {
+		p.ParentDescrF = &v
+	}
+
+	if v := r.FormValue("alias_f"); v != "" {
 		p.AliasF = &v
 	}
 
-	// Host IPv4 filter
-	p.HostIp4F = strToPgInet(nil)
-	v = r.FormValue("host_ip4_f")
-	if v != "" {
-		p.HostIp4F = strToPgInet(&v)
+	if v := r.FormValue("type_f"); v != "" {
+		p.TypeF = &v
 	}
 
-	// Host IPv6 filter
-	p.HostIp6F = strToPgInet(nil)
-	v = r.FormValue("host_ip6_f")
-	if v != "" {
-		p.HostIp6F = strToPgInet(&v)
-	}
-
-	// MAC filter
 	p.MacF = strToPgMacaddr(nil)
-	v = r.FormValue("mac_f")
-	if v != "" {
+	if v := r.FormValue("mac_f"); v != "" {
 		p.MacF = strToPgMacaddr(&v)
 	}
 
-	// Hostname filter
-	v = r.FormValue("hostname_f")
-	if v != "" {
+	if v := r.FormValue("hostname_f"); v != "" {
 		p.HostnameF = v
 	}
 
-	// Descr filter
-	v = r.FormValue("descr_f")
-	if v != "" {
-		p.DescrF = v
+	p.HostIp4F = strToPgInet(nil)
+	if v := r.FormValue("host_ip4_f"); v != "" {
+		p.HostIp4F = strToPgInet(&v)
+	}
+
+	p.HostIp6F = strToPgInet(nil)
+	if v := r.FormValue("host_ip6_f"); v != "" {
+		p.HostIp6F = strToPgInet(&v)
+	}
+
+	if v := r.FormValue("notes_f"); v != "" {
+		p.NotesF = &v
 	}
 
 	// Query DB
@@ -217,7 +219,7 @@ func (h *Handler) GetArchivedSubinterfaces(w http.ResponseWriter, r *http.Reques
 // @Failure 400 {object} StatusResponse "Invalid sifa_id"
 // @Failure 404 {object} StatusResponse "Archived subinterface not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/subinterfaces/{sifa_id} [GET]
 func (h *Handler) GetArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "sifa_id"), 10, 64)
@@ -253,7 +255,7 @@ func (h *Handler) GetArchivedSubinterface(w http.ResponseWriter, r *http.Request
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/subinterfaces [POST]
 func (h *Handler) CreateArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	var pIn archivedSubinterface
@@ -292,7 +294,7 @@ func (h *Handler) CreateArchivedSubinterface(w http.ResponseWriter, r *http.Requ
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/subinterfaces/{sifa_id} [PUT]
 func (h *Handler) UpdateArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "sifa_id"), 10, 64)
@@ -337,7 +339,7 @@ func (h *Handler) UpdateArchivedSubinterface(w http.ResponseWriter, r *http.Requ
 // @Failure 400 {object} StatusResponse "Invalid sifa_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/subinterfaces/{sifa_id} [DELETE]
 func (h *Handler) DeleteArchivedSubinterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "sifa_id"), 10, 64)

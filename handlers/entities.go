@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/count [GET]
 func (h *Handler) CountEntities(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -35,15 +35,17 @@ func (h *Handler) CountEntities(w http.ResponseWriter, r *http.Request) {
 // @Description List entities info
 // @Tags entities
 // @ID list-entities
-// @Param slot_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param model_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param w_product_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param hw_revision_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param serial_nr_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param sw_product_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param sw_revision_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param manufacturer_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param sys_name_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull'"
+// @Param slot_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param model_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param w_product_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param hw_revision_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param serial_nr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param sw_product_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param sw_revision_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param manufacturer_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isnull', 'isempty'"
+// @Param physical_f query bool false "values 'true', 'false'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -53,7 +55,7 @@ func (h *Handler) CountEntities(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.Entity
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities [GET]
 func (h *Handler) GetEntities(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -79,58 +81,49 @@ func (h *Handler) GetEntities(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Slot filter
-	d := r.FormValue("slot_f")
-	if d != "" {
-		p.SlotF = d
+	// Filters
+	if v := r.FormValue("snmp_ent_id_f"); v != "" {
+		p.SnmpEntIDF = &v
 	}
 
-	// Descr filter
-	d = r.FormValue("descr_f")
-	if d != "" {
-		p.DescrF = d
+	if v := r.FormValue("slot_f"); v != "" {
+		p.SlotF = &v
 	}
 
-	// Model filter
-	d = r.FormValue("model_f")
-	if d != "" {
-		p.ModelF = d
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = &v
 	}
 
-	// HwProduct filter
-	d = r.FormValue("hw_product_f")
-	if d != "" {
-		p.HwProductF = d
+	if v := r.FormValue("model_f"); v != "" {
+		p.ModelF = &v
 	}
 
-	// HwRevision filter
-	d = r.FormValue("hw_revision_f")
-	if d != "" {
-		p.HwRevisionF = d
+	if v := r.FormValue("hw_product_f"); v != "" {
+		p.HwProductF = &v
 	}
 
-	// Serial nr filter
-	d = r.FormValue("serial_nr_f")
-	if d != "" {
-		p.SerialNrF = d
+	if v := r.FormValue("hw_revision_f"); v != "" {
+		p.HwRevisionF = &v
 	}
 
-	// SwProduct filter
-	d = r.FormValue("sw_product_f")
-	if d != "" {
-		p.SwProductF = d
+	if v := r.FormValue("serial_nr_f"); v != "" {
+		p.SerialNrF = &v
 	}
 
-	// SwRevision filter
-	d = r.FormValue("sw_revision_f")
-	if d != "" {
-		p.SwRevisionF = d
+	if v := r.FormValue("sw_product_f"); v != "" {
+		p.SwProductF = &v
 	}
 
-	// Manufacturer filter
-	d = r.FormValue("manufacturer_f")
-	if d != "" {
-		p.ManufacturerF = d
+	if v := r.FormValue("sw_revision_f"); v != "" {
+		p.SwRevisionF = &v
+	}
+
+	if v := r.FormValue("manufacturer_f"); v != "" {
+		p.ManufacturerF = &v
+	}
+
+	if v := r.FormValue("physical_f"); v != "" {
+		p.PhysicalF = v
 	}
 
 	// Query DB
@@ -154,7 +147,7 @@ func (h *Handler) GetEntities(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Entity not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id} [GET]
 func (h *Handler) GetEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -187,7 +180,7 @@ func (h *Handler) GetEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities [POST]
 func (h *Handler) CreateEntity(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateEntityParams
@@ -219,7 +212,7 @@ func (h *Handler) CreateEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id} [PUT]
 func (h *Handler) UpdateEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -258,7 +251,7 @@ func (h *Handler) UpdateEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id} [DELETE]
 func (h *Handler) DeleteEntity(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -288,7 +281,7 @@ func (h *Handler) DeleteEntity(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id}/device [GET]
 func (h *Handler) GetEntityDevice(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -321,7 +314,7 @@ func (h *Handler) GetEntityDevice(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id}/parent [GET]
 func (h *Handler) GetEntityParent(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -351,7 +344,7 @@ func (h *Handler) GetEntityParent(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id}/childs [GET]
 func (h *Handler) GetEntityChilds(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -381,7 +374,7 @@ func (h *Handler) GetEntityChilds(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id}/entity_phy_indexes [GET]
 func (h *Handler) GetEntityEntityPhyIndexes(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -411,7 +404,7 @@ func (h *Handler) GetEntityEntityPhyIndexes(w http.ResponseWriter, r *http.Reque
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id}/interfaces [GET]
 func (h *Handler) GetEntityInterfaces(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)
@@ -448,7 +441,7 @@ func (h *Handler) GetEntityInterfaces(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid ent_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /entities/{ent_id}/rl_nbrs [GET]
 func (h *Handler) GetEntityRlfNbrs(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ent_id"), 10, 64)

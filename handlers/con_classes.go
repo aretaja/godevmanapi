@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes/count [GET]
 func (h *Handler) CountConClasses(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -35,7 +35,8 @@ func (h *Handler) CountConClasses(w http.ResponseWriter, r *http.Request) {
 // @Description List connection classes info
 // @Tags connections
 // @ID list-con_classes
-// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param notes_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -45,7 +46,7 @@ func (h *Handler) CountConClasses(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.ConClass
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes [GET]
 func (h *Handler) GetConClasses(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +72,13 @@ func (h *Handler) GetConClasses(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("descr_f")
-	if d != "" {
-		p.DescrF = d
+	// Filters
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = v
+	}
+
+	if v := r.FormValue("notes_f"); v != "" {
+		p.NotesF = &v
 	}
 
 	// Query DB
@@ -98,7 +102,7 @@ func (h *Handler) GetConClasses(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_class_id"
 // @Failure 404 {object} StatusResponse "Class not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes/{con_class_id} [GET]
 func (h *Handler) GetConClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_class_id"), 10, 64)
@@ -131,7 +135,7 @@ func (h *Handler) GetConClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes [POST]
 func (h *Handler) CreateConClass(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateConClassParams
@@ -164,7 +168,7 @@ func (h *Handler) CreateConClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes/{con_class_id} [PUT]
 func (h *Handler) UpdateConClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_class_id"), 10, 64)
@@ -204,7 +208,7 @@ func (h *Handler) UpdateConClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_class_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes/{con_class_id} [DELETE]
 func (h *Handler) DeleteConClass(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_class_id"), 10, 64)
@@ -234,7 +238,7 @@ func (h *Handler) DeleteConClass(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_class_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/classes/{con_class_id}/connections [GET]
 func (h *Handler) GetConClassConnections(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_class_id"), 10, 64)

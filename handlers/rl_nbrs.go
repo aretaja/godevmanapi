@@ -35,8 +35,6 @@ func (h *Handler) CountRlNbrs(w http.ResponseWriter, r *http.Request) {
 // @Description List radio link neighbors info
 // @Tags devices
 // @ID list-rl_nbrs
-// @Param dev_id_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param nbr_ent_id_f query string false "url encoded SQL 'LIKE' operator pattern"
 // @Param nbr_sysname_f query string false "url encoded SQL 'ILIKE' operator pattern"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
@@ -74,13 +72,6 @@ func (h *Handler) GetRlNbrs(w http.ResponseWriter, r *http.Request) {
 	p.CreatedLe = tf[3]
 
 	// Filters
-	if v := r.FormValue("dev_id_f"); v != "" {
-		p.DevIDF = v
-	}
-
-	if v := r.FormValue("nbr_ent_id_f"); v != "" {
-		p.NbrEntIDF = &v
-	}
 	if v := r.FormValue("nbr_sysname_f"); v != "" {
 		p.NbrSysnameF = v
 	}
@@ -104,7 +95,7 @@ func (h *Handler) GetRlNbrs(w http.ResponseWriter, r *http.Request) {
 // @Param nbr_id path string true "nbr_id"
 // @Success 200 {object} godevmandb.RlNbr
 // @Failure 400 {object} StatusResponse "Invalid nbr_id"
-// @Failure 404 {object} StatusResponse "Domain not found"
+// @Failure 404 {object} StatusResponse "Neighbor not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
 // @Failure 500 {object} StatusResponse "Failde DB transaction"
 // @Router /devices/rl_nbrs/{nbr_id} [GET]

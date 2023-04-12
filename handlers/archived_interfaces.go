@@ -96,7 +96,7 @@ func (r *archivedInterface) updateParams() godevmandb.UpdateArchivedInterfacePar
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/interfaces/count [GET]
 func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -114,12 +114,17 @@ func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request
 // @Description List archived interfaces info
 // @Tags archived
 // @ID list-archived_interfaces
-// @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern"
-// @Param hostname_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
-// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param ifindex_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param otn_if_id_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param cisco_opt_power_index_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param hostname_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
 // @Param host_ip4_f query string false "ip or containing net in CIDR notation"
 // @Param host_ip6_f query string false "ip or containing net in CIDR notation"
+// @Param manufacturer_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param model_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param alias_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
+// @Param type_enum_f query string false "url encoded SQL 'LIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param mac_f query string false "SQL '=' operator value (MAC address)"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
@@ -130,7 +135,7 @@ func (h *Handler) CountArchivedInterfaces(w http.ResponseWriter, r *http.Request
 // @Success 200 {array} archivedInterface
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/interfaces [GET]
 func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -156,49 +161,56 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Ifindex filter
-	v := r.FormValue("ifindex_f")
-	if v != "" {
+	// Filters
+	if v := r.FormValue("ifindex_f"); v != "" {
 		p.IfindexF = &v
 	}
 
-	// Alias filter
-	v = r.FormValue("alias_f")
-	if v != "" {
-		p.AliasF = &v
+	if v := r.FormValue("otn_if_id_f"); v != "" {
+		p.OtnIfIDF = &v
 	}
 
-	// Host IPv4 filter
-	p.HostIp4F = strToPgInet(nil)
-	v = r.FormValue("host_ip4_f")
-	if v != "" {
-		p.HostIp4F = strToPgInet(&v)
+	if v := r.FormValue("cisco_opt_power_index_f"); v != "" {
+		p.CiscoOptPowerIndexF = &v
 	}
 
-	// Host IPv6 filter
-	p.HostIp6F = strToPgInet(nil)
-	v = r.FormValue("host_ip6_f")
-	if v != "" {
-		p.HostIp6F = strToPgInet(&v)
-	}
-
-	// MAC filter
-	p.MacF = strToPgMacaddr(nil)
-	v = r.FormValue("mac_f")
-	if v != "" {
-		p.MacF = strToPgMacaddr(&v)
-	}
-
-	// Hostname filter
-	v = r.FormValue("hostname_f")
-	if v != "" {
+	if v := r.FormValue("hostname_f"); v != "" {
 		p.HostnameF = v
 	}
 
-	// Descr filter
-	v = r.FormValue("descr_f")
-	if v != "" {
+	p.HostIp4F = strToPgInet(nil)
+	if v := r.FormValue("host_ip4_f"); v != "" {
+		p.HostIp4F = strToPgInet(&v)
+	}
+
+	p.HostIp6F = strToPgInet(nil)
+	if v := r.FormValue("host_ip6_f"); v != "" {
+		p.HostIp6F = strToPgInet(&v)
+	}
+
+	if v := r.FormValue("manufacturer_f"); v != "" {
+		p.ManufacturerF = v
+	}
+
+	if v := r.FormValue("model_f"); v != "" {
+		p.ModelF = v
+	}
+
+	if v := r.FormValue("descr_f"); v != "" {
 		p.DescrF = v
+	}
+
+	if v := r.FormValue("alias_f"); v != "" {
+		p.AliasF = &v
+	}
+
+	if v := r.FormValue("type_enum_f"); v != "" {
+		p.TypeEnumF = &v
+	}
+
+	p.MacF = strToPgMacaddr(nil)
+	if v := r.FormValue("mac_f"); v != "" {
+		p.MacF = strToPgMacaddr(&v)
 	}
 
 	// Query DB
@@ -229,7 +241,7 @@ func (h *Handler) GetArchivedInterfaces(w http.ResponseWriter, r *http.Request) 
 // @Failure 400 {object} StatusResponse "Invalid ifa_id"
 // @Failure 404 {object} StatusResponse "Archived interface not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/interfaces/{ifa_id} [GET]
 func (h *Handler) GetArchivedInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ifa_id"), 10, 64)
@@ -265,7 +277,7 @@ func (h *Handler) GetArchivedInterface(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/interfaces [POST]
 func (h *Handler) CreateArchivedInterface(w http.ResponseWriter, r *http.Request) {
 	var pIn archivedInterface
@@ -304,7 +316,7 @@ func (h *Handler) CreateArchivedInterface(w http.ResponseWriter, r *http.Request
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/interfaces/{ifa_id} [PUT]
 func (h *Handler) UpdateArchivedInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ifa_id"), 10, 64)
@@ -349,7 +361,7 @@ func (h *Handler) UpdateArchivedInterface(w http.ResponseWriter, r *http.Request
 // @Failure 400 {object} StatusResponse "Invalid ifa_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /archived/interfaces/{ifa_id} [DELETE]
 func (h *Handler) DeleteArchivedInterface(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "ifa_id"), 10, 64)

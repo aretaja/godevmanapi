@@ -174,6 +174,25 @@ definitions:
       username:
         type: string
     type: object
+  godevmandb.CreateDeviceLicenseParams:
+    properties:
+      condition:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      installed:
+        type: integer
+      product:
+        type: string
+      tot_inst:
+        type: integer
+      unlocked:
+        type: integer
+      used:
+        type: integer
+    type: object
   godevmandb.CreateDeviceTypeParams:
     properties:
       class_id:
@@ -249,6 +268,76 @@ definitions:
         type: integer
       nbr_sysname:
         type: string
+    type: object
+  godevmandb.CreateSiteParams:
+    properties:
+      addr:
+        type: string
+      area:
+        type: string
+      country_id:
+        type: integer
+      descr:
+        type: string
+      ext_id:
+        type: integer
+      ext_name:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      notes:
+        type: string
+      uident:
+        type: string
+    type: object
+  godevmandb.CreateUserAuthzParams:
+    properties:
+      dom_id:
+        type: integer
+      userlevel:
+        type: integer
+      username:
+        type: string
+    type: object
+  godevmandb.CreateUserGraphParams:
+    properties:
+      descr:
+        type: string
+      shared:
+        type: boolean
+      uri:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.CreateUserParams:
+    properties:
+      notes:
+        type: string
+      userlevel:
+        type: integer
+      username:
+        type: string
+    type: object
+  godevmandb.CreateVarParams:
+    properties:
+      content:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.CreateVlanParams:
+    properties:
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      vlan:
+        type: integer
     type: object
   godevmandb.Credential:
     properties:
@@ -633,6 +722,27 @@ definitions:
       dom_id:
         type: integer
     type: object
+  godevmandb.UpdateDeviceLicenseParams:
+    properties:
+      condition:
+        type: string
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      installed:
+        type: integer
+      lic_id:
+        type: integer
+      product:
+        type: string
+      tot_inst:
+        type: integer
+      unlocked:
+        type: integer
+      used:
+        type: integer
+    type: object
   godevmandb.UpdateDeviceTypeParams:
     properties:
       class_id:
@@ -713,6 +823,138 @@ definitions:
       nbr_id:
         type: integer
       nbr_sysname:
+        type: string
+    type: object
+  godevmandb.UpdateSiteParams:
+    properties:
+      addr:
+        type: string
+      area:
+        type: string
+      country_id:
+        type: integer
+      descr:
+        type: string
+      ext_id:
+        type: integer
+      ext_name:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      notes:
+        type: string
+      site_id:
+        type: integer
+      uident:
+        type: string
+    type: object
+  godevmandb.UpdateUserAuthzParams:
+    properties:
+      dom_id:
+        type: integer
+      userlevel:
+        type: integer
+      username:
+        type: string
+    type: object
+  godevmandb.UpdateUserGraphParams:
+    properties:
+      descr:
+        type: string
+      graph_id:
+        type: integer
+      shared:
+        type: boolean
+      uri:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.UpdateUserParams:
+    properties:
+      notes:
+        type: string
+      userlevel:
+        type: integer
+      username:
+        type: string
+    type: object
+  godevmandb.UpdateVarParams:
+    properties:
+      content:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+    type: object
+  godevmandb.UpdateVlanParams:
+    properties:
+      descr:
+        type: string
+      dev_id:
+        type: integer
+      v_id:
+        type: integer
+      vlan:
+        type: integer
+    type: object
+  godevmandb.User:
+    properties:
+      created_on:
+        type: string
+      notes:
+        type: string
+      updated_on:
+        type: string
+      userlevel:
+        type: integer
+      username:
+        type: string
+    type: object
+  godevmandb.UserAuthz:
+    properties:
+      created_on:
+        type: string
+      dom_id:
+        type: integer
+      updated_on:
+        type: string
+      userlevel:
+        type: integer
+      username:
+        type: string
+    type: object
+  godevmandb.UserGraph:
+    properties:
+      created_on:
+        type: string
+      descr:
+        type: string
+      graph_id:
+        type: integer
+      shared:
+        type: boolean
+      updated_on:
+        type: string
+      uri:
+        type: string
+      username:
+        type: string
+    type: object
+  godevmandb.Var:
+    properties:
+      content:
+        type: string
+      created_on:
+        type: string
+      descr:
+        type: string
+      notes:
+        type: string
+      updated_on:
         type: string
     type: object
   godevmandb.Vlan:
@@ -871,6 +1113,8 @@ definitions:
         type: string
       descr:
         type: string
+      dev_id:
+        type: integer
       ent_id:
         type: integer
       if_id:
@@ -1059,21 +1303,24 @@ paths:
       description: List archived interfaces info
       operationId: list-archived_interfaces
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: ifindex_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: otn_if_id_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: cisco_opt_power_index_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: hostname_f
-        type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
-        in: query
-        name: descr_f
-        type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
-        in: query
-        name: alias_f
         type: string
       - description: ip or containing net in CIDR notation
         in: query
@@ -1082,6 +1329,28 @@ paths:
       - description: ip or containing net in CIDR notation
         in: query
         name: host_ip6_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
+        in: query
+        name: manufacturer_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
+        in: query
+        name: model_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: alias_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: type_enum_f
         type: string
       - description: SQL '=' operator value (MAC address)
         in: query
@@ -1127,7 +1396,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List archived_interfaces
@@ -1161,7 +1430,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create archived_interface
@@ -1193,7 +1462,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete archived_interface
@@ -1226,7 +1495,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get archived_interface
@@ -1265,7 +1534,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update archived_interface
@@ -1289,7 +1558,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count archived_interfaces
@@ -1300,21 +1569,37 @@ paths:
       description: List archived subinterfaces info
       operationId: list-archived_subinterfaces
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: ifindex_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
-        in: query
-        name: hostname_f
-        type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: parent_descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: alias_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: type_f
+        type: string
+      - description: SQL '=' operator value (MAC address)
+        in: query
+        name: mac_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
+        in: query
+        name: hostname_f
         type: string
       - description: ip or containing net in CIDR notation
         in: query
@@ -1324,9 +1609,10 @@ paths:
         in: query
         name: host_ip6_f
         type: string
-      - description: SQL '=' operator value (MAC address)
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
-        name: mac_f
+        name: notes_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -1368,7 +1654,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List archived_subinterfaces
@@ -1402,7 +1688,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create archived_subinterface
@@ -1434,7 +1720,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete archived_subinterface
@@ -1467,7 +1753,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get archived_subinterface
@@ -1506,7 +1792,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update archived_subinterface
@@ -1530,7 +1816,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count archived_subinterfaces
@@ -1585,7 +1871,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List credentials
@@ -1619,7 +1905,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create credential
@@ -1651,7 +1937,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete credential
@@ -1684,7 +1970,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get credential
@@ -1724,7 +2010,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update credential
@@ -1748,7 +2034,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count credentials
@@ -1762,6 +2048,10 @@ paths:
       - description: url encoded SQL 'LIKE' operator pattern
         in: query
         name: label_f
+        type: string
+      - description: SQL '=' operator value
+        in: query
+        name: variant_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -1803,7 +2093,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List snmp_credentials
@@ -1837,7 +2127,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create snmp_credential
@@ -1869,7 +2159,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete snmp_credential
@@ -1902,7 +2192,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get snmp_credential
@@ -1941,7 +2231,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update snmp_credential
@@ -1977,7 +2267,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List snmp_credential main devices
@@ -2013,7 +2303,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List snmp_credential ro devices
@@ -2037,10 +2327,237 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count snmp_credentials
+      tags:
+      - config
+  /config/vars:
+    get:
+      description: List vars info
+      operationId: list-vars
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: content_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Var'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List vars
+      tags:
+      - config
+    post:
+      description: Create var
+      operationId: create-var
+      parameters:
+      - description: JSON object of godevmandb.CreateVarParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateVarParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.Var'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create var
+      tags:
+      - config
+  /config/vars/{descr}:
+    delete:
+      description: Delete var
+      operationId: delete-var
+      parameters:
+      - description: descr
+        in: path
+        name: descr
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid descr
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete var
+      tags:
+      - config
+    get:
+      description: Get var info
+      operationId: get-var
+      parameters:
+      - description: descr
+        in: path
+        name: descr
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Var'
+        "400":
+          description: Invalid descr
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Var not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get var
+      tags:
+      - config
+    put:
+      description: Update var
+      operationId: update-var
+      parameters:
+      - description: descr
+        in: path
+        name: descr
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateVarParams.<br />Ignored fields:<ul><li>descr</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateVarParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Var'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update var
+      tags:
+      - config
+  /config/vars/count:
+    get:
+      description: Count number of vars
+      operationId: count-vars
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count vars
       tags:
       - config
   /connections:
@@ -2048,10 +2565,20 @@ paths:
       description: List connection info
       operationId: list-connections
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: hint_f
         type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
+        type: string
+      - description: values 'true', 'false'
+        in: query
+        name: in_use_f
+        type: boolean
       - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
@@ -2092,7 +2619,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List connections
@@ -2126,7 +2653,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create connection
@@ -2158,7 +2685,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete connection
@@ -2191,7 +2718,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get connection
@@ -2231,7 +2758,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update connection
@@ -2265,7 +2792,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get connection capacity
@@ -2299,7 +2826,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get connection class
@@ -2335,7 +2862,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List connection interfaces
@@ -2369,7 +2896,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get connection provider
@@ -2403,7 +2930,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get connection site
@@ -2437,7 +2964,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get connection type
@@ -2448,9 +2975,14 @@ paths:
       description: List connection capacities info
       operationId: list-con_capacities
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -2492,7 +3024,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_capacities
@@ -2526,7 +3058,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create capacity
@@ -2558,7 +3090,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete capacity
@@ -2591,7 +3123,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get capacity
@@ -2631,7 +3163,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update capacity
@@ -2667,7 +3199,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List capacity connections
@@ -2691,7 +3223,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count con_capacities
@@ -2702,9 +3234,14 @@ paths:
       description: List connection classes info
       operationId: list-con_classes
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -2746,7 +3283,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_classes
@@ -2780,7 +3317,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create con_class
@@ -2812,7 +3349,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete con_class
@@ -2845,7 +3382,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get con_class
@@ -2885,7 +3422,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update con_class
@@ -2921,7 +3458,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_class connections
@@ -2945,7 +3482,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count con_classes
@@ -2969,7 +3506,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count connections
@@ -2980,9 +3517,14 @@ paths:
       description: List connection providers info
       operationId: list-con_providers
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -3024,7 +3566,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_providers
@@ -3058,7 +3600,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create con_provider
@@ -3090,7 +3632,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete con_provider
@@ -3123,7 +3665,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get con_provider
@@ -3163,7 +3705,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update con_provider
@@ -3199,7 +3741,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_provider connections
@@ -3223,7 +3765,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count con_providers
@@ -3234,9 +3776,14 @@ paths:
       description: List connection types info
       operationId: list-con_types
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -3278,7 +3825,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_types
@@ -3312,7 +3859,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create con_type
@@ -3344,7 +3891,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete con_type
@@ -3377,7 +3924,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get con_type
@@ -3416,7 +3963,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update con_type
@@ -3452,7 +3999,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List con_type connections
@@ -3476,7 +4023,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count con_types
@@ -3497,15 +4044,27 @@ paths:
         type: string
       - description: url encoded SQL 'ILIKE' operator pattern
         in: query
-        name: name_f
+        name: source_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: sys_name_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: sw_version_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: notes_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: ext_model_f
         type: string
       - description: ip or containing net in CIDR notation
         in: query
@@ -3515,6 +4074,38 @@ paths:
         in: query
         name: ip6_addr_f
         type: string
+      - description: values 'true', 'false'
+        in: query
+        name: installed_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: monitor_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: graph_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: backup_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: type_changed_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: backup_failed_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: validation_failed_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: unresponsive_f
+        type: boolean
       - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
@@ -3555,7 +4146,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List devices
@@ -3589,7 +4180,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create device
@@ -3621,7 +4212,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete device
@@ -3654,7 +4245,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device
@@ -3693,7 +4284,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update device
@@ -3729,7 +4320,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device childs
@@ -3765,7 +4356,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device credentials
@@ -3799,7 +4390,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device device_domain
@@ -3835,7 +4426,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device entities
@@ -3871,7 +4462,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device extensions
@@ -3907,7 +4498,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device interfaces
@@ -3943,7 +4534,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device ip interfaces
@@ -3979,7 +4570,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device licenses
@@ -4015,7 +4606,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device ospf nbrs
@@ -4049,7 +4640,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device parent
@@ -4085,7 +4676,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device peer xconnects
@@ -4121,7 +4712,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device rl nbrs
@@ -4155,7 +4746,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device site
@@ -4189,7 +4780,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device snmp_credentials_main
@@ -4223,7 +4814,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device snmp_credentials_ro
@@ -4259,7 +4850,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device state
@@ -4293,7 +4884,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device device_type
@@ -4329,7 +4920,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device vlans
@@ -4365,7 +4956,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device xconnects
@@ -4420,7 +5011,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_classes
@@ -4454,7 +5045,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create device_class
@@ -4486,7 +5077,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete device_class
@@ -4519,7 +5110,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device_class
@@ -4559,7 +5150,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update device_class
@@ -4595,7 +5186,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_class device_types
@@ -4619,7 +5210,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count device_classes
@@ -4643,7 +5234,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count devices
@@ -4698,7 +5289,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_credentials
@@ -4732,7 +5323,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create device_credential
@@ -4764,7 +5355,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete device_credential
@@ -4797,7 +5388,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device_credential
@@ -4837,7 +5428,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update device_credential
@@ -4861,7 +5452,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count credentials
@@ -4916,7 +5507,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_domains
@@ -4950,7 +5541,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create device_domain
@@ -4982,7 +5573,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete device_domain
@@ -5015,7 +5606,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device_domain
@@ -5055,7 +5646,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update device_domain
@@ -5091,7 +5682,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_domain devices
@@ -5115,10 +5706,305 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count device_domains
+      tags:
+      - devices
+  /devices/licenses:
+    get:
+      description: List device_licenses info
+      operationId: list-device_licenses
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: product_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: condition_f
+        type: string
+      - description: SQL '<=' operator value
+        in: query
+        name: installed_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: installed_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: unlocked_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: unlocked_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: tot_inst_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: tot_inst_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: used_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: used_ge
+        type: integer
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.DeviceLicense'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List device_licenses
+      tags:
+      - devices
+    post:
+      description: Create device_license
+      operationId: create-device_license
+      parameters:
+      - description: JSON object of godevmandb.DeviceLicenseParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateDeviceLicenseParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.DeviceLicense'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create device_license
+      tags:
+      - devices
+  /devices/licenses/{lic_id}:
+    delete:
+      description: Delete device_license
+      operationId: delete-device_license
+      parameters:
+      - description: lic_id
+        in: path
+        name: lic_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid lic_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete device_license
+      tags:
+      - devices
+    get:
+      description: Get device_license info
+      operationId: get-device_license
+      parameters:
+      - description: lic_id
+        in: path
+        name: lic_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.DeviceLicense'
+        "400":
+          description: Invalid lic_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: DeviceLicense not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device_license
+      tags:
+      - devices
+    put:
+      description: Update device_license
+      operationId: update-device_license
+      parameters:
+      - description: lic_id
+        in: path
+        name: lic_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateDeviceLicenseParams.<br />Ignored
+          fields:<ul><li>lic_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateDeviceLicenseParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.DeviceLicense'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update device_license
+      tags:
+      - devices
+  /devices/licenses/{lic_id}/device:
+    get:
+      description: Get device_license device info
+      operationId: get-device_license-device
+      parameters:
+      - description: lic_id
+        in: path
+        name: lic_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid lic_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get device_license device
+      tags:
+      - devices
+  /devices/licenses/count:
+    get:
+      description: Count number of device_licenses
+      operationId: count-device_licenses
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count device_licenses
       tags:
       - devices
   /devices/ospf_nbrs:
@@ -5126,11 +6012,8 @@ paths:
       description: List ospf_nbrs info
       operationId: list-ospf_nbrs
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
-        in: query
-        name: dev_id_f
-        type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: condition_f
         type: string
@@ -5178,7 +6061,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List ospf_nbrs
@@ -5212,7 +6095,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create ospf_nbr
@@ -5244,7 +6127,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete ospf_nbr
@@ -5277,7 +6160,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get ospf_nbr
@@ -5316,7 +6199,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update ospf_nbr
@@ -5350,7 +6233,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get ospf_nbr device
@@ -5374,7 +6257,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count ospf_nbrs
@@ -5385,14 +6268,6 @@ paths:
       description: List radio link neighbors info
       operationId: list-rl_nbrs
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
-        in: query
-        name: dev_id_f
-        type: string
-      - description: url encoded SQL 'LIKE' operator pattern
-        in: query
-        name: nbr_ent_id_f
-        type: string
       - description: url encoded SQL 'ILIKE' operator pattern
         in: query
         name: nbr_sysname_f
@@ -5528,7 +6403,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "404":
-          description: Domain not found
+          description: Neighbor not found
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "405":
@@ -5690,6 +6565,14 @@ paths:
         in: query
         name: model_f
         type: string
+      - description: values 'true', 'false'
+        in: query
+        name: hc_f
+        type: boolean
+      - description: 0|1|2|3
+        in: query
+        name: snmp_ver_f
+        type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
@@ -5730,7 +6613,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_types
@@ -5765,7 +6648,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create device_type
@@ -5797,7 +6680,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete device_type
@@ -5830,7 +6713,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device_type
@@ -5870,7 +6753,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update device_type
@@ -5904,7 +6787,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get device type class
@@ -5940,7 +6823,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List device_type devices
@@ -5964,10 +6847,623 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count device_types
+      tags:
+      - devices
+  /devices/vlans:
+    get:
+      description: List vlans info
+      operationId: list-vlans
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern
+        in: query
+        name: vlan_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: descr_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Vlan'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List vlans
+      tags:
+      - devices
+    post:
+      description: Create vlan
+      operationId: create-vlan
+      parameters:
+      - description: JSON object of godevmandb.VlanParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateVlanParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.Vlan'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create vlan
+      tags:
+      - devices
+  /devices/vlans/{v_id}:
+    delete:
+      description: Delete vlan
+      operationId: delete-vlan
+      parameters:
+      - description: v_id
+        in: path
+        name: v_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid v_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete vlan
+      tags:
+      - devices
+    get:
+      description: Get vlan info
+      operationId: get-vlan
+      parameters:
+      - description: v_id
+        in: path
+        name: v_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Vlan'
+        "400":
+          description: Invalid v_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Vlan not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get vlan
+      tags:
+      - devices
+    put:
+      description: Update vlan
+      operationId: update-vlan
+      parameters:
+      - description: v_id
+        in: path
+        name: v_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateVlanParams.<br />Ignored fields:<ul><li>v_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateVlanParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Vlan'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update vlan
+      tags:
+      - devices
+  /devices/vlans/{v_id}/device:
+    get:
+      description: Get vlan device info
+      operationId: get-vlan-device
+      parameters:
+      - description: v_id
+        in: path
+        name: v_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid v_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get vlan device
+      tags:
+      - devices
+  /devices/vlans/count:
+    get:
+      description: Count number of vlans
+      operationId: count-vlans
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failde DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count vlans
+      tags:
+      - devices
+  /devices/xconnects:
+    get:
+      description: List xconnects info
+      operationId: list-xconnects
+      parameters:
+      - description: url encoded SQL '=' operator pattern
+        in: query
+        name: vc_idx_f
+        type: string
+      - description: url encoded SQL '=' operator pattern
+        in: query
+        name: vc_id_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: peer_ifalias_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: xname_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: op_stat_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: op_stat_in_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: op_stat_out_f
+        type: string
+      - description: ip or containing net in CIDR notation
+        in: query
+        name: peer_ip_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.xconnect'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List xconnects
+      tags:
+      - devices
+    post:
+      description: Create xconnect
+      operationId: create-xconnect
+      parameters:
+      - description: JSON object of xconnect.<br />Ignored fields:<ul><li>xc_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.xconnect'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.xconnect'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create xconnect
+      tags:
+      - devices
+  /devices/xconnects/{xc_id}:
+    delete:
+      description: Delete xconnect
+      operationId: delete-xconnect
+      parameters:
+      - description: xc_id
+        in: path
+        name: xc_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid xc_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete xconnect
+      tags:
+      - devices
+    get:
+      description: Get xconnect info
+      operationId: get-xconnect
+      parameters:
+      - description: xc_id
+        in: path
+        name: xc_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.xconnect'
+        "400":
+          description: Invalid xc_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Xconnect not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get xconnect
+      tags:
+      - devices
+    put:
+      description: Update xconnect
+      operationId: update-xconnect
+      parameters:
+      - description: xc_id
+        in: path
+        name: xc_id
+        required: true
+        type: string
+      - description: JSON object of xconnect.<br />Ignored fields:<ul><li>xc_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.xconnect'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.xconnect'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update xconnect
+      tags:
+      - devices
+  /devices/xconnects/{xc_id}/device:
+    get:
+      description: Get xconnect device info
+      operationId: get-xconnect-device
+      parameters:
+      - description: xc_id
+        in: path
+        name: xc_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid xc_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get xconnect device
+      tags:
+      - devices
+  /devices/xconnects/{xc_id}/interface:
+    get:
+      description: Get xconnect interface info
+      operationId: get-xconnect-interface
+      parameters:
+      - description: xc_id
+        in: path
+        name: xc_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid xc_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get xconnect interface
+      tags:
+      - devices
+  /devices/xconnects/{xc_id}/peer_device:
+    get:
+      description: Get xconnect peer device info
+      operationId: get-xconnect-peer-device
+      parameters:
+      - description: xc_id
+        in: path
+        name: xc_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.device'
+        "400":
+          description: Invalid xc_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get xconnect peer device
+      tags:
+      - devices
+  /devices/xconnects/count:
+    get:
+      description: Count number of xconnects
+      operationId: count-xconnects
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count xconnects
       tags:
       - devices
   /entities:
@@ -5975,42 +7471,59 @@ paths:
       description: List entities info
       operationId: list-entities
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull'
+        in: query
+        name: sys_name_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: slot_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: model_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: w_product_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: hw_revision_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: serial_nr_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: sw_product_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: sw_revision_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: manufacturer_f
         type: string
+      - description: values 'true', 'false'
+        in: query
+        name: physical_f
+        type: boolean
       - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
@@ -6051,7 +7564,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List entities
@@ -6085,7 +7598,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create Entity
@@ -6117,7 +7630,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete Entity
@@ -6150,7 +7663,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get Entity
@@ -6189,7 +7702,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update Entity
@@ -6225,7 +7738,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List entity childs
@@ -6259,7 +7772,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get entity device
@@ -6295,7 +7808,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List entity phy indexes
@@ -6331,7 +7844,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List entity interfaces
@@ -6365,7 +7878,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get entity parent
@@ -6401,7 +7914,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List entity rl_nbrs
@@ -6425,7 +7938,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count entities
@@ -6436,9 +7949,23 @@ paths:
       description: List custom_entities info
       operationId: list-custom_entities
       parameters:
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
         in: query
         name: serial_nr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
+        in: query
+        name: manufacturer_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: part_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: descr_f
         type: string
       - description: 'min: 1; max: 1000; default: 100'
         in: query
@@ -6480,7 +8007,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List custom_entities
@@ -6514,7 +8041,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create customEntity
@@ -6546,7 +8073,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete customEntity
@@ -6579,7 +8106,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get customEntity
@@ -6619,7 +8146,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update customEntity
@@ -6643,7 +8170,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count custom_entities
@@ -6697,6 +8224,18 @@ paths:
         in: query
         name: mac_f
         type: string
+      - description: values 'true', 'false'
+        in: query
+        name: monstatus_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: monerrors_f
+        type: boolean
+      - description: values 'true', 'false'
+        in: query
+        name: monload_f
+        type: boolean
       - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
@@ -6737,7 +8276,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List interfaces
@@ -6771,7 +8310,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create interface
@@ -6803,7 +8342,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete interface
@@ -6836,7 +8375,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get interface
@@ -6875,7 +8414,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update interface
@@ -6911,7 +8450,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List interface bw_stats
@@ -6947,7 +8486,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List interface childs
@@ -6981,7 +8520,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get interface connection
@@ -7015,7 +8554,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get interface device
@@ -7049,7 +8588,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get interface entity
@@ -7083,7 +8622,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get interface related otn interface
@@ -7117,7 +8656,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get interface parent
@@ -7153,7 +8692,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List higher related interfaces
@@ -7189,7 +8728,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List lower related interfaces
@@ -7225,7 +8764,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List interface subinterfaces
@@ -7261,7 +8800,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List interface vlans
@@ -7297,7 +8836,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List interface xconnects
@@ -7312,6 +8851,70 @@ paths:
         in: query
         name: if_group_f
         type: string
+      - description: SQL '<=' operator value
+        in: query
+        name: to50in_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to50in_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to75in_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to75in_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to90in_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to90in_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to100in_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to100in_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to50out_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to50out_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to75out_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to75out_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to90out_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to90out_ge
+        type: integer
+      - description: SQL '<=' operator value
+        in: query
+        name: to100out_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: to100out_ge
+        type: integer
       - description: 'min: 1; max: 1000; default: 100'
         in: query
         name: limit
@@ -7352,7 +8955,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List int bw stats
@@ -7386,7 +8989,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create IntBwStat
@@ -7418,7 +9021,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete IntBwStat
@@ -7451,7 +9054,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get IntBwStat
@@ -7491,7 +9094,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update IntBwStat
@@ -7525,7 +9128,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get bw_stats interface
@@ -7549,7 +9152,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count int bw stats
@@ -7573,22 +9176,19 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count interfaces
       tags:
       - interfaces
-  /ip_interfaces:
+  /interfaces/subinterfaces:
     get:
-      description: List ip_interfaces info
-      operationId: list-ip_interfaces
+      description: List subinterfaces info
+      operationId: list-subinterfaces
       parameters:
-      - description: url encoded SQL 'LIKE' operator pattern
-        in: query
-        name: dev_id_f
-        type: string
-      - description: url encoded SQL 'LIKE' operator pattern
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
         in: query
         name: ifindex_f
         type: string
@@ -7596,7 +9196,299 @@ paths:
         in: query
         name: descr_f
         type: string
-      - description: url encoded SQL 'ILIKE' operator pattern
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: alias_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: oper_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: adm_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: speed_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: type_enum_f
+        type: string
+      - description: url encoded SQL 'LIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
+        type: string
+      - description: SQL '=' operator value (MAC address)
+        in: query
+        name: mac_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.subinterface'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List subinterfaces
+      tags:
+      - interfaces
+    post:
+      description: Create subinterface
+      operationId: create-subinterface
+      parameters:
+      - description: JSON object of subinterface.<br />Ignored fields:<ul><li>sif_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.subinterface'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/handlers.subinterface'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create subinterface
+      tags:
+      - interfaces
+  /interfaces/subinterfaces/{sif_id}:
+    delete:
+      description: Delete subinterface
+      operationId: delete-subinterface
+      parameters:
+      - description: sif_id
+        in: path
+        name: sif_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid sif_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete subinterface
+      tags:
+      - interfaces
+    get:
+      description: Get subinterface info
+      operationId: get-subinterface
+      parameters:
+      - description: sif_id
+        in: path
+        name: sif_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.subinterface'
+        "400":
+          description: Invalid sif_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Subinterface not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get interface
+      tags:
+      - interfaces
+    put:
+      description: Update subinterface
+      operationId: update-subinterface
+      parameters:
+      - description: sif_id
+        in: path
+        name: sif_id
+        required: true
+        type: string
+      - description: JSON object of subinterface.<br />Ignored fields:<ul><li>sif_id</li><li>updated_on</li><li>created_on</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.subinterface'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.subinterface'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update subinterface
+      tags:
+      - interfaces
+  /interfaces/subinterfaces/{sif_id}/interface:
+    get:
+      description: Get subinterface interface info
+      operationId: get-subinterface-interface
+      parameters:
+      - description: sif_id
+        in: path
+        name: sif_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.iface'
+        "400":
+          description: Invalid sif_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get subinterface interface
+      tags:
+      - interfaces
+  /interfaces/subinterfaces/count:
+    get:
+      description: Count number of subinterfaces
+      operationId: count-subinterfaces
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count subinterfaces
+      tags:
+      - interfaces
+  /ip_interfaces:
+    get:
+      description: List ip_interfaces info
+      operationId: list-ip_interfaces
+      parameters:
+      - description: url encoded SQL 'LIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: ifindex_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isnull',
+          'isempty'
         in: query
         name: alias_f
         type: string
@@ -7644,7 +9536,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List ip_interfaces
@@ -7678,7 +9570,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create ip_interface
@@ -7710,7 +9602,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete ip_interface
@@ -7743,7 +9635,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get ip_interface
@@ -7782,7 +9674,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update ip_interface
@@ -7816,7 +9708,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get ip_interface device
@@ -7840,12 +9732,365 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count ip_interfaces
       tags:
       - ip_interfaces
+  /sites:
+    get:
+      description: List site info
+      operationId: list-sites
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern + special value 'isempty'
+        in: query
+        name: descr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: uident_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: area_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: addr_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: ext_name_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: ext_id_f
+        type: string
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Site'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List sites
+      tags:
+      - sites
+    post:
+      description: Create site
+      operationId: create-site
+      parameters:
+      - description: JSON object of godevmandb.CreateSiteParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateSiteParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.Site'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create site
+      tags:
+      - sites
+  /sites/{site_id}:
+    delete:
+      description: Delete site
+      operationId: delete-site
+      parameters:
+      - description: site_id
+        in: path
+        name: site_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid site_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete site
+      tags:
+      - sites
+    get:
+      description: Get site info
+      operationId: get-site
+      parameters:
+      - description: site_id
+        in: path
+        name: site_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Site'
+        "400":
+          description: Invalid site_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Site not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get site
+      tags:
+      - sites
+    put:
+      description: Update site
+      operationId: update-site
+      parameters:
+      - description: site_id
+        in: path
+        name: site_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateSiteParams.<br />Ignored fields:<ul><li>site_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateSiteParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Site'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update site
+      tags:
+      - sites
+  /sites/{site_id}/connections:
+    get:
+      description: List site connections info
+      operationId: list-site-connections
+      parameters:
+      - description: site_id
+        in: path
+        name: site_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Connection'
+            type: array
+        "400":
+          description: Invalid site_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List site connections
+      tags:
+      - sites
+  /sites/{site_id}/country:
+    get:
+      description: Get site country info
+      operationId: get-site-country
+      parameters:
+      - description: site_id
+        in: path
+        name: site_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.Country'
+        "400":
+          description: Invalid site_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get site country
+      tags:
+      - sites
+  /sites/{site_id}/devices:
+    get:
+      description: List site devices info
+      operationId: list-site-devices
+      parameters:
+      - description: site_id
+        in: path
+        name: site_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/handlers.device'
+            type: array
+        "400":
+          description: Invalid site_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List site devices
+      tags:
+      - sites
+  /sites/count:
+    get:
+      description: Count number of sites
+      operationId: count-sites
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count sites
+      tags:
+      - sites
   /sites/countries:
     get:
       description: List countries info
@@ -7899,7 +10144,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: List countries
@@ -7933,7 +10178,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Create country
@@ -7965,7 +10210,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Delete country
@@ -7998,7 +10243,7 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Get country
@@ -8037,10 +10282,46 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Update country
+      tags:
+      - sites
+  /sites/countries/{country_id}/sites:
+    get:
+      description: List country sites info
+      operationId: list-country-sites
+      parameters:
+      - description: country_id
+        in: path
+        name: country_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.Site'
+            type: array
+        "400":
+          description: Invalid country_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List country sites
       tags:
       - sites
   /sites/countries/count:
@@ -8061,12 +10342,820 @@ paths:
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
         "500":
-          description: Failde DB transaction
+          description: Failed DB transaction
           schema:
             $ref: '#/definitions/handlers.StatusResponse'
       summary: Count countries
       tags:
       - sites
+  /users:
+    get:
+      description: List users info
+      operationId: list-users
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: username_f
+        type: string
+      - description: url encoded SQL 'ILIKE' operator pattern + special values 'isnull',
+          'isempty'
+        in: query
+        name: notes_f
+        type: string
+      - description: SQL '<=' operator value
+        in: query
+        name: userlevel_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: userlevel_ge
+        type: integer
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.User'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List users
+      tags:
+      - users
+    post:
+      description: Create user
+      operationId: create-user
+      parameters:
+      - description: JSON object of godevmandb.CreateUserParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateUserParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.User'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create user
+      tags:
+      - users
+  /users/{username}:
+    delete:
+      description: Delete user
+      operationId: delete-user
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid username
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete user
+      tags:
+      - users
+    get:
+      description: Get user info
+      operationId: get-user
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.User'
+        "400":
+          description: Invalid username
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get user
+      tags:
+      - users
+    put:
+      description: Update user
+      operationId: update-user
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateUserParams.<br />Ignored fields:<ul><li>username</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateUserParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.User'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update user
+      tags:
+      - users
+  /users/{username}/authzs:
+    get:
+      description: List user authzs info
+      operationId: list-user-authzs
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.UserAuthz'
+            type: array
+        "400":
+          description: Invalid username
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List user authzs
+      tags:
+      - users
+  /users/{username}/graphs:
+    get:
+      description: List user graphs info
+      operationId: list-user-graphs
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.UserGraph'
+            type: array
+        "400":
+          description: Invalid username
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List user graphs
+      tags:
+      - users
+  /users/authzs:
+    get:
+      description: List user_authzs info
+      operationId: list-user_authzs
+      parameters:
+      - description: url encoded SQL 'ILIKE' operator pattern
+        in: query
+        name: username_f
+        type: string
+      - description: SQL '<=' operator value
+        in: query
+        name: userlevel_le
+        type: integer
+      - description: SQL '>=' operator value
+        in: query
+        name: userlevel_ge
+        type: integer
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.UserAuthz'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List user_authzs
+      tags:
+      - users
+    post:
+      description: Create user_authz
+      operationId: create-user_authz
+      parameters:
+      - description: JSON object of godevmandb.CreateUserAuthzParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateUserAuthzParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.UserAuthz'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create user_authz
+      tags:
+      - users
+  /users/authzs/{username}/{dom_id}:
+    delete:
+      description: Delete user_authz
+      operationId: delete-user_authz
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: dom_id
+        in: path
+        name: dom_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid username/dom_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete user_authz
+      tags:
+      - users
+    get:
+      description: Get user_authz info
+      operationId: get-user_authz
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: dom_id
+        in: path
+        name: dom_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.UserAuthz'
+        "400":
+          description: Invalid username/dom_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: UserAuthz not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get user_authz
+      tags:
+      - users
+    put:
+      description: Update user_authz
+      operationId: update-user_authz
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: dom_id
+        in: path
+        name: dom_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateUserAuthzParams.<br />Ignored
+          fields:<ul><li>username</li><li>dom_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateUserAuthzParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.UserAuthz'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update user_authz
+      tags:
+      - users
+  /users/authzs/{username}/{dom_id}/device_domain:
+    get:
+      description: Get user_authz device_domain info
+      operationId: get-user_authz-device-domain
+      parameters:
+      - description: username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: dom_id
+        in: path
+        name: dom_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.DeviceDomain'
+        "400":
+          description: Invalid username/dom_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get user_authz device_domain
+      tags:
+      - users
+  /users/authzs/count:
+    get:
+      description: Count number of user_authzs
+      operationId: count-user_authzs
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count user_authzs
+      tags:
+      - users
+  /users/count:
+    get:
+      description: Count number of users
+      operationId: count-users
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count users
+      tags:
+      - users
+  /users/graphs:
+    get:
+      description: List user graphs info
+      operationId: list-user_graphs
+      parameters:
+      - description: url encoded SQL '=' operator pattern
+        in: query
+        name: username_f
+        type: string
+      - description: url encoded SQL '=' operator pattern
+        in: query
+        name: descr_f
+        type: string
+      - description: values 'true', 'false'
+        in: query
+        name: shared_f
+        type: boolean
+      - description: 'min: 1; max: 1000; default: 100'
+        in: query
+        name: limit
+        type: integer
+      - description: 'default: 0'
+        in: query
+        name: offset
+        type: integer
+      - description: record update time >= (unix timestamp in milliseconds)
+        in: query
+        name: updated_ge
+        type: integer
+      - description: record update time <= (unix timestamp in milliseconds)
+        in: query
+        name: updated_le
+        type: integer
+      - description: record creation time >= (unix timestamp in milliseconds)
+        in: query
+        name: created_ge
+        type: integer
+      - description: record creation time <= (unix timestamp in milliseconds)
+        in: query
+        name: created_le
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/godevmandb.UserGraph'
+            type: array
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: List user_graphs
+      tags:
+      - users
+    post:
+      description: Create user graph
+      operationId: create-user_graph
+      parameters:
+      - description: JSON object of godevmandb.CreateUserGraphParams
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.CreateUserGraphParams'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/godevmandb.UserGraph'
+        "400":
+          description: Invalid request payload
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Create user_graph
+      tags:
+      - users
+  /users/graphs/{graph_id}:
+    delete:
+      description: Delete user graph
+      operationId: delete-user_graph
+      parameters:
+      - description: graph_id
+        in: path
+        name: graph_id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+        "400":
+          description: Invalid graph_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Delete user_graph
+      tags:
+      - users
+    get:
+      description: Get user graph info
+      operationId: get-user_graph
+      parameters:
+      - description: graph_id
+        in: path
+        name: graph_id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.UserGraph'
+        "400":
+          description: Invalid graph_id
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Graph not found
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Get user_graph
+      tags:
+      - users
+    put:
+      description: Update user graph
+      operationId: update-user_graph
+      parameters:
+      - description: graph_id
+        in: path
+        name: graph_id
+        required: true
+        type: string
+      - description: JSON object of godevmandb.UpdateUserGraphParams.<br />Ignored
+          fields:<ul><li>graph_id</li></ul>
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/godevmandb.UpdateUserGraphParams'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/godevmandb.UserGraph'
+        "400":
+          description: Invalid request
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Update user_graph
+      tags:
+      - users
+  /users/graphs/count:
+    get:
+      description: Count number of user graphs
+      operationId: count-user_graphs
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CountResponse'
+        "404":
+          description: Invalid route error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "405":
+          description: Invalid method error
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+        "500":
+          description: Failed DB transaction
+          schema:
+            $ref: '#/definitions/handlers.StatusResponse'
+      summary: Count user_graphs
+      tags:
+      - users
   /version:
     get:
       description: Return API version info

@@ -17,7 +17,7 @@ import (
 // @Success 200 {object} CountResponse
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers/count [GET]
 func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 	q := godevmandb.New(h.db)
@@ -35,7 +35,8 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 // @Description List connection providers info
 // @Tags connections
 // @ID list-con_providers
-// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern"
+// @Param descr_f query string false "url encoded SQL 'ILIKE' operator pattern + special value 'isempty'"
+// @Param notes_f query string false "url encoded SQL 'ILIKE' operator pattern + special values 'isnull', 'isempty'"
 // @Param limit query int false "min: 1; max: 1000; default: 100"
 // @Param offset query int false "default: 0"
 // @Param updated_ge query int false "record update time >= (unix timestamp in milliseconds)"
@@ -45,7 +46,7 @@ func (h *Handler) CountConProviders(w http.ResponseWriter, r *http.Request) {
 // @Success 200 {array} godevmandb.ConProvider
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers [GET]
 func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 	// Pagination
@@ -71,10 +72,13 @@ func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 	p.CreatedGe = tf[2]
 	p.CreatedLe = tf[3]
 
-	// Descr filter
-	d := r.FormValue("descr_f")
-	if d != "" {
-		p.DescrF = d
+	// Filters
+	if v := r.FormValue("descr_f"); v != "" {
+		p.DescrF = v
+	}
+
+	if v := r.FormValue("notes_f"); v != "" {
+		p.NotesF = &v
 	}
 
 	// Query DB
@@ -98,7 +102,7 @@ func (h *Handler) GetConProviders(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_prov_id"
 // @Failure 404 {object} StatusResponse "Provider not found"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers/{con_prov_id} [GET]
 func (h *Handler) GetConProvider(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
@@ -131,7 +135,7 @@ func (h *Handler) GetConProvider(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request payload"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers [POST]
 func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
 	var p godevmandb.CreateConProviderParams
@@ -164,7 +168,7 @@ func (h *Handler) CreateConProvider(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid request"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers/{con_prov_id} [PUT]
 func (h *Handler) UpdateConProvider(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
@@ -204,7 +208,7 @@ func (h *Handler) UpdateConProvider(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_prov_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers/{con_prov_id} [DELETE]
 func (h *Handler) DeleteConProvider(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
@@ -234,7 +238,7 @@ func (h *Handler) DeleteConProvider(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} StatusResponse "Invalid con_prov_id"
 // @Failure 404 {object} StatusResponse "Invalid route error"
 // @Failure 405 {object} StatusResponse "Invalid method error"
-// @Failure 500 {object} StatusResponse "Failde DB transaction"
+// @Failure 500 {object} StatusResponse "Failed DB transaction"
 // @Router /connections/providers/{con_prov_id}/connections [GET]
 func (h *Handler) GetConProviderConnections(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.ParseInt(chi.URLParam(r, "con_prov_id"), 10, 64)
