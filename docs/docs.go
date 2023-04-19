@@ -16124,6 +16124,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userlevel": {
+                    "description": "Global level for user",
                     "type": "integer"
                 },
                 "username": {
@@ -16144,6 +16145,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "userlevel": {
+                    "description": "Domain level for user",
                     "type": "integer"
                 },
                 "username": {

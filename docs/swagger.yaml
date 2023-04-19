@@ -910,6 +910,7 @@ definitions:
       updated_on:
         type: string
       userlevel:
+        description: Global level for user
         type: integer
       username:
         type: string
@@ -923,6 +924,7 @@ definitions:
       updated_on:
         type: string
       userlevel:
+        description: Domain level for user
         type: integer
       username:
         type: string
