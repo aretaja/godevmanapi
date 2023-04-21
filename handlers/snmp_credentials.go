@@ -77,7 +77,7 @@ func (r *snmpCredential) createParams() (godevmandb.CreateSnmpCredentialParams, 
 			return s, err
 		}
 
-		*s.AuthPass = val
+		s.AuthPass = &val
 	}
 
 	if r.PrivPass != nil {
@@ -86,7 +86,7 @@ func (r *snmpCredential) createParams() (godevmandb.CreateSnmpCredentialParams, 
 			return s, err
 		}
 
-		*s.PrivPass = val
+		s.PrivPass = &val
 	}
 
 	return s, nil
@@ -109,7 +109,7 @@ func (r *snmpCredential) updateParams() (godevmandb.UpdateSnmpCredentialParams, 
 			return s, err
 		}
 
-		*s.AuthPass = val
+		s.AuthPass = &val
 	}
 
 	if r.PrivPass != nil {
@@ -118,7 +118,7 @@ func (r *snmpCredential) updateParams() (godevmandb.UpdateSnmpCredentialParams, 
 			return s, err
 		}
 
-		*s.PrivPass = val
+		s.PrivPass = &val
 	}
 
 	return s, nil
